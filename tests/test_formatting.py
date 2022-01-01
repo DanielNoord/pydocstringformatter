@@ -1,8 +1,9 @@
 import os
 from pathlib import Path
 
-import pydocstringformatter
 import pytest
+
+import pydocstringformatter
 
 HERE = Path(__file__)
 TEST_DATA = HERE.parent / "data" / "format"
@@ -17,8 +18,12 @@ for dirname, _, files in os.walk(TEST_DATA):
             TEST_NAMES.append(file)
 
 
-@pytest.mark.parametrize("test_file", TESTS, ids=TEST_NAMES)
-def test_formatting(test_file: str, capsys) -> None:
+@pytest.mark.parametrize(  # type: ignore[misc] # Untyped decorator
+    "test_file",
+    TESTS,
+    ids=TEST_NAMES,
+)
+def test_formatting(test_file: str, capsys: pytest.CaptureFixture) -> None:
     """Test that we correctly format all files in the format directory"""
     pydocstringformatter.run_docstring_formatter([test_file])
     output = capsys.readouterr()

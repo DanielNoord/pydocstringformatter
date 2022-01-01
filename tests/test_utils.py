@@ -1,4 +1,3 @@
-import token
 import tokenize
 from pathlib import Path
 
@@ -103,7 +102,9 @@ class TestDocstringFinder:
         ]
 
     def test_dictionary_key_value_line(self) -> None:
-        """Test that we do not classify a line of string key and value pairs as docstring"""
+        """Test that we do not classify a line of string key and value pairs
+        as docstring
+        """
         docstrings: list[tuple[tuple[int, int], tuple[int, int]]] = []
         with open(self.docstring_data / "dictionary.py", encoding="utf-8") as file:
             tokens = list(tokenize.generate_tokens(file.readline))
@@ -111,4 +112,4 @@ class TestDocstringFinder:
                 if _is_docstring(tokeninfo, tokens[index - 1]):
                     docstrings.append((tokeninfo.start, tokeninfo.end))
 
-        assert docstrings == []
+        assert not docstrings

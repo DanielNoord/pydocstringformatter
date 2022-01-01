@@ -1,14 +1,16 @@
+# pylint: disable = redefined-outer-name
 import sys
-from pathlib import Path
+
+import pytest
+from py._path.local import LocalPath
 
 import pydocstringformatter
-import pytest
 
 
-@pytest.fixture
-def test_file(tmpdir: Path) -> str:
+@pytest.fixture  # type: ignore[misc] # Decorator is untyped
+def test_file(tmpdir: LocalPath) -> str:
     """A test file to be used by tests"""
-    filename = tmpdir.join("test.py")
+    filename = tmpdir / "test.py"
     with open(filename, "w", encoding="utf-8") as file:
         file.write('"""A multi-line\ndocstring"""')
     return str(filename)
@@ -27,7 +29,7 @@ def test_sys_agv_as_arguments(capsys: pytest.CaptureFixture, test_file: str) -> 
     sys.argv = ["pydocstringformatter", test_file]
     pydocstringformatter.run_docstring_formatter()
 
-    with open(test_file, "r", encoding="utf-8") as file:
+    with open(test_file, encoding="utf-8") as file:
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring"""'
 
     output = capsys.readouterr()
@@ -39,7 +41,7 @@ def test_no_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> Non
     """Test that we print to stdout without the -w option"""
     pydocstringformatter.run_docstring_formatter([test_file])
 
-    with open(test_file, "r", encoding="utf-8") as file:
+    with open(test_file, encoding="utf-8") as file:
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring"""'
 
     output = capsys.readouterr()
@@ -51,7 +53,7 @@ def test_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> None:
     """Test the -w argument"""
     pydocstringformatter.run_docstring_formatter([test_file, "-w"])
 
-    with open(test_file, "r", encoding="utf-8") as file:
+    with open(test_file, encoding="utf-8") as file:
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring\n"""'
 
     output = capsys.readouterr()
@@ -63,7 +65,7 @@ def test_long_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> N
     """Test the --write argument"""
     pydocstringformatter.run_docstring_formatter([test_file, "--write"])
 
-    with open(test_file, "r", encoding="utf-8") as file:
+    with open(test_file, encoding="utf-8") as file:
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring\n"""'
 
     output = capsys.readouterr()
