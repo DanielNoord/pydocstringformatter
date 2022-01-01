@@ -46,11 +46,3 @@ repos:
     hooks:
     -   id: mypy
         args: [--ignore-missing-imports]
--   repo: local
-    hooks:
-      - id: pydocstringformatter
-        name: pydocstringformatter
-        entry: pydocstringformatter
-        language: system
-        types: [python]
-        args: ["--write"]
