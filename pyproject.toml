@@ -1,0 +1,34 @@
+[tool.pytest]
+testpaths = "tests"
+
+# Global mypy options:
+[tool.mypy]
+files = "pydocstringformatter"
+strict = true
+show_error_codes = true
+
+# Global pylint options
+[tool.pylint.MASTER]
+load-plugins=[
+    "pylint.extensions.check_elif",
+    "pylint.extensions.code_style",
+    "pylint.extensions.comparetozero",
+    "pylint.extensions.docparams",
+    "pylint.extensions.docstyle",
+    "pylint.extensions.empty_comment",
+    "pylint.extensions.for_any_all",
+    "pylint.extensions.set_membership",
+    "pylint.extensions.typing"
+]
+py-version="3.8"
+
+[tool.pylint.'MESSAGES CONTROL']
+disable = [
+    "duplicate-code",
+    "missing-module-docstring",
+    "missing-raises-doc"
+]
+enable = [
+    "c-extension-no-member",
+    "missing-function-docstring"
+]
