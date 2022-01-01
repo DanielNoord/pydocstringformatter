@@ -1,0 +1,3 @@
+import pydocstringformatter
+
+pydocstringformatter.run_docstring_formatter()
