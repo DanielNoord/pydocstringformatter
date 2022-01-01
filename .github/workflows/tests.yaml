@@ -55,7 +55,7 @@ jobs:
       - name: Upload coverage to Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: coveralls --rcfile=.coveragerc --service=github
+        run: coveralls --service=github
 
   tests-windows:
     name: Run / ${{ matrix.python-version }} / Windows

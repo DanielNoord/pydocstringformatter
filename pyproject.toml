@@ -38,3 +38,9 @@ enable = [
 profile = "black"
 known_third_party = ["pytest"]
 skip_glob = "tests/data/**"
+
+[tool.coverage.paths]
+source = ["pydocstringformatter"]
+
+[tool.coverage.report]
+include = ["pydocstringformatter/*"]
