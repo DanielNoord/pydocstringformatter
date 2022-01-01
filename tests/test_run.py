@@ -18,6 +18,7 @@ def test_file(tmpdir: LocalPath) -> str:
 
 def test_no_arguments(capsys: pytest.CaptureFixture) -> None:
     """Test that we warn when no arguments are provided"""
+    sys.argv = ["pydocstringformatter"]
     pydocstringformatter.run_docstring_formatter()
     output = capsys.readouterr()
     assert output.out.startswith("usage: pydocstringformatter [-h]")
