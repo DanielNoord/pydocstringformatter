@@ -1,0 +1,6 @@
+[paths]
+source = pydocstringformatter
+
+[report]
+include =
+    pydocstringformatter/*

@@ -1,0 +1,82 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests-linux:
+    name: Run / ${{ matrix.python-version }} / Linux
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.8, 3.9, "3.10"]
+    steps:
+      - name: Check out code from GitHub
+        uses: actions/checkout@v2.4.0
+      - name: Set temp directory
+        run: echo "TEMP=$env:USERPROFILE\AppData\Local\Temp" >> $env:GITHUB_ENV
+        # Workaround to set correct temp directory on Windows
+        # https://github.com/actions/virtual-environments/issues/712
+      - name: Set up Python ${{ matrix.python-version }}
+        id: python
+        uses: actions/setup-python@v2.3.1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: pip install -U -r requirements-test.txt
+      - name: Run pytest
+        run: pytest --cov --cov-report= tests/
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: coverage-${{ matrix.python-version }}
+          path: .coverage
+
+  coverage:
+    name: Process test coverage
+    runs-on: ubuntu-latest
+    needs: ["tests-linux"]
+    steps:
+      - name: Check out code from GitHub
+        uses: actions/checkout@v2.4.0
+      - name: Set up Python 3.10
+        id: python
+        uses: actions/setup-python@v2.3.1
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: pip install -U -r requirements-test.txt
+      - name: Download all coverage artifacts
+        uses: actions/download-artifact@v2.1.0
+      - name: Combine coverage results
+        run: coverage combine coverage*/.coverage
+      - name: Upload coverage to Coveralls
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: coveralls --rcfile=.coveragerc --service=github
+
+  tests-windows:
+    name: Run / ${{ matrix.python-version }} / Windows
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.8, 3.9, "3.10"]
+    steps:
+      - name: Check out code from GitHub
+        uses: actions/checkout@v2.4.0
+      - name: Set temp directory
+        run: echo "TEMP=$env:USERPROFILE\AppData\Local\Temp" >> $env:GITHUB_ENV
+        # Workaround to set correct temp directory on Windows
+        # https://github.com/actions/virtual-environments/issues/712
+      - name: Set up Python ${{ matrix.python-version }}
+        id: python
+        uses: actions/setup-python@v2.3.1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: pip install -U -r requirements-test.txt
+      - name: Run pytest
+        run: pytest
