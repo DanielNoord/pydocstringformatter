@@ -1,10 +1,10 @@
 # pylint: disable = import-outside-toplevel
 
 import sys
-from typing import Union
+from typing import List, Union
 
 
-def run_docstring_formatter(argv: Union[list[str], None] = None) -> None:
+def run_docstring_formatter(argv: Union[List[str], None] = None) -> None:
     """Run the formatter"""
     from pydocstringformatter.run import _Run
 

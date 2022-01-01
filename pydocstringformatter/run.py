@@ -4,13 +4,13 @@
 import sys
 import tokenize
 from pathlib import Path
-from typing import Union
+from typing import List, Union
 
 from pydocstringformatter import formatting, utils
 
 
 class _Run:
-    def __init__(self, argv: Union[list[str], None]) -> None:
+    def __init__(self, argv: Union[List[str], None]) -> None:
         self.arg_parser = utils._register_arguments()
 
         if argv := argv or sys.argv[1:]:
@@ -19,14 +19,14 @@ class _Run:
         else:
             self.arg_parser.print_help()
 
-    def _check_files(self, arguments: list[str]) -> None:
+    def _check_files(self, arguments: List[str]) -> None:
         """Find all files and perform the formatting"""
         filepaths = utils._find_python_files(arguments)
         self._format_files(filepaths)
 
     def _format_file(self, filename: Path) -> None:
         """Format a file"""
-        changed_tokens: list[tokenize.TokenInfo] = []
+        changed_tokens: List[tokenize.TokenInfo] = []
 
         with tokenize.open(filename) as file:
             tokens = list(tokenize.generate_tokens(file.readline))
@@ -44,7 +44,7 @@ class _Run:
         else:
             sys.stdout.write(tokenize.untokenize(changed_tokens))
 
-    def _format_files(self, filepaths: list[Path]) -> None:
+    def _format_files(self, filepaths: List[Path]) -> None:
         """Format a list of files"""
         for file in filepaths:
             self._format_file(file)

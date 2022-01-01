@@ -1,8 +1,9 @@
 import argparse
+from typing import List
 
 
 def _parse_arguments(
-    parser: argparse.ArgumentParser, args: list[str]
+    parser: argparse.ArgumentParser, args: List[str]
 ) -> argparse.Namespace:
     """Parse all arguments on the provided argument parser"""
     return parser.parse_args(args)

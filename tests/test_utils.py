@@ -1,5 +1,6 @@
 import tokenize
 from pathlib import Path
+from typing import List, Tuple
 
 from pydocstringformatter.utils import _find_python_files, _is_docstring
 
@@ -77,7 +78,7 @@ class TestDocstringFinder:
 
     def test_function_docstrings(self) -> None:
         """Test that we can find docstrings for function definitions"""
-        docstrings: list[tuple[tuple[int, int], tuple[int, int]]] = []
+        docstrings: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
         with open(
             self.docstring_data / "function_docstrings.py", encoding="utf-8"
         ) as file:
@@ -105,7 +106,7 @@ class TestDocstringFinder:
         """Test that we do not classify a line of string key and value pairs
         as docstring
         """
-        docstrings: list[tuple[tuple[int, int], tuple[int, int]]] = []
+        docstrings: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
         with open(self.docstring_data / "dictionary.py", encoding="utf-8") as file:
             tokens = list(tokenize.generate_tokens(file.readline))
             for index, tokeninfo in enumerate(tokens):

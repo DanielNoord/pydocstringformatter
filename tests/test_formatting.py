@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import List
 
 import pytest
 
@@ -9,8 +10,8 @@ HERE = Path(__file__)
 TEST_DATA = HERE.parent / "data" / "format"
 
 # Get all the test files
-TESTS: list[str] = []
-TEST_NAMES: list[str] = []
+TESTS: List[str] = []
+TEST_NAMES: List[str] = []
 for dirname, _, files in os.walk(TEST_DATA):
     for file in files:
         if file.endswith(".py"):

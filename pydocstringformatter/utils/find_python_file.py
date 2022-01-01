@@ -1,14 +1,15 @@
 import os
 from pathlib import Path
+from typing import List
 
 
 def _is_python_file(filename: str) -> bool:
     return filename.endswith(".py")
 
 
-def _find_python_files(filenames: list[str], recursive: bool = True) -> list[Path]:
+def _find_python_files(filenames: List[str], recursive: bool = True) -> List[Path]:
     """Find all python files for a list of potential file and directory names"""
-    pathnames: list[Path] = []
+    pathnames: List[Path] = []
 
     for name in filenames:
         if os.path.isdir(name):
