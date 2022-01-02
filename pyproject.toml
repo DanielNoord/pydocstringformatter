@@ -33,6 +33,9 @@ enable = [
 [tool.pylint.BASIC]
 no-docstring-rgx = "__.*__"
 
+[tool.pylint.TYPECHECK]
+generated-members = "argparse.Namespace"
+
 [tool.isort]
 profile = "black"
 known_third_party = ["pytest"]

@@ -1,6 +1,7 @@
 # pylint: disable=too-few-public-methods, protected-access
 """Run class"""
 
+import argparse
 import os
 import sys
 import tokenize
@@ -15,9 +16,12 @@ class _Run:
 
     def __init__(self, argv: Union[List[str], None]) -> None:
         self.arg_parser = utils._register_arguments(__version__)
+        self.config = argparse.Namespace()
 
         if argv := argv or sys.argv[1:]:
-            self.config = utils._parse_arguments(self.arg_parser, argv)
+            utils._parse_toml_file(self.arg_parser, self.config)
+            utils._parse_command_line_arguments(self.arg_parser, argv, self.config)
+
             self._check_files(self.config.files)
         else:
             self.arg_parser.print_help()

@@ -1,0 +1,2 @@
+[tool.pydocstringformatter]
+non_existing_option = true

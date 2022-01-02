@@ -24,6 +24,10 @@ options:
   -v, --version  Show version number and exit
 ```
 
+### Confiuguration
+
+Pydocstringformatter will also read any configuration added to the `[tool.pydocstringformatter]` section of a `pyproject.toml` file.
+
 ## Pre-commit
 
 Pydocstringformatter can also be used as a [pre-commit hook](https://pre-commit.com). Add the following to your `.pre-commit-config.yaml` file:
