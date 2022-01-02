@@ -15,8 +15,9 @@ TEST_NAMES: List[str] = []
 for dirname, _, files in os.walk(TEST_DATA):
     for file in files:
         if file.endswith(".py"):
-            TESTS.append(str(Path(dirname) / file))
-            TEST_NAMES.append(file)
+            dirpath = Path(dirname)
+            TESTS.append(str(dirpath / file))
+            TEST_NAMES.append(f"{dirpath.stem}-{file}")
 
 
 @pytest.mark.parametrize(  # type: ignore[misc] # Untyped decorator
