@@ -10,6 +10,8 @@ from pydocstringformatter import formatting, utils
 
 
 class _Run:
+    """Main class that represent a run of the program"""
+
     def __init__(self, argv: Union[List[str], None]) -> None:
         self.arg_parser = utils._register_arguments()
 

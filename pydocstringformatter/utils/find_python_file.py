@@ -4,6 +4,7 @@ from typing import List
 
 
 def _is_python_file(filename: str) -> bool:
+    """Check if file is a Python file"""
     return filename.endswith(".py")
 
 
