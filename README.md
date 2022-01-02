@@ -13,14 +13,15 @@ pip install pydocstringformatter
 ## Usage
 
 ```shell
-usage: pydocstringformatter [-h] [-w] [files ...]
+usage: pydocstringformatter [-h] [-w] [-v] [files ...]
 
 positional arguments:
   files
 
 options:
-  -h, --help   show this help message and exit
-  -w, --write  Write the changes to file instead of printing the files to stdout
+  -h, --help     show this help message and exit
+  -w, --write    Write the changes to file instead of printing the files to stdout
+  -v, --version  Show version number and exit
 ```
 
 ## Pre-commit
