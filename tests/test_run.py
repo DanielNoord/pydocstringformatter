@@ -1,6 +1,7 @@
 # pylint: disable = redefined-outer-name
 import os
 import sys
+from pathlib import Path
 
 import pytest
 from py._path.local import LocalPath
@@ -87,4 +88,58 @@ def test_version_argument(capsys: pytest.CaptureFixture) -> None:
         pydocstringformatter.run_docstring_formatter(["-v"])
     output = capsys.readouterr()
     assert output.out == pydocstringformatter.__version__ + "\n"
+    assert not output.err
+
+
+def test_output_message_nothing_done(
+    capsys: pytest.CaptureFixture, test_file: str
+) -> None:
+    """Test that we emit the correct message when nothing was done"""
+    with open(test_file, "w", encoding="utf-8") as file:
+        file.write('"""A multi-line\ndocstring\n"""')
+    with open(test_file + "2", "w", encoding="utf-8") as file:
+        file.write('"""A multi-line\ndocstring\n"""')
+
+    pydocstringformatter.run_docstring_formatter(
+        [str(Path(test_file).parent), "--write"]
+    )
+
+    output = capsys.readouterr()
+    assert output.out == "Nothing to do! All docstrings are correct 🎉\n"
+    assert not output.err
+
+
+def test_output_message_one_file(capsys: pytest.CaptureFixture, test_file: str) -> None:
+    """Test that we emit the correct message when one out of two files was formatted"""
+    with open(test_file + "2", "w", encoding="utf-8") as file:
+        file.write('"""A multi-line\ndocstring\n"""')
+
+    pydocstringformatter.run_docstring_formatter(
+        [str(Path(test_file).parent), "--write"]
+    )
+
+    output = capsys.readouterr()
+    assert output.out == f"Formatted {os.path.relpath(test_file)} 📖\n"
+    assert not output.err
+
+
+def test_output_message_two_files(
+    capsys: pytest.CaptureFixture, test_file: str
+) -> None:
+    """Test that we emit the correct message when two files were formatted"""
+    second_file = test_file.replace(".py", "2.py")
+    with open(second_file, "w", encoding="utf-8") as file:
+        file.write('"""A multi-line\ndocstring"""')
+
+    pydocstringformatter.run_docstring_formatter(
+        [str(Path(test_file).parent), "--write"]
+    )
+
+    output = capsys.readouterr()
+    assert (
+        output.out
+        == f"""Formatted {os.path.relpath(test_file)} 📖
+Formatted {os.path.relpath(second_file)} 📖
+"""
+    )
     assert not output.err
