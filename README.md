@@ -62,12 +62,17 @@ For consistency this rule also gets applied to multi-line docstrings
 """
 My docstring"""
 
+"""My docstring
+"""
+
 """
 My
 multi-line docstring
 """
 
 # Good
+"""My docstring"""
+
 """My docstring"""
 
 """My

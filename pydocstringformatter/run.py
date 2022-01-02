@@ -45,9 +45,7 @@ class _Run:
 
             if utils._is_docstring(new_tokeninfo, tokens[index - 1]):
                 new_tokeninfo = formatting._format_beginning_quotes(new_tokeninfo)
-
-                if "\n" in new_tokeninfo.string:
-                    new_tokeninfo = formatting._format_multiline_quotes(new_tokeninfo)
+                new_tokeninfo = formatting._format_closing_quotes(new_tokeninfo)
 
             changed_tokens.append(new_tokeninfo)
 
