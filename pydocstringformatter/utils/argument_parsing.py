@@ -22,6 +22,12 @@ def _register_arguments(version: str) -> argparse.ArgumentParser:
         help="Write the changes to file instead of printing the files to stdout",
     )
 
-    parser.add_argument("-v", "--version", action="version", version=version)
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version=version,
+        help="Show version number and exit",
+    )
 
     return parser
