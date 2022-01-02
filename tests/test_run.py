@@ -72,3 +72,16 @@ def test_long_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> N
     output = capsys.readouterr()
     assert not output.out
     assert not output.err
+
+
+def test_version_argument(capsys: pytest.CaptureFixture) -> None:
+    """Test the --version argument and its shorter variant"""
+    pydocstringformatter.run_docstring_formatter(["--version"])
+    output = capsys.readouterr()
+    assert output.out == pydocstringformatter.__version__
+    assert not output.err
+
+    pydocstringformatter.run_docstring_formatter(["-v"])
+    output = capsys.readouterr()
+    assert output.out == pydocstringformatter.__version__
+    assert not output.err

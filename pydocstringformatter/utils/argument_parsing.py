@@ -9,7 +9,7 @@ def _parse_arguments(
     return parser.parse_args(args)
 
 
-def _register_arguments() -> argparse.ArgumentParser:
+def _register_arguments(version: str) -> argparse.ArgumentParser:
     """Create an argument parser and add all supported arguments"""
     parser = argparse.ArgumentParser(prog="pydocstringformatter")
 
@@ -21,5 +21,7 @@ def _register_arguments() -> argparse.ArgumentParser:
         action="store_true",
         help="Write the changes to file instead of printing the files to stdout",
     )
+
+    parser.add_argument("-v", "--version", action="version", version=version)
 
     return parser
