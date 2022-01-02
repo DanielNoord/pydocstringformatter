@@ -58,7 +58,11 @@ class _Run:
             if self.config.write:
                 with open(filename, "w", encoding="utf-8") as file:
                     file.write(tokenize.untokenize(changed_tokens))
-                print(f"Formatted {os.path.relpath(filename)} 📖")
+                try:
+                    print(f"Formatted {os.path.relpath(filename)} 📖")
+                except ValueError:  # pragma: no cover
+                    # On Windows relpath raises ValueError's when mounts differ
+                    print(f"Formatted {filename} 📖")
             else:
                 sys.stdout.write(tokenize.untokenize(changed_tokens))
 
