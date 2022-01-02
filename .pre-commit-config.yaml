@@ -46,3 +46,7 @@ repos:
     hooks:
     -   id: mypy
         args: [--ignore-missing-imports]
+-   repo: https://github.com/DanielNoord/pydocstringformatter
+    rev: v0.1.0
+    hooks:
+    -   id: pydocstringformatter
