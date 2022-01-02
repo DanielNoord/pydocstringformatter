@@ -54,25 +54,35 @@ def test_no_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> Non
 
 def test_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> None:
     """Test the -w argument"""
+    try:
+        expected_path = os.path.relpath(test_file)
+    except ValueError:
+        expected_path = test_file
+
     pydocstringformatter.run_docstring_formatter([test_file, "-w"])
 
     with open(test_file, encoding="utf-8") as file:
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring\n"""'
 
     output = capsys.readouterr()
-    assert output.out == f"Formatted {os.path.relpath(test_file)} 📖\n"
+    assert output.out == f"Formatted {expected_path} 📖\n"
     assert not output.err
 
 
 def test_long_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> None:
     """Test the --write argument"""
+    try:
+        expected_path = os.path.relpath(test_file)
+    except ValueError:
+        expected_path = test_file
+
     pydocstringformatter.run_docstring_formatter([test_file, "--write"])
 
     with open(test_file, encoding="utf-8") as file:
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring\n"""'
 
     output = capsys.readouterr()
-    assert output.out == f"Formatted {os.path.relpath(test_file)} 📖\n"
+    assert output.out == f"Formatted {expected_path} 📖\n"
     assert not output.err
 
 
@@ -111,6 +121,11 @@ def test_output_message_nothing_done(
 
 def test_output_message_one_file(capsys: pytest.CaptureFixture, test_file: str) -> None:
     """Test that we emit the correct message when one out of two files was formatted"""
+    try:
+        expected_path = os.path.relpath(test_file)
+    except ValueError:
+        expected_path = test_file
+
     with open(test_file + "2", "w", encoding="utf-8") as file:
         file.write('"""A multi-line\ndocstring\n"""')
 
@@ -119,7 +134,7 @@ def test_output_message_one_file(capsys: pytest.CaptureFixture, test_file: str) 
     )
 
     output = capsys.readouterr()
-    assert output.out == f"Formatted {os.path.relpath(test_file)} 📖\n"
+    assert output.out == f"Formatted {expected_path} 📖\n"
     assert not output.err
 
 
@@ -128,6 +143,14 @@ def test_output_message_two_files(
 ) -> None:
     """Test that we emit the correct message when two files were formatted"""
     second_file = test_file.replace(".py", "2.py")
+
+    try:
+        expected_path = os.path.relpath(test_file)
+        expected_second_path = os.path.relpath(second_file)
+    except ValueError:
+        expected_path = test_file
+        expected_second_path = second_file
+
     with open(second_file, "w", encoding="utf-8") as file:
         file.write('"""A multi-line\ndocstring"""')
 
@@ -138,8 +161,8 @@ def test_output_message_two_files(
     output = capsys.readouterr()
     assert (
         output.out
-        == f"""Formatted {os.path.relpath(test_file)} 📖
-Formatted {os.path.relpath(second_file)} 📖
+        == f"""Formatted {expected_path} 📖
+Formatted {expected_second_path} 📖
 """
     )
     assert not output.err
