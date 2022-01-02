@@ -40,7 +40,7 @@ repos:
     rev: v2.12.2
     hooks:
     -   id: pylint
-        args: ["--disable=import-error"]
+        args: ["--disable=import-error, cyclic-import"]
 -   repo: https://github.com/pre-commit/mirrors-mypy
     rev: v0.930
     hooks:

@@ -1,6 +1,7 @@
 # pylint: disable=too-few-public-methods, protected-access
 """Run class"""
 
+import os
 import sys
 import tokenize
 from pathlib import Path
@@ -31,7 +32,12 @@ class _Run:
         changed_tokens: List[tokenize.TokenInfo] = []
 
         with tokenize.open(filename) as file:
-            tokens = list(tokenize.generate_tokens(file.readline))
+            try:
+                tokens = list(tokenize.generate_tokens(file.readline))
+            except tokenize.TokenError as exc:
+                raise utils.ParsingError(
+                    f"Can't parse {os.path.relpath(filename)}. Is it valid Python code?"
+                ) from exc
 
         for index, tokeninfo in enumerate(tokens):
             if utils._is_docstring(tokeninfo, tokens[index - 1]):
