@@ -1,4 +1,5 @@
 # pylint: disable = redefined-outer-name
+import os
 import sys
 
 import pytest
@@ -58,7 +59,7 @@ def test_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> None:
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring\n"""'
 
     output = capsys.readouterr()
-    assert not output.out
+    assert output.out == f"Formatted {os.path.relpath(test_file)} 📖\n"
     assert not output.err
 
 
@@ -70,7 +71,7 @@ def test_long_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> N
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring\n"""'
 
     output = capsys.readouterr()
-    assert not output.out
+    assert output.out == f"Formatted {os.path.relpath(test_file)} 📖\n"
     assert not output.err
 
 

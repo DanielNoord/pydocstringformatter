@@ -27,9 +27,10 @@ class _Run:
         filepaths = utils._find_python_files(arguments)
         self._format_files(filepaths)
 
-    def _format_file(self, filename: Path) -> None:
+    def _format_file(self, filename: Path) -> bool:
         """Format a file"""
         changed_tokens: List[tokenize.TokenInfo] = []
+        is_changed = False
 
         with tokenize.open(filename) as file:
             try:
@@ -40,21 +41,35 @@ class _Run:
                 ) from exc
 
         for index, tokeninfo in enumerate(tokens):
-            if utils._is_docstring(tokeninfo, tokens[index - 1]):
-                tokeninfo = formatting._format_beginning_quotes(tokeninfo)
+            new_tokeninfo = tokeninfo
 
-                if "\n" in tokeninfo.string:
-                    tokeninfo = formatting._format_multiline_quotes(tokeninfo)
+            if utils._is_docstring(new_tokeninfo, tokens[index - 1]):
+                new_tokeninfo = formatting._format_beginning_quotes(new_tokeninfo)
 
-            changed_tokens.append(tokeninfo)
+                if "\n" in new_tokeninfo.string:
+                    new_tokeninfo = formatting._format_multiline_quotes(new_tokeninfo)
 
-        if self.config.write:
-            with open(filename, "w", encoding="utf-8") as file:
-                file.write(tokenize.untokenize(changed_tokens))
-        else:
-            sys.stdout.write(tokenize.untokenize(changed_tokens))
+            changed_tokens.append(new_tokeninfo)
+
+            if tokeninfo != new_tokeninfo:
+                is_changed = True
+
+        if is_changed:
+            if self.config.write:
+                with open(filename, "w", encoding="utf-8") as file:
+                    file.write(tokenize.untokenize(changed_tokens))
+                print(f"Formatted {os.path.relpath(filename)} 📖")
+            else:
+                sys.stdout.write(tokenize.untokenize(changed_tokens))
+
+        return is_changed
 
     def _format_files(self, filepaths: List[Path]) -> None:
         """Format a list of files"""
+        is_changed = False
+
         for file in filepaths:
-            self._format_file(file)
+            is_changed = self._format_file(file) or is_changed
+
+        if not is_changed:
+            print("Nothing to do! All docstrings are correct 🎉")
