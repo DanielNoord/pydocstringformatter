@@ -25,7 +25,7 @@ def _find_python_files(filenames: List[str], recursive: bool = True) -> List[Pat
                 pathnames += [
                     file for file in Path(name).iterdir() if _is_python_file(str(file))
                 ]
-        else:
+        elif _is_python_file(name):
             pathnames.append(Path(name))
 
     return sorted(pathnames)

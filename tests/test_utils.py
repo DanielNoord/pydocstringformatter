@@ -70,6 +70,12 @@ class TestPythonFileFinder:
         expected_paths = [UTILS_DATA / "find_recursive_files" / "file_one.py"]
         assert sorted(expected_paths) == pathnames
 
+    @staticmethod
+    def test_ignore_non_python_file() -> None:
+        """Test that we ignore a non Python file"""
+        pathnames = _find_python_files([str(UTILS_DATA / "find_nothing" / "README.md")])
+        assert not pathnames
+
 
 class TestDocstringFinder:
     """Test the docstring finder"""
