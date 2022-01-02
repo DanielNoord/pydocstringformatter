@@ -1,0 +1,4 @@
+MYVAR = 1
+"""
+A multi-line
+docstring"""

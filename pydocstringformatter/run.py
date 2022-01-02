@@ -33,7 +33,9 @@ class _Run:
 
         for index, tokeninfo in enumerate(tokens):
             if utils._is_docstring(tokeninfo, tokens[index - 1]):
-                if tokeninfo.start[0] != tokeninfo.end[0]:
+                tokeninfo = formatting._format_beginning_quotes(tokeninfo)
+
+                if "\n" in tokeninfo.string:
                     tokeninfo = formatting._format_multiline_quotes(tokeninfo)
 
             changed_tokens.append(tokeninfo)
