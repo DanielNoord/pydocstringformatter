@@ -120,3 +120,16 @@ class TestDocstringFinder:
                     docstrings.append((tokeninfo.start, tokeninfo.end))
 
         assert not docstrings
+
+    def test_module_docstrings(self) -> None:
+        """Test that we find the correct module docstring"""
+        docstrings: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
+        with open(
+            self.docstring_data / "module_docstrings.py", encoding="utf-8"
+        ) as file:
+            tokens = list(tokenize.generate_tokens(file.readline))
+            for index, tokeninfo in enumerate(tokens):
+                if _is_docstring(tokeninfo, tokens[index - 1]):
+                    docstrings.append((tokeninfo.start, tokeninfo.end))
+
+        assert docstrings == [((3, 0), (4, 3))]

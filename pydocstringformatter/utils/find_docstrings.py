@@ -10,7 +10,11 @@ def _is_docstring(
     """Check if a token represents a docstring"""
     if (
         tokeninfo.type == token.STRING
-        and previous_token.type in PREVIOUS_TOKEN_MARKERS
+        and (
+            previous_token.type in PREVIOUS_TOKEN_MARKERS
+            or previous_token.type == token.NL
+            and not tokeninfo.start[1]
+        )
         and tokeninfo.line.strip().startswith(("'", '"'))
     ):
         return True
