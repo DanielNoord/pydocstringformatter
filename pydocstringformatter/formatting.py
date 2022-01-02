@@ -3,7 +3,7 @@ import tokenize
 
 
 def _format_beginning_quotes(tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
-    """Fix the position if the opening quotes"""
+    """Fix the position of the opening quotes"""
     new_string = tokeninfo.string
     if new_string[3] == "\n":
         new_string = re.sub(r"\n *", "", new_string, 1)
