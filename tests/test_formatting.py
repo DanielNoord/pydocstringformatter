@@ -20,12 +20,12 @@ for dirname, _, files in os.walk(TEST_DATA):
             TEST_NAMES.append(f"{dirpath.stem}-{file}")
 
 
-@pytest.mark.parametrize(  # type: ignore[misc] # Untyped decorator
+@pytest.mark.parametrize(
     "test_file",
     TESTS,
     ids=TEST_NAMES,
 )
-def test_formatting(test_file: str, capsys: pytest.CaptureFixture) -> None:
+def test_formatting(test_file: str, capsys: pytest.CaptureFixture[str]) -> None:
     """Test that we correctly format all files in the format directory"""
     pydocstringformatter.run_docstring_formatter([test_file])
     output = capsys.readouterr()

@@ -9,7 +9,7 @@ from py._path.local import LocalPath
 import pydocstringformatter
 
 
-@pytest.fixture  # type: ignore[misc] # Decorator is untyped
+@pytest.fixture
 def test_file(tmpdir: LocalPath) -> str:
     """A test file to be used by tests"""
     filename = tmpdir / "test.py"
@@ -18,7 +18,7 @@ def test_file(tmpdir: LocalPath) -> str:
     return str(filename)
 
 
-def test_no_arguments(capsys: pytest.CaptureFixture) -> None:
+def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
     """Test that we warn when no arguments are provided"""
     sys.argv = ["pydocstringformatter"]
     pydocstringformatter.run_docstring_formatter()
@@ -27,7 +27,9 @@ def test_no_arguments(capsys: pytest.CaptureFixture) -> None:
     assert not output.err
 
 
-def test_sys_agv_as_arguments(capsys: pytest.CaptureFixture, test_file: str) -> None:
+def test_sys_agv_as_arguments(
+    capsys: pytest.CaptureFixture[str], test_file: str
+) -> None:
     """Test running with arguments in sys.argv"""
     sys.argv = ["pydocstringformatter", test_file]
     pydocstringformatter.run_docstring_formatter()
@@ -40,7 +42,7 @@ def test_sys_agv_as_arguments(capsys: pytest.CaptureFixture, test_file: str) -> 
     assert not output.err
 
 
-def test_no_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> None:
+def test_no_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -> None:
     """Test that we print to stdout without the -w option"""
     pydocstringformatter.run_docstring_formatter([test_file])
 
@@ -52,7 +54,7 @@ def test_no_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> Non
     assert not output.err
 
 
-def test_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> None:
+def test_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -> None:
     """Test the -w argument"""
     try:
         expected_path = os.path.relpath(test_file)
@@ -69,7 +71,9 @@ def test_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> None:
     assert not output.err
 
 
-def test_long_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> None:
+def test_long_write_argument(
+    capsys: pytest.CaptureFixture[str], test_file: str
+) -> None:
     """Test the --write argument"""
     try:
         expected_path = os.path.relpath(test_file)
@@ -86,7 +90,7 @@ def test_long_write_argument(capsys: pytest.CaptureFixture, test_file: str) -> N
     assert not output.err
 
 
-def test_version_argument(capsys: pytest.CaptureFixture) -> None:
+def test_version_argument(capsys: pytest.CaptureFixture[str]) -> None:
     """Test the --version argument and its shorter variant"""
     with pytest.raises(SystemExit):
         pydocstringformatter.run_docstring_formatter(["--version"])
@@ -102,7 +106,7 @@ def test_version_argument(capsys: pytest.CaptureFixture) -> None:
 
 
 def test_output_message_nothing_done(
-    capsys: pytest.CaptureFixture, test_file: str
+    capsys: pytest.CaptureFixture[str], test_file: str
 ) -> None:
     """Test that we emit the correct message when nothing was done"""
     with open(test_file, "w", encoding="utf-8") as file:
@@ -119,7 +123,9 @@ def test_output_message_nothing_done(
     assert not output.err
 
 
-def test_output_message_one_file(capsys: pytest.CaptureFixture, test_file: str) -> None:
+def test_output_message_one_file(
+    capsys: pytest.CaptureFixture[str], test_file: str
+) -> None:
     """Test that we emit the correct message when one out of two files was formatted"""
     try:
         expected_path = os.path.relpath(test_file)
@@ -139,7 +145,7 @@ def test_output_message_one_file(capsys: pytest.CaptureFixture, test_file: str) 
 
 
 def test_output_message_two_files(
-    capsys: pytest.CaptureFixture, test_file: str
+    capsys: pytest.CaptureFixture[str], test_file: str
 ) -> None:
     """Test that we emit the correct message when two files were formatted"""
     second_file = test_file.replace(".py", "2.py")
