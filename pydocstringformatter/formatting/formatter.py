@@ -15,13 +15,13 @@ class StringFormatter(Formatter):
     """Base class for formatter that only modifies the string content"""
 
     @abc.abstractmethod
-    def _treat_string(self, new_string: str) -> str:
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
         """Will modifies the string"""
 
     def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         return tokenize.TokenInfo(
             tokeninfo.type,
-            self._treat_string(tokeninfo.string),
+            self._treat_string(tokeninfo),
             tokeninfo.start,
             tokeninfo.end,
             tokeninfo.line,
@@ -31,22 +31,23 @@ class StringFormatter(Formatter):
 class BeginningQuotesFormatter(StringFormatter):
     """Fix the position of the opening quotes"""
 
-    def _treat_string(self, new_string: str) -> str:
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
+        new_string = tokeninfo.string
         if new_string[3] == "\n":
             new_string = re.sub(r"\n *", "", new_string, 1)
         return new_string
 
 
-class ClosingQuotesFormatter(Formatter):
+class ClosingQuotesFormatter(StringFormatter):
     """Fix the position of the closing quotes"""
 
-    @staticmethod
-    def _format_multiline_ending_quotes(
-        tokeninfo: tokenize.TokenInfo,
-    ) -> tokenize.TokenInfo:
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
         """Fix the position of end quotes for multi-line docstrings"""
-        good_end = f"{(tokeninfo.start[1]) * ' '}{(tokeninfo.string[0]) * 3}"
         new_string = tokeninfo.string
+        if "\n" not in new_string:
+            # Not a multiline docstring, nothing to do
+            return new_string
+        good_end = f"{(tokeninfo.start[1]) * ' '}{(new_string[0]) * 3}"
         split_string = new_string.split("\n")
 
         # Add new line with only quotes
@@ -55,11 +56,4 @@ class ClosingQuotesFormatter(Formatter):
         # Remove line with only quotes for potential single line string
         elif len(split_string) == 2 and split_string[-1] == good_end:
             new_string = "\n".join(split_string[:-1]) + tokeninfo.string[0] * 3
-        return tokenize.TokenInfo(
-            tokeninfo.type, new_string, tokeninfo.start, tokeninfo.end, tokeninfo.line
-        )
-
-    def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
-        if "\n" in tokeninfo.string:
-            return self._format_multiline_ending_quotes(tokeninfo)
-        return tokeninfo
+        return new_string
