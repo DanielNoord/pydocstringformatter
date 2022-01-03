@@ -2,8 +2,6 @@ import abc
 import re
 import tokenize
 
-# pylint: disable=too-few-public-methods
-
 
 class Formatter:
     """Base class for docstring formatter"""
