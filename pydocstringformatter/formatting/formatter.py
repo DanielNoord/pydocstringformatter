@@ -12,11 +12,11 @@ class Formatter:
 
 
 class StringFormatter(Formatter):
-    """Base class for formatter that only modify the string content"""
+    """Base class for formatter that only modifies the string content"""
 
     @abc.abstractmethod
     def _treat_string(self, new_string: str) -> str:
-        """Will modify the string"""
+        """Will modifies the string"""
 
     def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         return tokenize.TokenInfo(
