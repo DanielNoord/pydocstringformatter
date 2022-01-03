@@ -49,7 +49,7 @@ class _Run:
 
             if utils._is_docstring(new_tokeninfo, tokens[index - 1]):
                 for formatter in formatting.FORMATTERS:
-                    new_tokeninfo = formatter.treat(new_tokeninfo)
+                    new_tokeninfo = formatter.treat_token(new_tokeninfo)
             changed_tokens.append(new_tokeninfo)
 
             if tokeninfo != new_tokeninfo:

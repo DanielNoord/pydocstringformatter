@@ -7,7 +7,7 @@ class Formatter:
     """Base class for docstring formatter"""
 
     @abc.abstractmethod
-    def treat(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
+    def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         """Return a modified token"""
 
 
@@ -18,7 +18,7 @@ class StringFormatter(Formatter):
     def _treat_string(self, new_string: str) -> str:
         """Will modify the string"""
 
-    def treat(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
+    def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         return tokenize.TokenInfo(
             tokeninfo.type,
             self._treat_string(tokeninfo.string),
@@ -59,7 +59,7 @@ class ClosingQuotesFormatter(Formatter):
             tokeninfo.type, new_string, tokeninfo.start, tokeninfo.end, tokeninfo.line
         )
 
-    def treat(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
+    def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         if "\n" in tokeninfo.string:
             return self._format_multiline_ending_quotes(tokeninfo)
         return tokeninfo
