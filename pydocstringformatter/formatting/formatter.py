@@ -3,7 +3,6 @@ import re
 import tokenize
 
 # pylint: disable=too-few-public-methods
-from typing import List
 
 
 class Formatter:
@@ -66,9 +65,3 @@ class ClosingQuotesFormatter(Formatter):
         if "\n" in tokeninfo.string:
             return self._format_multiline_ending_quotes(tokeninfo)
         return tokeninfo
-
-
-FORMATTERS: List[Formatter] = [
-    BeginningQuotesFormatter(),
-    ClosingQuotesFormatter(),
-]
