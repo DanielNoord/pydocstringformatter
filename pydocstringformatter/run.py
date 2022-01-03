@@ -48,9 +48,8 @@ class _Run:
             new_tokeninfo = tokeninfo
 
             if utils._is_docstring(new_tokeninfo, tokens[index - 1]):
-                new_tokeninfo = formatting._format_beginning_quotes(new_tokeninfo)
-                new_tokeninfo = formatting._format_closing_quotes(new_tokeninfo)
-
+                for formatter in formatting.FORMATTERS:
+                    new_tokeninfo = formatter.treat(new_tokeninfo)
             changed_tokens.append(new_tokeninfo)
 
             if tokeninfo != new_tokeninfo:
