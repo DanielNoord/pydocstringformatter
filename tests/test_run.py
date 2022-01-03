@@ -32,69 +32,6 @@ def test_sys_agv_as_arguments(
     assert not output.err
 
 
-def test_no_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -> None:
-    """Test that we print to stdout without the -w option"""
-    pydocstringformatter.run_docstring_formatter([test_file])
-
-    with open(test_file, encoding="utf-8") as file:
-        assert "".join(file.readlines()) == '"""A multi-line\ndocstring"""'
-
-    output = capsys.readouterr()
-    assert output.out == '"""A multi-line\ndocstring\n"""'
-    assert not output.err
-
-
-def test_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -> None:
-    """Test the -w argument"""
-    try:
-        expected_path = os.path.relpath(test_file)
-    except ValueError:
-        expected_path = test_file
-
-    pydocstringformatter.run_docstring_formatter([test_file, "-w"])
-
-    with open(test_file, encoding="utf-8") as file:
-        assert "".join(file.readlines()) == '"""A multi-line\ndocstring\n"""'
-
-    output = capsys.readouterr()
-    assert output.out == f"Formatted {expected_path} 📖\n"
-    assert not output.err
-
-
-def test_long_write_argument(
-    capsys: pytest.CaptureFixture[str], test_file: str
-) -> None:
-    """Test the --write argument"""
-    try:
-        expected_path = os.path.relpath(test_file)
-    except ValueError:
-        expected_path = test_file
-
-    pydocstringformatter.run_docstring_formatter([test_file, "--write"])
-
-    with open(test_file, encoding="utf-8") as file:
-        assert "".join(file.readlines()) == '"""A multi-line\ndocstring\n"""'
-
-    output = capsys.readouterr()
-    assert output.out == f"Formatted {expected_path} 📖\n"
-    assert not output.err
-
-
-def test_version_argument(capsys: pytest.CaptureFixture[str]) -> None:
-    """Test the --version argument and its shorter variant"""
-    with pytest.raises(SystemExit):
-        pydocstringformatter.run_docstring_formatter(["--version"])
-    output = capsys.readouterr()
-    assert output.out == pydocstringformatter.__version__ + "\n"
-    assert not output.err
-
-    with pytest.raises(SystemExit):
-        pydocstringformatter.run_docstring_formatter(["-v"])
-    output = capsys.readouterr()
-    assert output.out == pydocstringformatter.__version__ + "\n"
-    assert not output.err
-
-
 def test_output_message_nothing_done(
     capsys: pytest.CaptureFixture[str], test_file: str
 ) -> None:
