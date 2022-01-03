@@ -24,7 +24,8 @@ py-version="3.8"
 
 [tool.pylint.'MESSAGES CONTROL']
 disable = [
-    "missing-module-docstring"
+    "missing-module-docstring",
+    "too-few-public-methods",
 ]
 enable = [
     "c-extension-no-member",
