@@ -16,6 +16,16 @@ class BeginningQuotesFormatter(StringFormatter):
         return new_string
 
 
+class CapitalizeFirstLetter(StringFormatter):
+    """Capitalize the first letter of the docstring if appropriate."""
+
+    name = "capitalize-first-letter"
+
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
+        new = tokeninfo.string[3:].lstrip()
+        return tokeninfo.string[:3] + new[0].upper() + new[1:]
+
+
 class ClosingQuotesFormatter(StringFormatter):
     """Fix the position of the closing quotes."""
 

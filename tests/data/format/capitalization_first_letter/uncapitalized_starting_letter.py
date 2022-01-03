@@ -1,0 +1,10 @@
+class MyClass:
+    """this is a single line docstring in plain english"""
+
+
+class MyClass:
+    """1 cannot always be capitalized."""
+
+
+class MyClass:
+    """在某些语言中，大写字母是没有意义的"""
