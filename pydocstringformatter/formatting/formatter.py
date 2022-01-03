@@ -16,7 +16,7 @@ class StringFormatter(Formatter):
 
     @abc.abstractmethod
     def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
-        """Will modifies the string"""
+        """Return a modified string"""
 
     def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         return tokenize.TokenInfo(
