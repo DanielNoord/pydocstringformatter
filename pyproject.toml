@@ -33,6 +33,7 @@ py-version="3.8"
 disable = [
     "missing-module-docstring",
     "too-few-public-methods",
+    "duplicate-code"
 ]
 enable = [
     "c-extension-no-member",
