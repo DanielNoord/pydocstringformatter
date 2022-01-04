@@ -15,6 +15,11 @@ class _Run:
     """Main class that represent a run of the program"""
 
     def __init__(self, argv: Union[List[str], None]) -> None:
+        # Needed to display emoji's on Windows. Mypy doesn't recognize
+        # this because stdout isn't inferred as io.TextIOWrapper
+        # See https://github.com/DanielNoord/pydocstringformatter/issues/13
+        sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]
+
         self.arg_parser = utils._register_arguments(__version__)
         self.config = argparse.Namespace()
 
