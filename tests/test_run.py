@@ -28,7 +28,9 @@ def test_sys_agv_as_arguments(
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring"""'
 
     output = capsys.readouterr()
-    assert output.out == '"""A multi-line\ndocstring\n"""'
+    assert output.out.endswith(
+        '@@ -1,2 +1,3 @@\n """A multi-line\n-docstring"""\n+docstring\n+"""'
+    )
     assert not output.err
 
 

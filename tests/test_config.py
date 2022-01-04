@@ -17,7 +17,9 @@ def test_no_toml(
     monkeypatch.chdir(CONFIG_DATA / "no_toml")
     pydocstringformatter.run_docstring_formatter(["test_package"])
     output = capsys.readouterr()
-    assert output.out == '"""A docstring"""\n'
+    assert output.out.endswith(
+        '@@ -1,3 +1,2 @@\n-"""\n-A docstring"""\n+"""A docstring"""\n '
+    )
     assert not output.err
 
 
@@ -39,7 +41,9 @@ def test_valid_toml_two(
     monkeypatch.chdir(CONFIG_DATA / "valid_toml_two")
     pydocstringformatter.run_docstring_formatter(["test_package"])
     output = capsys.readouterr()
-    assert output.out == '"""A docstring"""\n'
+    assert output.out.endswith(
+        '@@ -1,3 +1,2 @@\n-"""\n-A docstring"""\n+"""A docstring"""\n '
+    )
     assert not output.err
 
 
@@ -65,7 +69,9 @@ def test_no_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring"""'
 
     output = capsys.readouterr()
-    assert output.out == '"""A multi-line\ndocstring\n"""'
+    assert output.out.endswith(
+        '@@ -1,2 +1,3 @@\n """A multi-line\n-docstring"""\n+docstring\n+"""'
+    )
     assert not output.err
 
 

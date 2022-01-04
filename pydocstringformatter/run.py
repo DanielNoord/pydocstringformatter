@@ -56,16 +56,24 @@ class _Run:
                 is_changed = True
 
         if is_changed:
+            try:
+                filename_str = os.path.relpath(filename)
+            except ValueError:
+                # On Windows relpath raises ValueError's when the mounts differ
+                filename_str = str(filename)
+
             if self.config.write:
                 with open(filename, "w", encoding="utf-8") as file:
                     file.write(tokenize.untokenize(changed_tokens))
-                try:
-                    print(f"Formatted {os.path.relpath(filename)} 📖")
-                except ValueError:  # pragma: no cover
-                    # On Windows relpath raises ValueError's when mounts differ
-                    print(f"Formatted {filename} 📖")
+                    print(f"Formatted {filename_str} 📖")
             else:
-                sys.stdout.write(tokenize.untokenize(changed_tokens))
+                sys.stdout.write(
+                    utils._generate_diff(
+                        tokenize.untokenize(tokens),
+                        tokenize.untokenize(changed_tokens),
+                        filename_str,
+                    )
+                )
 
         return is_changed
 

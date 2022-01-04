@@ -1,1 +1,6 @@
-Nothing to do! All docstrings are correct 🎉
+var = """A multi-line
+docstring"""
+
+var = """A multi-line
+docstring
+"""
