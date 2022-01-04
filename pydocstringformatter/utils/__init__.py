@@ -2,6 +2,7 @@ from pydocstringformatter.utils.argument_parsing import (
     _parse_command_line_arguments,
     _parse_toml_file,
     _register_arguments,
+    _register_arguments_formatters,
 )
 from pydocstringformatter.utils.exceptions import (
     ParsingError,
@@ -21,5 +22,6 @@ __all__ = [
     "ParsingError",
     "PydocstringFormatterError",
     "_register_arguments",
+    "_register_arguments_formatters",
     "TomlParsingError",
 ]

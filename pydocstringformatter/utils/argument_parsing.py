@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional
 
 import tomli
 
+from pydocstringformatter.formatting.base import Formatter
 from pydocstringformatter.utils.exceptions import TomlParsingError, UnrecognizedOption
 
 OPTIONS_TYPES = {"write": "store_true"}
@@ -36,7 +37,26 @@ def _register_arguments(version: str) -> argparse.ArgumentParser:
         version=version,
         help="Show version number and exit",
     )
+    return parser
 
+
+def _register_arguments_formatters(
+    parser: argparse.ArgumentParser, formatters: List[Formatter]
+) -> argparse.ArgumentParser:
+    """Register a list of formatters, so they can all be deactivated or activated."""
+    for formatter in formatters:
+        name = formatter.name
+        help_text = f"ctivate the {name} formatter"
+        parser.add_argument(
+            f"--{name}",
+            action="store_true",
+            dest=name,
+            default=not formatter.optional,
+            help=f"A{help_text} : {formatter.__doc__}",
+        )
+        parser.add_argument(
+            f"--no-{name}", action="store_false", dest=name, help=f"Dea{help_text}"
+        )
     return parser
 
 

@@ -12,9 +12,13 @@ def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
     """Test that we warn when no arguments are provided"""
     sys.argv = ["pydocstringformatter"]
     pydocstringformatter.run_docstring_formatter()
-    output = capsys.readouterr()
-    assert output.out.startswith("usage: pydocstringformatter [-h]")
-    assert not output.err
+    out, err = capsys.readouterr()
+    assert out.startswith("usage: pydocstringformatter [-h]")
+    assert "--beginning-quotes" in out
+    assert "Activate the beginning-quotes formatter" in out
+    assert "--no-beginning-quotes" in out
+    assert "Deactivate the beginning-quotes formatter" in out
+    assert not err
 
 
 def test_sys_agv_as_arguments(

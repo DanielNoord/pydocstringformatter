@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import List, Union
 
 from pydocstringformatter import __version__, formatting, utils
+from pydocstringformatter.formatting import FORMATTERS
 
 
 class _Run:
@@ -16,6 +17,7 @@ class _Run:
 
     def __init__(self, argv: Union[List[str], None]) -> None:
         self.arg_parser = utils._register_arguments(__version__)
+        utils._register_arguments_formatters(self.arg_parser, FORMATTERS)
         self.config = argparse.Namespace()
 
         if argv := argv or sys.argv[1:]:
@@ -46,10 +48,11 @@ class _Run:
 
         for index, tokeninfo in enumerate(tokens):
             new_tokeninfo = tokeninfo
-
+            formatter_options = vars(self.config)
             if utils._is_docstring(new_tokeninfo, tokens[index - 1]):
                 for formatter in formatting.FORMATTERS:
-                    new_tokeninfo = formatter.treat_token(new_tokeninfo)
+                    if formatter_options[formatter.name]:
+                        new_tokeninfo = formatter.treat_token(new_tokeninfo)
             changed_tokens.append(new_tokeninfo)
 
             if tokeninfo != new_tokeninfo:
