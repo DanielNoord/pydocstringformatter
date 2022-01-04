@@ -1,35 +1,13 @@
-import abc
 import re
 import tokenize
 
-
-class Formatter:
-    """Base class for docstring formatter"""
-
-    @abc.abstractmethod
-    def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
-        """Return a modified token"""
-
-
-class StringFormatter(Formatter):
-    """Base class for formatter that only modifies the string content"""
-
-    @abc.abstractmethod
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
-        """Return a modified string"""
-
-    def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
-        return tokenize.TokenInfo(
-            tokeninfo.type,
-            self._treat_string(tokeninfo),
-            tokeninfo.start,
-            tokeninfo.end,
-            tokeninfo.line,
-        )
+from pydocstringformatter.formatting.base import StringFormatter
 
 
 class BeginningQuotesFormatter(StringFormatter):
     """Fix the position of the opening quotes"""
+
+    name = "beginning-quotes"
 
     def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
         new_string = tokeninfo.string
@@ -40,6 +18,8 @@ class BeginningQuotesFormatter(StringFormatter):
 
 class ClosingQuotesFormatter(StringFormatter):
     """Fix the position of the closing quotes"""
+
+    name = "closing-quotes"
 
     def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
         """Fix the position of end quotes for multi-line docstrings"""
