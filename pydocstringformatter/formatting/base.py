@@ -5,6 +5,18 @@ import tokenize
 class Formatter:
     """Base class for docstring formatter."""
 
+    optional = False
+
+    @property
+    @abc.abstractmethod
+    def name(self) -> str:
+        """Name of the Formatter.
+
+        This will be used to create argparse options when added to
+        'pydocstringformatter.formatting.FORMATTERS'. Therefore, it is
+        user-facing and should be chosen carefully.
+        """
+
     @abc.abstractmethod
     def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         """Return a modified token."""

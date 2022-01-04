@@ -7,6 +7,8 @@ from pydocstringformatter.formatting.base import StringFormatter
 class BeginningQuotesFormatter(StringFormatter):
     """Fix the position of the opening quotes"""
 
+    name = "beginning-quotes"
+
     def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
         new_string = tokeninfo.string
         if new_string[3] == "\n":
@@ -16,6 +18,8 @@ class BeginningQuotesFormatter(StringFormatter):
 
 class ClosingQuotesFormatter(StringFormatter):
     """Fix the position of the closing quotes"""
+
+    name = "closing-quotes"
 
     def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
         """Fix the position of end quotes for multi-line docstrings"""
