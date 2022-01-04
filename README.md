@@ -24,7 +24,7 @@ options:
   -v, --version  Show version number and exit
 ```
 
-### Confiuguration
+### Configuration
 
 Pydocstringformatter will also read any configuration added to the `[tool.pydocstringformatter]` section of a `pyproject.toml` file.
 
