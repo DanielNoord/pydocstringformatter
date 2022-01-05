@@ -29,7 +29,12 @@ def test_sys_agv_as_arguments(
 
     output = capsys.readouterr()
     assert output.out.endswith(
-        '@@ -1,2 +1,3 @@\n """A multi-line\n-docstring"""\n+docstring\n+"""'
+        '''
+@@ -1,2 +1,3 @@
+ """A multi-line
+-docstring"""
++docstring
++"""'''
     )
     assert not output.err
 

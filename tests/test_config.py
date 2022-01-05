@@ -18,7 +18,12 @@ def test_no_toml(
     pydocstringformatter.run_docstring_formatter(["test_package"])
     output = capsys.readouterr()
     assert output.out.endswith(
-        '@@ -1,3 +1,2 @@\n-"""\n-A docstring"""\n+"""A docstring"""\n '
+        '''
+@@ -1,3 +1,2 @@
+-"""
+-A docstring"""
++"""A docstring"""
+ '''
     )
     assert not output.err
 
@@ -42,7 +47,12 @@ def test_valid_toml_two(
     pydocstringformatter.run_docstring_formatter(["test_package"])
     output = capsys.readouterr()
     assert output.out.endswith(
-        '@@ -1,3 +1,2 @@\n-"""\n-A docstring"""\n+"""A docstring"""\n '
+        '''
+@@ -1,3 +1,2 @@
+-"""
+-A docstring"""
++"""A docstring"""
+ '''
     )
     assert not output.err
 
@@ -70,7 +80,11 @@ def test_no_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -
 
     output = capsys.readouterr()
     assert output.out.endswith(
-        '@@ -1,2 +1,3 @@\n """A multi-line\n-docstring"""\n+docstring\n+"""'
+        '''
+@@ -1,2 +1,3 @@
+ """A multi-line
+-docstring"""
++docstring\n+"""'''
     )
     assert not output.err
 
