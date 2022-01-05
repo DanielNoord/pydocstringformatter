@@ -26,7 +26,7 @@ def _register_arguments(version: str) -> argparse.ArgumentParser:
         "-w",
         "--write",
         action="store_true",
-        help="Write the changes to file instead of printing the files to stdout",
+        help="Write the changes to file instead of printing the diffs to stdout",
     )
 
     parser.add_argument(

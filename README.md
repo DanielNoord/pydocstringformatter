@@ -20,7 +20,7 @@ positional arguments:
 
 options:
   -h, --help     show this help message and exit
-  -w, --write    Write the changes to file instead of printing the files to stdout
+  -w, --write    Write the changes to file instead of printing the diffs to stdout
   -v, --version  Show version number and exit
 ```
 
