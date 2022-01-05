@@ -8,6 +8,7 @@ from pydocstringformatter.utils.exceptions import (
     PydocstringFormatterError,
     TomlParsingError,
 )
+from pydocstringformatter.utils.file_diference import _generate_diff
 from pydocstringformatter.utils.find_docstrings import _is_docstring
 from pydocstringformatter.utils.find_python_file import _find_python_files
 
@@ -20,4 +21,5 @@ __all__ = [
     "ParsingError",
     "_parse_toml_file",
     "TomlParsingError",
+    "_generate_diff",
 ]
