@@ -1,7 +1,11 @@
+import sys
 import tokenize
 from pathlib import Path
 from typing import List, Tuple
 
+import pytest
+
+import pydocstringformatter
 from pydocstringformatter.utils import _find_python_files, _is_docstring
 
 HERE = Path(__file__)
@@ -133,3 +137,22 @@ class TestDocstringFinder:
                     docstrings.append((tokeninfo.start, tokeninfo.end))
 
         assert docstrings == [((3, 0), (4, 3))]
+
+
+def test_encoding_of_console_messages(
+    capsys: pytest.CaptureFixture[str], test_file: str
+) -> None:
+    """Test that we can print emoji's to non utf-8 consoles.
+
+    Regression test for:
+    https://github.com/DanielNoord/pydocstringformatter/issues/13
+    """
+    sys.stdout.reconfigure(encoding="cp1252")  # type: ignore[attr-defined]
+    with open(test_file, "w", encoding="utf-8") as file:
+        file.write('"""A multi-line\ndocstring\n"""')
+
+    pydocstringformatter.run_docstring_formatter([test_file, "--write"])
+
+    output = capsys.readouterr()
+    assert output.out == "Nothing to do! All docstrings are correct 🎉\n"
+    assert not output.err
