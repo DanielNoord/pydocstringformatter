@@ -65,10 +65,12 @@ class _Run:
                 with open(filename, "w", encoding="utf-8") as file:
                     file.write(tokenize.untokenize(changed_tokens))
                 try:
-                    print(f"Formatted {os.path.relpath(filename)} 📖")
+                    utils._print_to_console(
+                        f"Formatted {os.path.relpath(filename)} 📖\n"
+                    )
                 except ValueError:  # pragma: no cover
                     # On Windows relpath raises ValueError's when mounts differ
-                    print(f"Formatted {filename} 📖")
+                    utils._print_to_console(f"Formatted {filename} 📖\n")
             else:
                 sys.stdout.write(tokenize.untokenize(changed_tokens))
 
@@ -82,4 +84,4 @@ class _Run:
             is_changed = self._format_file(file) or is_changed
 
         if not is_changed:
-            print("Nothing to do! All docstrings are correct 🎉")
+            utils._print_to_console("Nothing to do! All docstrings are correct 🎉\n")
