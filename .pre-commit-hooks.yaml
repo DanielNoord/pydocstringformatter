@@ -1,5 +1,5 @@
--   id: pydocstringformatter
-    name: pydocstringformatter
-    entry: pydocstringformatter
-    language: python
-    args: ["--write"]
+- id: pydocstringformatter
+  name: pydocstringformatter
+  entry: pydocstringformatter
+  language: python
+  args: ["--write"]
