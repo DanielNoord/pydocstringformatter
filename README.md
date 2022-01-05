@@ -1,8 +1,14 @@
-[![PyPI pyversions](https://img.shields.io/pypi/pyversions/pydocstringformatter.svg)](https://pypi.python.org/pypi/pydocstringformatter/) [![Coverage Status](https://coveralls.io/repos/github/DanielNoord/pydocstringformatter/badge.svg?branch=main)](https://coveralls.io/github/DanielNoord/pydocstringformatter?branch=main) [![Tests](https://github.com/DanielNoord/pydocstringformatter/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/DanielNoord/pydocstringformatter/actions/workflows/tests.yaml) [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/DanielNoord/pydocstringformatter/main.svg)](https://results.pre-commit.ci/latest/github/DanielNoord/pydocstringformatter/main)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/pydocstringformatter.svg)](https://pypi.python.org/pypi/pydocstringformatter/)
+[![Coverage Status](https://coveralls.io/repos/github/DanielNoord/pydocstringformatter/badge.svg?branch=main)](https://coveralls.io/github/DanielNoord/pydocstringformatter?branch=main)
+[![Tests](https://github.com/DanielNoord/pydocstringformatter/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/DanielNoord/pydocstringformatter/actions/workflows/tests.yaml)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/DanielNoord/pydocstringformatter/main.svg)](https://results.pre-commit.ci/latest/github/DanielNoord/pydocstringformatter/main)
 
 # Pydocstringformatter
 
-A tool to automatically format Python docstrings that tries to follow recommendations from [`PEP 8`](https://www.python.org/dev/peps/pep-0008/) and [`PEP 257`](https://www.python.org/dev/peps/pep-0257/). See [What it does](#what-it-does) for currently supported auto-formatting.
+A tool to automatically format Python docstrings that tries to follow recommendations
+from [`PEP 8`](https://www.python.org/dev/peps/pep-0008/) and
+[`PEP 257`](https://www.python.org/dev/peps/pep-0257/). See
+[What it does](#what-it-does) for currently supported auto-formatting.
 
 ## How to install
 
@@ -26,24 +32,28 @@ options:
 
 ### Configuration
 
-Pydocstringformatter will also read any configuration added to the `[tool.pydocstringformatter]` section of a `pyproject.toml` file.
+Pydocstringformatter will also read any configuration added to the
+`[tool.pydocstringformatter]` section of a `pyproject.toml` file.
 
 ## Pre-commit
 
-Pydocstringformatter can also be used as a [pre-commit hook](https://pre-commit.com). Add the following to your `.pre-commit-config.yaml` file:
+Pydocstringformatter can also be used as a [pre-commit hook](https://pre-commit.com).
+Add the following to your `.pre-commit-config.yaml` file:
 
 ```yaml
--   repo: https://github.com/DanielNoord/pydocstringformatter
-    rev: SPECIFY VERSION HERE
-    hooks:
-    -   id: pydocstringformatter
+- repo: https://github.com/DanielNoord/pydocstringformatter
+  rev: SPECIFY VERSION HERE
+  hooks:
+    - id: pydocstringformatter
 ```
 
 ## What it does
 
-The following examples show what pydocstringformatter will pick up on. All _bad_ examples will be rewritten to follow the _good_ patterns.
+The following examples show what pydocstringformatter will pick up on. All _bad_
+examples will be rewritten to follow the _good_ patterns.
 
-**PEP 8: _Note that most importantly, the """ that ends a multiline docstring should be on a line by itself:_**
+**PEP 8: _Note that most importantly, the """ that ends a multiline docstring should be
+on a line by itself:_**
 
 ```python
 # Bad
@@ -55,7 +65,6 @@ multi-line docstring"""
 multi-line docstring
 """
 ```
-
 
 **PEP 256: _The closing quotes are on the same line as the opening quotes_**
 
@@ -86,4 +95,5 @@ multi-line docstring
 
 ## Development
 
-For development and contributing guidelines please see [`Contributing`](https://github.com/DanielNoord/pydocstringformatter/blob/main/.github/CONTRIBUTING.md).
+For development and contributing guidelines please see
+[`Contributing`](https://github.com/DanielNoord/pydocstringformatter/blob/main/.github/CONTRIBUTING.md).
