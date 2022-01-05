@@ -48,6 +48,7 @@ class _Run:
 
         for index, tokeninfo in enumerate(tokens):
             new_tokeninfo = tokeninfo
+
             formatter_options = vars(self.config)
             if utils._is_docstring(new_tokeninfo, tokens[index - 1]):
                 for formatter in formatting.FORMATTERS:
