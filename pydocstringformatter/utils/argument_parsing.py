@@ -12,12 +12,12 @@ OPTIONS_TYPES = {"write": "store_true"}
 def _parse_command_line_arguments(
     parser: argparse.ArgumentParser, args: List[str], namespace: argparse.Namespace
 ) -> None:
-    """Parse all arguments on the provided argument parser"""
+    """Parse all arguments on the provided argument parser."""
     parser.parse_known_args(args, namespace)
 
 
 def _register_arguments(version: str) -> argparse.ArgumentParser:
-    """Create an argument parser and add all supported arguments"""
+    """Create an argument parser and add all supported arguments."""
     parser = argparse.ArgumentParser(prog="pydocstringformatter")
 
     parser.add_argument("files", nargs="*", type=str)
@@ -41,7 +41,7 @@ def _register_arguments(version: str) -> argparse.ArgumentParser:
 
 
 def _get_toml_file() -> Optional[Dict[str, Any]]:
-    """See if there is a pyproject.toml and extract the correct section if it exists"""
+    """See if there is a pyproject.toml and extract the correct section if it exists."""
     if os.path.isfile("pyproject.toml"):
         with open("pyproject.toml", "rb") as file:
             try:
@@ -56,7 +56,7 @@ def _get_toml_file() -> Optional[Dict[str, Any]]:
 
 
 def _parse_toml_option(opt: str, value: Any) -> List[str]:
-    """Parse an options value in the correct argument type for argparse"""
+    """Parse an options value in the correct argument type for argparse."""
     try:
         action = OPTIONS_TYPES[opt]
     except KeyError as exc:
@@ -72,7 +72,7 @@ def _parse_toml_option(opt: str, value: Any) -> List[str]:
 def _parse_toml_file(
     parser: argparse.ArgumentParser, namespace: argparse.Namespace
 ) -> None:
-    """Get and parse the relevant section form a pyproject.toml file"""
+    """Get and parse the relevant section form a pyproject.toml file."""
     if toml_sect := _get_toml_file():
         arguments: List[str] = []
 
