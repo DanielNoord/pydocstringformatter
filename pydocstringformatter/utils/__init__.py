@@ -1,6 +1,5 @@
 from pydocstringformatter.utils.argument_parsing import (
-    _parse_command_line_arguments,
-    _parse_toml_file,
+    _parse_options,
     _register_arguments,
     _register_arguments_formatters,
 )
@@ -17,11 +16,10 @@ __all__ = [
     "_find_python_files",
     "_generate_diff",
     "_is_docstring",
-    "_parse_command_line_arguments",
-    "_parse_toml_file",
     "ParsingError",
     "PydocstringFormatterError",
     "_register_arguments",
     "_register_arguments_formatters",
     "TomlParsingError",
+    "_parse_options",
 ]

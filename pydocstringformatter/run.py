@@ -21,9 +21,7 @@ class _Run:
         self.config = argparse.Namespace()
 
         if argv := argv or sys.argv[1:]:
-            utils._parse_toml_file(self.arg_parser, self.config)
-            utils._parse_command_line_arguments(self.arg_parser, argv, self.config)
-
+            utils._parse_options(self.arg_parser, self.config, argv, FORMATTERS)
             self._check_files(self.config.files)
         else:
             self.arg_parser.print_help()
