@@ -1,7 +1,7 @@
 def func():
-    """A docstring
+    """A docstring.
     """
 
     def inner_func():
-        """A docstring
+        """A docstring.
         """

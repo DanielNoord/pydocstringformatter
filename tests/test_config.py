@@ -22,7 +22,7 @@ def test_no_toml(
 @@ -1,3 +1,2 @@
 -"""
 -A docstring"""
-+"""A docstring"""
++"""A docstring."""
  '''
     )
     assert not output.err
@@ -51,7 +51,7 @@ def test_valid_toml_two(
 @@ -1,3 +1,2 @@
 -"""
 -A docstring"""
-+"""A docstring"""
++"""A docstring."""
  '''
     )
     assert not output.err
