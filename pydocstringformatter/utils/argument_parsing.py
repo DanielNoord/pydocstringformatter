@@ -51,7 +51,6 @@ def _register_arguments_formatters(
             f"--{name}",
             action="store_true",
             dest=name,
-            default=not formatter.optional,
             help=f"A{help_text} : {formatter.__doc__}",
         )
         parser.add_argument(
@@ -100,3 +99,37 @@ def _parse_toml_file(
             arguments += _parse_toml_option(key, value)
 
         parser.parse_args(arguments, namespace)
+
+
+def _load_formatters_default_option(
+    parser: argparse.ArgumentParser,
+    namespace: argparse.Namespace,
+    formatters: List[Formatter],
+) -> None:
+    """Load the list of formatters based on their 'optional' attribute."""
+    arguments: List[str] = []
+    for formatter in formatters:
+        if formatter.optional:
+            arguments.append(f"--no-{formatter.name}")
+        elif not formatter.optional:
+            arguments.append(f"--{formatter.name}")
+
+    parser.parse_known_args(arguments, namespace)
+
+
+def _parse_options(
+    parser: argparse.ArgumentParser,
+    namespace: argparse.Namespace,
+    argv: List[str],
+    formatters: List[Formatter],
+) -> None:
+    """Load all default option values.
+
+    The order of parsing is:
+    1. default values, 2. configuration files, 3. command line arguments.
+    """
+    _load_formatters_default_option(parser, namespace, formatters)
+
+    _parse_toml_file(parser, namespace)
+
+    _parse_command_line_arguments(parser, argv, namespace)

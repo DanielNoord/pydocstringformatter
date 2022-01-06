@@ -9,9 +9,9 @@ Use `pre-commit install` to install the pre-commit hook for the repository.
 - Implement a Formatter by inheriting from `pydocstringformatter.formatting.Formatter`
 - Add your new formatter to `pydocstringformatter.formatting.FORMATTERS`
 - Write a clear docstring because this will be user-facing: it's what will be seen in
-  the help message for the formatters command line option.
+  the help message for the formatter's command line option.
 - Choose a proper name because this will be user-facing: the name will be used to turn
-  the checker on and off via the command line or config files.
+  the formatter on and off via the command line or config files.
 
 ### Testing
 
