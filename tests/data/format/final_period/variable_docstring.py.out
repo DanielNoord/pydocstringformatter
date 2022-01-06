@@ -1,0 +1,13 @@
+MYVAR = 1
+"""Docstring."""
+
+MYVAR = 1
+"""A multi-line
+docstring
+"""
+
+MYVAR = 1
+"""Summary.
+
+A docstring
+"""

@@ -66,7 +66,7 @@ multi-line docstring
 """
 ```
 
-**PEP 256: _The closing quotes are on the same line as the opening quotes_**
+**PEP 257: _The closing quotes are on the same line as the opening quotes_**
 
 For consistency this rule also gets applied to multi-line docstrings
 
@@ -90,6 +90,28 @@ multi-line docstring
 
 """My
 multi-line docstring
+"""
+```
+
+**PEP 257: _The docstring is a phrase ending in a period & Multi-line docstrings consist
+of a summary line just like a one-line docstring_**
+
+```python
+# Bad
+"""My docstring"""
+
+"""Summary
+
+My docstring
+"""
+
+
+# Good
+"""My docstring."""
+
+"""Summary.
+
+My docstring
 """
 ```
 
