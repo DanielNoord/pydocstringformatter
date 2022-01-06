@@ -4,12 +4,12 @@ from typing import List
 
 
 def _is_python_file(filename: str) -> bool:
-    """Check if file is a Python file"""
+    """Check if file is a Python file."""
     return filename.endswith(".py")
 
 
 def _find_python_files(filenames: List[str], recursive: bool = True) -> List[Path]:
-    """Find all python files for a list of potential file and directory names"""
+    """Find all python files for a list of potential file and directory names."""
     pathnames: List[Path] = []
 
     for name in filenames:

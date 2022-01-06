@@ -12,7 +12,7 @@ __version__ = "0.3.0+dev"
 
 
 def run_docstring_formatter(argv: Union[List[str], None] = None) -> None:
-    """Run the formatter"""
+    """Run the formatter."""
     from pydocstringformatter.run import _Run
 
     _Run(argv or sys.argv[1:])
