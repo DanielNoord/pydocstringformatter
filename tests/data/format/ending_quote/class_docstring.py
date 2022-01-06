@@ -1,9 +1,9 @@
 class MyClass:
     """
-    A docstring
+    A docstring.
     """
 
     class InnerClass:
         """
-        A docstring
+        A docstring.
         """

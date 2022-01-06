@@ -22,15 +22,15 @@ class MyClass:
 
 class MyClass:
     """
-    A docstring"""
+    A docstring."""
 
     class InnerClass:
         """
-        A docstring"""
+        A docstring."""
 
 
 class MyClass:
-    """A docstring"""
+    """A docstring."""
 
     class InnerClass:
-        """A docstring"""
+        """A docstring."""

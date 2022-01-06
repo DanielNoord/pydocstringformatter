@@ -1,2 +1,2 @@
 """
-A docstring"""
+A docstring."""
