@@ -45,6 +45,10 @@ no-docstring-rgx = "__.*__"
 [tool.pylint.TYPECHECK]
 generated-members = "argparse.Namespace"
 
+[tool.pylint.MISCELLANEOUS]
+notes=["XXX","FIXME"]
+notes-rgx = 'TODO(?!\(#\d+\))'
+
 [tool.isort]
 profile = "black"
 known_third_party = ["pytest"]

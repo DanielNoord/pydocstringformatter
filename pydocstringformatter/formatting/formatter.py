@@ -61,8 +61,7 @@ class FinalPeriodFormatter(StringFormatter):
                         + "."
                         + tokeninfo.string[first_linebreak:]
                     )
-            # pylint: disable=fixme
-            # TODO: Handle multi-line docstrings that do not have a summary
+            # TODO(#26): Handle multi-line docstrings that do not have a summary
             # This is obviously dependent on whether 'pydocstringformatter' will
             # start enforcing summaries :)
         return tokeninfo.string
