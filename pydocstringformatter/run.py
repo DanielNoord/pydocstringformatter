@@ -85,4 +85,4 @@ class _Run:
             is_changed = self._format_file(file) or is_changed
 
         if not is_changed:
-            print("Nothing to do! All docstrings are correct 🎉")
+            utils._print_to_console("Nothing to do! All docstrings are correct 🎉\n")
