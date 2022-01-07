@@ -5,7 +5,7 @@ from pydocstringformatter.formatting.base import StringFormatter
 
 
 class BeginningQuotesFormatter(StringFormatter):
-    """Fix the position of the opening quotes"""
+    """Fix the position of the opening quotes."""
 
     name = "beginning-quotes"
 
@@ -17,12 +17,12 @@ class BeginningQuotesFormatter(StringFormatter):
 
 
 class ClosingQuotesFormatter(StringFormatter):
-    """Fix the position of the closing quotes"""
+    """Fix the position of the closing quotes."""
 
     name = "closing-quotes"
 
     def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
-        """Fix the position of end quotes for multi-line docstrings"""
+        """Fix the position of end quotes for multi-line docstrings."""
         new_string = tokeninfo.string
         if "\n" not in new_string:
             # Not a multiline docstring, nothing to do
@@ -37,3 +37,32 @@ class ClosingQuotesFormatter(StringFormatter):
         elif len(split_string) == 2 and split_string[-1] == good_end:
             new_string = "\n".join(split_string[:-1]) + tokeninfo.string[0] * 3
         return new_string
+
+
+class FinalPeriodFormatter(StringFormatter):
+    """Add a period to the end of single line docstrings and summaries."""
+
+    name = "final-period"
+
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
+        """Add a period to the end of single-line docstrings and summaries."""
+        # Handle single line docstrings
+        if not tokeninfo.string.count("\n"):
+            if tokeninfo.string[-4] != ".":
+                return tokeninfo.string[:-3] + "." + tokeninfo.string[-3:]
+        # Handle multi-line docstrings
+        else:
+            first_linebreak = tokeninfo.string.index("\n")
+            # If first linebreak is followed by another we're dealing with a summary
+            if tokeninfo.string[tokeninfo.string.index("\n") + 1] == "\n":
+                if tokeninfo.string[first_linebreak - 1] != ".":
+                    return (
+                        tokeninfo.string[:first_linebreak]
+                        + "."
+                        + tokeninfo.string[first_linebreak:]
+                    )
+            # pylint: disable=fixme
+            # TODO: Handle multi-line docstrings that do not have a summary
+            # This is obviously dependent on whether 'pydocstringformatter' will
+            # start enforcing summaries :)
+        return tokeninfo.string

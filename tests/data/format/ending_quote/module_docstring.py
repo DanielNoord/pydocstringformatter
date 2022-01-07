@@ -1,3 +1,3 @@
 """
-A docstring
+A docstring.
 """

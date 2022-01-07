@@ -1,5 +1,5 @@
 # pylint: disable=too-few-public-methods, protected-access
-"""Run class"""
+"""Run class."""
 
 import argparse
 import os
@@ -12,7 +12,7 @@ from pydocstringformatter import __version__, formatting, utils
 
 
 class _Run:
-    """Main class that represent a run of the program"""
+    """Main class that represent a run of the program."""
 
     def __init__(self, argv: Union[List[str], None]) -> None:
         self.arg_parser = utils._register_arguments(__version__)
@@ -27,12 +27,12 @@ class _Run:
             self.arg_parser.print_help()
 
     def _check_files(self, arguments: List[str]) -> None:
-        """Find all files and perform the formatting"""
+        """Find all files and perform the formatting."""
         filepaths = utils._find_python_files(arguments)
         self._format_files(filepaths)
 
     def _format_file(self, filename: Path) -> bool:
-        """Format a file"""
+        """Format a file."""
         changed_tokens: List[tokenize.TokenInfo] = []
         is_changed = False
 
@@ -56,23 +56,29 @@ class _Run:
                 is_changed = True
 
         if is_changed:
+            try:
+                filename_str = os.path.relpath(filename)
+            except ValueError:  # pragma: no cover # Covered on Windows
+                # On Windows relpath raises ValueError's when the mounts differ
+                filename_str = str(filename)
+
             if self.config.write:
                 with open(filename, "w", encoding="utf-8") as file:
                     file.write(tokenize.untokenize(changed_tokens))
-                try:
-                    utils._print_to_console(
-                        f"Formatted {os.path.relpath(filename)} 📖\n"
-                    )
-                except ValueError:  # pragma: no cover
-                    # On Windows relpath raises ValueError's when mounts differ
-                    utils._print_to_console(f"Formatted {filename} 📖\n")
+                    print(f"Formatted {filename_str} 📖")
             else:
-                sys.stdout.write(tokenize.untokenize(changed_tokens))
+                sys.stdout.write(
+                    utils._generate_diff(
+                        tokenize.untokenize(tokens),
+                        tokenize.untokenize(changed_tokens),
+                        filename_str,
+                    )
+                )
 
         return is_changed
 
     def _format_files(self, filepaths: List[Path]) -> None:
-        """Format a list of files"""
+        """Format a list of files."""
         is_changed = False
 
         for file in filepaths:
