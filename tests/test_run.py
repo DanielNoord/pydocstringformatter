@@ -3,7 +3,6 @@ import os
 import sys
 from pathlib import Path
 from typing import List
-from unittest.mock import patch
 
 import pytest
 
@@ -12,11 +11,13 @@ from pydocstringformatter.formatting import FORMATTERS
 
 
 def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
-    """Test that we warn when no arguments are provided"""
+    """Test that we display a help message when no arguments are provided."""
     sys.argv = ["pydocstringformatter"]
     pydocstringformatter.run_docstring_formatter()
     out, err = capsys.readouterr()
     assert out.startswith("usage: pydocstringformatter [-h]")
+
+    # Test that we print help messages for individual formatters as well
     assert "--beginning-quotes" in out
     assert "Activate the beginning-quotes formatter" in out
     assert "--no-beginning-quotes" in out
@@ -128,11 +129,10 @@ def test_optional_formatters(
     capsys: pytest.CaptureFixture[str],
     tmp_path: Path,
 ) -> None:
-    """Test that optional check are activated or not depending on options."""
+    """Test that (optional) formatters are activated or not depending on options."""
     bad_docstring = tmp_path / "bad_docstring.py"
     bad_docstring.write_text(f'"""{"a" * 120}\n{"b" * 120}"""')
-    with patch.object(sys, "argv", ["pydocstringformatter", str(bad_docstring)] + args):
-        pydocstringformatter.run_docstring_formatter()
+    pydocstringformatter.run_docstring_formatter([str(bad_docstring)] + args)
     out, err = capsys.readouterr()
     assert not err
     if should_format:

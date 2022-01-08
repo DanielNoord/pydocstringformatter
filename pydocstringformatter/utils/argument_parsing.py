@@ -106,7 +106,7 @@ def _load_formatters_default_option(
     namespace: argparse.Namespace,
     formatters: List[Formatter],
 ) -> None:
-    """Load the list of formatters based on their 'optional' attribute."""
+    """Parse the state of the list of formatters based on their 'optional' attribute."""
     arguments: List[str] = []
     for formatter in formatters:
         if formatter.optional:
