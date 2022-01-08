@@ -9,7 +9,7 @@ class BeginningQuotesFormatter(StringFormatter):
 
     name = "beginning-quotes"
 
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         new_string = tokeninfo.string
         if new_string[3] == "\n":
             new_string = re.sub(r"\n *", "", new_string, 1)
@@ -21,7 +21,7 @@ class ClosingQuotesFormatter(StringFormatter):
 
     name = "closing-quotes"
 
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         """Fix the position of end quotes for multi-line docstrings."""
         new_string = tokeninfo.string
         if "\n" not in new_string:
@@ -44,7 +44,7 @@ class FinalPeriodFormatter(StringFormatter):
 
     name = "final-period"
 
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         """Add a period to the end of single-line docstrings and summaries."""
         # Handle single line docstrings
         if not tokeninfo.string.count("\n"):
