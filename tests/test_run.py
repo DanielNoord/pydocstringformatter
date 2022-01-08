@@ -2,19 +2,27 @@
 import os
 import sys
 from pathlib import Path
+from typing import List
 
 import pytest
 
 import pydocstringformatter
+from pydocstringformatter.formatting import FORMATTERS
 
 
 def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
-    """Test that we warn when no arguments are provided"""
+    """Test that we display a help message when no arguments are provided."""
     sys.argv = ["pydocstringformatter"]
     pydocstringformatter.run_docstring_formatter()
-    output = capsys.readouterr()
-    assert output.out.startswith("usage: pydocstringformatter [-h]")
-    assert not output.err
+    out, err = capsys.readouterr()
+    assert out.startswith("usage: pydocstringformatter [-h]")
+
+    # Test that we print help messages for individual formatters as well
+    assert "--beginning-quotes" in out
+    assert "Activate the beginning-quotes formatter" in out
+    assert "--no-beginning-quotes" in out
+    assert "Deactivate the beginning-quotes formatter" in out
+    assert not err
 
 
 def test_sys_agv_as_arguments(
@@ -106,3 +114,32 @@ Formatted {expected_second_path} 📖
 """
     )
     assert not output.err
+
+
+@pytest.mark.parametrize(
+    "args,should_format",
+    [
+        [[f"--no-{f.name}" for f in FORMATTERS], False],
+        [[f"--{f.name}" for f in FORMATTERS], True],
+    ],
+)
+def test_optional_formatters(
+    args: List[str],
+    should_format: bool,
+    capsys: pytest.CaptureFixture[str],
+    tmp_path: Path,
+) -> None:
+    """Test that (optional) formatters are activated or not depending on options."""
+    bad_docstring = tmp_path / "bad_docstring.py"
+    bad_docstring.write_text(f'"""{"a" * 120}\n{"b" * 120}"""')
+    pydocstringformatter.run_docstring_formatter([str(bad_docstring)] + args)
+    out, err = capsys.readouterr()
+    assert not err
+    if should_format:
+        msg = "Nothing was modified, but all formatters are activated."
+        assert "Nothing to do!" not in out
+        expected = ["---", "@@", "+++"]
+        assert all(e in out for e in expected), msg
+    else:
+        msg = "Something was modified, but all formatter are deactivated."
+        assert "Nothing to do!" in out, msg

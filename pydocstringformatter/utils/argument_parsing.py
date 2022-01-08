@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional
 
 import tomli
 
+from pydocstringformatter.formatting.base import Formatter
 from pydocstringformatter.utils.exceptions import TomlParsingError, UnrecognizedOption
 
 OPTIONS_TYPES = {"write": "store_true"}
@@ -36,7 +37,25 @@ def _register_arguments(version: str) -> argparse.ArgumentParser:
         version=version,
         help="Show version number and exit",
     )
+    return parser
 
+
+def _register_arguments_formatters(
+    parser: argparse.ArgumentParser, formatters: List[Formatter]
+) -> argparse.ArgumentParser:
+    """Register a list of formatters, so they can all be deactivated or activated."""
+    for formatter in formatters:
+        name = formatter.name
+        help_text = f"ctivate the {name} formatter"
+        parser.add_argument(
+            f"--{name}",
+            action="store_true",
+            dest=name,
+            help=f"A{help_text} : {formatter.__doc__}",
+        )
+        parser.add_argument(
+            f"--no-{name}", action="store_false", dest=name, help=f"Dea{help_text}"
+        )
     return parser
 
 
@@ -80,3 +99,37 @@ def _parse_toml_file(
             arguments += _parse_toml_option(key, value)
 
         parser.parse_args(arguments, namespace)
+
+
+def _load_formatters_default_option(
+    parser: argparse.ArgumentParser,
+    namespace: argparse.Namespace,
+    formatters: List[Formatter],
+) -> None:
+    """Parse the state of the list of formatters based on their 'optional' attribute."""
+    arguments: List[str] = []
+    for formatter in formatters:
+        if formatter.optional:
+            arguments.append(f"--no-{formatter.name}")
+        elif not formatter.optional:
+            arguments.append(f"--{formatter.name}")
+
+    parser.parse_known_args(arguments, namespace)
+
+
+def _parse_options(
+    parser: argparse.ArgumentParser,
+    namespace: argparse.Namespace,
+    argv: List[str],
+    formatters: List[Formatter],
+) -> None:
+    """Load all default option values.
+
+    The order of parsing is:
+    1. default values, 2. configuration files, 3. command line arguments.
+    """
+    _load_formatters_default_option(parser, namespace, formatters)
+
+    _parse_toml_file(parser, namespace)
+
+    _parse_command_line_arguments(parser, argv, namespace)

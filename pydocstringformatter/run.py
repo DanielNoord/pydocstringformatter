@@ -16,12 +16,13 @@ class _Run:
 
     def __init__(self, argv: Union[List[str], None]) -> None:
         self.arg_parser = utils._register_arguments(__version__)
+        utils._register_arguments_formatters(self.arg_parser, formatting.FORMATTERS)
         self.config = argparse.Namespace()
 
         if argv := argv or sys.argv[1:]:
-            utils._parse_toml_file(self.arg_parser, self.config)
-            utils._parse_command_line_arguments(self.arg_parser, argv, self.config)
-
+            utils._parse_options(
+                self.arg_parser, self.config, argv, formatting.FORMATTERS
+            )
             self._check_files(self.config.files)
         else:
             self.arg_parser.print_help()
@@ -49,7 +50,8 @@ class _Run:
 
             if utils._is_docstring(new_tokeninfo, tokens[index - 1]):
                 for formatter in formatting.FORMATTERS:
-                    new_tokeninfo = formatter.treat_token(new_tokeninfo)
+                    if getattr(self.config, formatter.name):
+                        new_tokeninfo = formatter.treat_token(new_tokeninfo)
             changed_tokens.append(new_tokeninfo)
 
             if tokeninfo != new_tokeninfo:
