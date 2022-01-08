@@ -26,3 +26,9 @@ class MyClass:
     class InnerClass:
         """Summary.
         Body without period"""
+
+
+class MyClass:
+    """Summary over multiple
+    lines.
+    """

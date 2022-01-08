@@ -80,7 +80,10 @@ class SplitSummaryAndDocstringFormatter(StringFormatter):
     def _treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
         """Split a summary and body if there is a period after the summary."""
         if index := tokeninfo.string.find("."):
-            if index not in (-1, len(tokeninfo.string) - 4):
+            if (
+                index not in (-1, len(tokeninfo.string) - 4)
+                and "\n" not in tokeninfo.string[:index]  # Skip multi-line summaries
+            ):
                 # Handle summary with part of docstring body on same line
                 if tokeninfo.string[index + 1] == " ":
                     return (

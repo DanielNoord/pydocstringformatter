@@ -42,3 +42,9 @@ class MyClass:
 
         Body without period
         """
+
+
+class MyClass:
+    """Summary over multiple
+    lines.
+    """
