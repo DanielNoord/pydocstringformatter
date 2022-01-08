@@ -20,9 +20,13 @@ class CapitalizeFirstLetter(StringFormatter):
     """Capitalize the first letter of the docstring if appropriate."""
 
     name = "capitalize-first-letter"
+    SNAKE_CASE = re.compile(r"([^\W\dA-Z]+_[^\WA-Z]*)$")
 
     def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         new = tokeninfo.string[3:].lstrip()
+        first_space_index = new.find(" ")
+        if self.SNAKE_CASE.match(new[:first_space_index]):
+            return tokeninfo.string
         return tokeninfo.string[:3] + new[0].upper() + new[1:]
 
 
