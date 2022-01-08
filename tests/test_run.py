@@ -2,12 +2,14 @@
 import os
 import sys
 from pathlib import Path
+from tokenize import TokenInfo
 from typing import List
 
 import pytest
 
 import pydocstringformatter
-from pydocstringformatter.formatting import FORMATTERS
+from pydocstringformatter.formatting import FORMATTERS, Formatter
+from pydocstringformatter.run import _Run
 
 
 def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
@@ -114,6 +116,28 @@ Formatted {expected_second_path} 📖
 """
     )
     assert not output.err
+
+
+def test_optional_formatter(capsys: pytest.CaptureFixture[str]) -> None:
+    """If a Formatter is optional we handle that in _load_default_formatter."""
+
+    class OptionalFormatter(Formatter):
+        """Non-optional docstring."""
+
+        optional = True
+        name = "optional-formatter"
+
+        def treat_token(self, tokeninfo: TokenInfo) -> TokenInfo:
+            """This does nothing"""
+            return tokeninfo
+
+    with pytest.raises(SystemExit):
+        _Run(argv=["--help"], formatters=[OptionalFormatter()])
+    out, err = capsys.readouterr()
+    assert not err
+    assert "--optional-formatter" in out
+    assert "optional docstring." in out
+    assert "--no-optional-formatter" in out
 
 
 @pytest.mark.parametrize(
