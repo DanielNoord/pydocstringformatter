@@ -1,4 +1,4 @@
-__all__ = ["FORMATTERS"]
+__all__ = ["FORMATTERS", "Formatter"]
 
 from typing import List
 

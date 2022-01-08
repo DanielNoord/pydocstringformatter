@@ -6,7 +6,7 @@ import os
 import sys
 import tokenize
 from pathlib import Path
-from typing import List, Union
+from typing import List, Optional, Union
 
 from pydocstringformatter import __version__, formatting, utils
 
@@ -14,15 +14,20 @@ from pydocstringformatter import __version__, formatting, utils
 class _Run:
     """Main class that represent a run of the program."""
 
-    def __init__(self, argv: Union[List[str], None]) -> None:
+    def __init__(
+        self,
+        argv: Union[List[str], None],
+        formatters: Optional[List[formatting.Formatter]] = None,
+    ) -> None:
+        if formatters is None:
+            formatters = formatting.FORMATTERS
+        self.formatters = formatters
         self.arg_parser = utils._register_arguments(__version__)
-        utils._register_arguments_formatters(self.arg_parser, formatting.FORMATTERS)
+        utils._register_arguments_formatters(self.arg_parser, self.formatters)
         self.config = argparse.Namespace()
 
         if argv := argv or sys.argv[1:]:
-            utils._parse_options(
-                self.arg_parser, self.config, argv, formatting.FORMATTERS
-            )
+            utils._parse_options(self.arg_parser, self.config, argv, self.formatters)
             self._check_files(self.config.files)
         else:
             self.arg_parser.print_help()
