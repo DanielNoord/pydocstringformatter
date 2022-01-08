@@ -143,3 +143,30 @@ def test_optional_formatters(
     else:
         msg = "Something was modified, but all formatter are deactivated."
         assert "Nothing to do!" in out, msg
+
+
+@pytest.mark.parametrize(
+    "should_format",
+    [False, True],
+)
+def test_optional_formatters_argument(
+    should_format: bool,
+    capsys: pytest.CaptureFixture[str],
+    tmp_path: Path,
+) -> None:
+    """Test that an optional formatter is correctly turned on and off with arguments."""
+    bad_docstring = tmp_path / "bad_docstring.py"
+    bad_docstring.write_text('"""Summary. Body."""')
+    pydocstringformatter.run_docstring_formatter(
+        [str(bad_docstring), "--split-summary-body" if should_format else ""]
+    )
+    out, err = capsys.readouterr()
+    assert not err
+    if should_format:
+        msg = "Nothing was modified, but all formatters are activated."
+        assert "Nothing to do!" not in out
+        expected = ["---", "@@", "+++"]
+        assert all(e in out for e in expected), msg
+    else:
+        msg = "Something was modified, but all formatter are deactivated."
+        assert "Nothing to do!" in out, msg

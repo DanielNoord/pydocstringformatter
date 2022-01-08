@@ -65,3 +65,38 @@ class FinalPeriodFormatter(StringFormatter):
             # This is obviously dependent on whether 'pydocstringformatter' will
             # start enforcing summaries :)
         return tokeninfo.string
+
+
+class SplitSummaryAndDocstringFormatter(StringFormatter):
+    """Split the summary and body of a docstring based on a period in between them.
+
+    This formatter is currently optional as its considered somwhat opinionated
+    and might require major refactoring for existing projects.
+    """
+
+    name = "split-summary-body"
+    optional = True
+
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
+        """Split a summary and body if there is a period after the summary."""
+        if index := tokeninfo.string.find("."):
+            if index not in (-1, len(tokeninfo.string) - 4):
+                # Handle summary with part of docstring body on same line
+                if tokeninfo.string[index + 1] == " ":
+                    return (
+                        tokeninfo.string[:index]
+                        + f".\n\n{' ' * indent_length}"
+                        + tokeninfo.string[index + 2 :]
+                    )
+
+                # Handle summary with part of docstring body on same line
+                if (
+                    tokeninfo.string[index + 1] == "\n"
+                    and tokeninfo.string[index + 2] != "\n"
+                ):
+                    return (
+                        tokeninfo.string[:index]
+                        + ".\n\n"
+                        + tokeninfo.string[index + 2 :]
+                    )
+        return tokeninfo.string

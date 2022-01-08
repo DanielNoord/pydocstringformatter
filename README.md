@@ -115,6 +115,24 @@ My docstring
 """
 ```
 
+**PEP 257: _Multi-line docstrings consist of a summary line just like a one-line
+docstring, followed by a blank line, followed by a more elaborate description._**
+
+```python
+# Bad
+"""Summary. Body."""
+
+"""Summary.
+   Body.
+   """
+
+# Good
+"""Summary.
+
+   Body.
+   """
+```
+
 ## Development
 
 For development and contributing guidelines please see

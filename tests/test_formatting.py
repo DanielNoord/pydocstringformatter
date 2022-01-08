@@ -46,7 +46,15 @@ def test_formatting(
     with open(temp_file_name, "w", encoding="utf-8") as temp_file:
         temp_file.writelines(original_lines)
 
-    pydocstringformatter.run_docstring_formatter([temp_file_name, "--write"])
+    # Get any additional args as specified by an .args file
+    additional_args: List[str] = []
+    if os.path.exists(test_file.replace(".py", ".args")):
+        with open(test_file.replace(".py", ".args"), encoding="utf-8") as args_file:
+            additional_args = args_file.readlines()[0].split()
+
+    pydocstringformatter.run_docstring_formatter(
+        [temp_file_name, "--write"] + additional_args
+    )
 
     output = capsys.readouterr()
     assert not output.err

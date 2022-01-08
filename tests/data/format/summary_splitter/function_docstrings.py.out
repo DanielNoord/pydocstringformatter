@@ -1,0 +1,44 @@
+def func():
+    """Summary.
+
+    Body.
+    """
+
+    def inner_func():
+        """Summary.
+
+        Body.
+        """
+
+
+def func():
+    """Summary without period Body."""
+
+    def inner_func():
+        """Summary without period Body."""
+
+
+def func():
+    """Summary.
+
+    Body without period
+    """
+
+    def inner_func():
+        """Summary.
+
+        Body without period
+        """
+
+
+def func():
+    """Summary.
+
+    Body without period
+    """
+
+    def inner_func():
+        """Summary.
+
+        Body without period
+        """
