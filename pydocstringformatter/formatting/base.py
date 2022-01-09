@@ -17,6 +17,16 @@ class Formatter:
         user-facing and should be chosen carefully.
         """
 
+    @property
+    def activate_option(self) -> str:
+        """The argparse option to activate this formatter."""
+        return f"--{self.name}"
+
+    @property
+    def deactivate_option(self) -> str:
+        """The argparse option to deactivate this formatter."""
+        return f"--no-{self.name}"
+
     @abc.abstractmethod
     def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         """Return a modified token."""

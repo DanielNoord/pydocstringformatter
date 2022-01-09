@@ -2,12 +2,12 @@
 import os
 import sys
 from pathlib import Path
-from typing import List
 
 import pytest
 
 import pydocstringformatter
 from pydocstringformatter.formatting import FORMATTERS
+from pydocstringformatter.utils.testutils import FormatterAssert
 
 
 def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
@@ -117,29 +117,15 @@ Formatted {expected_second_path} 📖
 
 
 @pytest.mark.parametrize(
-    "args,should_format",
+    "bad_docstring",
     [
-        [[f"--no-{f.name}" for f in FORMATTERS], False],
-        [[f"--{f.name}" for f in FORMATTERS], True],
+        f'"""{"a" * 120}\n{"b" * 120}"""',
     ],
 )
-def test_optional_formatters(
-    args: List[str],
-    should_format: bool,
-    capsys: pytest.CaptureFixture[str],
-    tmp_path: Path,
+def test_begin_quote_formatters(
+    bad_docstring: str, capsys: pytest.CaptureFixture[str], tmp_path: Path
 ) -> None:
     """Test that (optional) formatters are activated or not depending on options."""
-    bad_docstring = tmp_path / "bad_docstring.py"
-    bad_docstring.write_text(f'"""{"a" * 120}\n{"b" * 120}"""')
-    pydocstringformatter.run_docstring_formatter([str(bad_docstring)] + args)
-    out, err = capsys.readouterr()
-    assert not err
-    if should_format:
-        msg = "Nothing was modified, but all formatters are activated."
-        assert "Nothing to do!" not in out
-        expected = ["---", "@@", "+++"]
-        assert all(e in out for e in expected), msg
-    else:
-        msg = "Something was modified, but all formatter are deactivated."
-        assert "Nothing to do!" in out, msg
+    with FormatterAssert(bad_docstring, FORMATTERS, capsys, tmp_path) as asserter:
+        asserter.assert_format_when_activated()
+        asserter.assert_no_change_when_deactivated()
