@@ -1,7 +1,6 @@
 # pylint: disable=too-few-public-methods, protected-access
 """Run class."""
 
-import argparse
 import os
 import sys
 import tokenize
@@ -15,19 +14,18 @@ class _Run:
     """Main class that represent a run of the program."""
 
     def __init__(self, argv: Union[List[str], None]) -> None:
-        self.arg_parser = configuration._register_arguments(__version__)
-        configuration._register_arguments_formatters(
-            self.arg_parser, formatting.FORMATTERS
+        # Load ArgumentsManager and set its namespace as instance's config attribute
+        self._arguments_manager = configuration.ArgumentsManager(
+            __version__,
+            formatting.FORMATTERS,
         )
-        self.config = argparse.Namespace()
+        self.config = self._arguments_manager.namespace
 
         if argv := argv or sys.argv[1:]:
-            configuration._parse_options(
-                self.arg_parser, self.config, argv, formatting.FORMATTERS
-            )
+            self._arguments_manager.parse_options(argv)
             self._check_files(self.config.files)
         else:
-            self.arg_parser.print_help()
+            self._arguments_manager.print_help()
 
     def _check_files(self, arguments: List[str]) -> None:
         """Find all files and perform the formatting."""
