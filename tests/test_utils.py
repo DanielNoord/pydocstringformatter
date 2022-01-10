@@ -18,7 +18,7 @@ class TestPythonFileFinder:
     @staticmethod
     def test_underscores_files() -> None:
         """Test that we can find files with leading underscores"""
-        pathnames = _find_python_files([str(UTILS_DATA / "find_underscore_files")])
+        pathnames = _find_python_files([str(UTILS_DATA / "find_underscore_files")], [])
         expected_paths = [
             UTILS_DATA / "find_underscore_files" / "file_one.py",
             UTILS_DATA / "find_underscore_files" / "_file_two.py",
@@ -31,7 +31,7 @@ class TestPythonFileFinder:
     def test_recursive_files() -> None:
         """Test that we can find files recursively"""
         pathnames = _find_python_files(
-            [str(UTILS_DATA / "find_recursive_files")], recursive=True
+            [str(UTILS_DATA / "find_recursive_files")], [], recursive=True
         )
         expected_paths = [
             UTILS_DATA / "find_recursive_files" / "file_one.py",
@@ -50,7 +50,7 @@ class TestPythonFileFinder:
     @staticmethod
     def test_recursive_files_standard() -> None:
         """Test that we can find files recursively even if argument is not supplied"""
-        pathnames = _find_python_files([str(UTILS_DATA / "find_recursive_files")])
+        pathnames = _find_python_files([str(UTILS_DATA / "find_recursive_files")], [])
         expected_paths = [
             UTILS_DATA / "find_recursive_files" / "file_one.py",
             UTILS_DATA
@@ -69,7 +69,7 @@ class TestPythonFileFinder:
     def test_ignore_recursive_files() -> None:
         """Test that we ignore inner directories if recusrive is False"""
         pathnames = _find_python_files(
-            [str(UTILS_DATA / "find_recursive_files")], recursive=False
+            [str(UTILS_DATA / "find_recursive_files")], [], recursive=False
         )
         expected_paths = [UTILS_DATA / "find_recursive_files" / "file_one.py"]
         assert sorted(expected_paths) == pathnames
@@ -77,7 +77,9 @@ class TestPythonFileFinder:
     @staticmethod
     def test_ignore_non_python_file() -> None:
         """Test that we ignore a non Python file"""
-        pathnames = _find_python_files([str(UTILS_DATA / "find_nothing" / "README.md")])
+        pathnames = _find_python_files(
+            [str(UTILS_DATA / "find_nothing" / "README.md")], []
+        )
         assert not pathnames
 
 

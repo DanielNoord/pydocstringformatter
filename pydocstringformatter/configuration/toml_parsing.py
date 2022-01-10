@@ -6,7 +6,7 @@ import tomli
 
 from pydocstringformatter.utils.exceptions import TomlParsingError, UnrecognizedOption
 
-OPTIONS_TYPES: Final = {"write": "store_true"}
+OPTIONS_TYPES: Final = {"write": "store_true", "exclude": "store"}
 
 
 def _get_toml_file() -> Optional[Dict[str, Any]]:
@@ -35,6 +35,8 @@ def _parse_toml_option(opt: str, value: Any) -> List[str]:
         if value is True:
             return [f"--{opt}"]
         return []
+    if action == "store":
+        return [f"--{opt}", value]
     return []  # pragma: no cover
 
 
