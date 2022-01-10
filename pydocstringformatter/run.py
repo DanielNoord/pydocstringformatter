@@ -8,19 +8,21 @@ import tokenize
 from pathlib import Path
 from typing import List, Union
 
-from pydocstringformatter import __version__, formatting, utils
+from pydocstringformatter import __version__, configuration, formatting, utils
 
 
 class _Run:
     """Main class that represent a run of the program."""
 
     def __init__(self, argv: Union[List[str], None]) -> None:
-        self.arg_parser = utils._register_arguments(__version__)
-        utils._register_arguments_formatters(self.arg_parser, formatting.FORMATTERS)
+        self.arg_parser = configuration._register_arguments(__version__)
+        configuration._register_arguments_formatters(
+            self.arg_parser, formatting.FORMATTERS
+        )
         self.config = argparse.Namespace()
 
         if argv := argv or sys.argv[1:]:
-            utils._parse_options(
+            configuration._parse_options(
                 self.arg_parser, self.config, argv, formatting.FORMATTERS
             )
             self._check_files(self.config.files)
