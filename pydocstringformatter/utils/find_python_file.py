@@ -1,6 +1,7 @@
+import glob
 import os
 from pathlib import Path
-from typing import List
+from typing import List, Set
 
 
 def _is_python_file(filename: str) -> bool:
@@ -8,9 +9,15 @@ def _is_python_file(filename: str) -> bool:
     return filename.endswith(".py")
 
 
-def _find_python_files(filenames: List[str], recursive: bool = True) -> List[Path]:
+def _find_python_files(
+    filenames: List[str], exclude: List[str], recursive: bool = True
+) -> List[Path]:
     """Find all python files for a list of potential file and directory names."""
     pathnames: List[Path] = []
+
+    to_exclude: Set[str] = set()
+    for exclude_glob in exclude:
+        to_exclude.update(set(glob.iglob(exclude_glob, recursive=recursive)))
 
     for name in filenames:
         if os.path.isdir(name):
@@ -20,6 +27,7 @@ def _find_python_files(filenames: List[str], recursive: bool = True) -> List[Pat
                         Path(os.path.abspath(root)) / child
                         for child in children
                         if _is_python_file(child)
+                        and str(Path(root) / child) not in to_exclude
                     ]
             else:
                 pathnames += [

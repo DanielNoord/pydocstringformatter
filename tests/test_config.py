@@ -138,3 +138,69 @@ def test_version_argument(capsys: pytest.CaptureFixture[str]) -> None:
     output = capsys.readouterr()
     assert output.out == pydocstringformatter.__version__ + "\n"
     assert not output.err
+
+
+class TestExcludeOption:
+    """Tests for the --exclude option"""
+
+    @staticmethod
+    def test_exclude_non_match(
+        capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Test when there is no match with the pattern."""
+        monkeypatch.chdir(CONFIG_DATA / "exclude_non_match")
+        pydocstringformatter.run_docstring_formatter(["test_package"])
+        output = capsys.readouterr()
+        assert output.out.endswith(
+            '''
+@@ -1,3 +1,2 @@
+-"""
+-A docstring"""
++"""A docstring."""
+ '''
+        )
+        assert not output.err
+
+    @staticmethod
+    def test_exclude_match(
+        capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Test when the directory matches the pattern."""
+        monkeypatch.chdir(CONFIG_DATA / "exclude_match")
+        pydocstringformatter.run_docstring_formatter(["test_package"])
+        output = capsys.readouterr()
+        assert output.out == "Nothing to do! All docstrings are correct 🎉\n"
+        assert not output.err
+
+    @staticmethod
+    def test_exclude_match_inner_directory(
+        capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Test when the inner directory matches the pattern."""
+        monkeypatch.chdir(CONFIG_DATA / "exclude_match_inner")
+        pydocstringformatter.run_docstring_formatter(["test_package"])
+        output = capsys.readouterr()
+        assert output.out == "Nothing to do! All docstrings are correct 🎉\n"
+        assert not output.err
+
+    @staticmethod
+    def test_exclude_csv_string(
+        capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Test when there is a match with a string in a csv string."""
+        monkeypatch.chdir(CONFIG_DATA / "exclude_match_csv")
+        pydocstringformatter.run_docstring_formatter(["test_package"])
+        output = capsys.readouterr()
+        assert output.out == "Nothing to do! All docstrings are correct 🎉\n"
+        assert not output.err
+
+    @staticmethod
+    def test_exclude_csv_list(
+        capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Test when there is a match with a string in a list of strings."""
+        monkeypatch.chdir(CONFIG_DATA / "exclude_match_csv_list")
+        pydocstringformatter.run_docstring_formatter(["test_package"])
+        output = capsys.readouterr()
+        assert output.out == "Nothing to do! All docstrings are correct 🎉\n"
+        assert not output.err

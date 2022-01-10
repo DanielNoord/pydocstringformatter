@@ -29,7 +29,7 @@ class _Run:
 
     def _check_files(self, arguments: List[str]) -> None:
         """Find all files and perform the formatting."""
-        filepaths = utils._find_python_files(arguments)
+        filepaths = utils._find_python_files(arguments, self.config.exclude)
         self._format_files(filepaths)
 
     def _format_file(self, filename: Path) -> bool:

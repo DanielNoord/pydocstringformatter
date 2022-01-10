@@ -1,0 +1,2 @@
+[tool.pydocstringformatter]
+exclude = "**/inner_dir/**"

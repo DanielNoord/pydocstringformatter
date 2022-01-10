@@ -6,6 +6,7 @@ from pydocstringformatter.configuration import (
     formatter_options,
     toml_parsing,
 )
+from pydocstringformatter.configuration.validators import VALIDATORS
 from pydocstringformatter.formatting.base import Formatter
 
 
@@ -33,6 +34,17 @@ class ArgumentsManager:
             "--write",
             action="store_true",
             help="Write the changes to file instead of printing the diffs to stdout",
+        )
+
+        self.parser.add_argument(
+            "--exclude",
+            action="store",
+            default=[""],
+            type=VALIDATORS["csv"],
+            help=(
+                "A comma separated list of glob patterns of "
+                "file path names not to be formatted."
+            ),
         )
 
         self.parser.add_argument(
