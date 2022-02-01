@@ -70,7 +70,7 @@ class FinalPeriodFormatter(StringFormatter):
 class SplitSummaryAndDocstringFormatter(StringFormatter):
     """Split the summary and body of a docstring based on a period in between them.
 
-    This formatter is currently optional as its considered somwhat opinionated
+    This formatter is currently optional as its considered somwehat opinionated
     and might require major refactoring for existing projects.
     """
 
