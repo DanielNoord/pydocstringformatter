@@ -7,6 +7,7 @@ import pytest
 
 import pydocstringformatter
 from pydocstringformatter.formatting import FORMATTERS
+from pydocstringformatter.formatting.formatter import SplitSummaryAndDocstringFormatter
 from pydocstringformatter.testutils import FormatterAsserter
 
 
@@ -122,6 +123,17 @@ def test_begin_quote_formatters(
     """Test that (optional) formatters are activated or not depending on options."""
     with FormatterAsserter(
         f'"""{"a" * 120}\n{"b" * 120}"""', FORMATTERS, capsys, tmp_path
+    ) as asserter:
+        asserter.assert_format_when_activated()
+        asserter.assert_no_change_when_deactivated()
+
+
+def test_optional_formatters_argument(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
+    """Test that an optional formatter is correctly turned on and off with arguments."""
+    with FormatterAsserter(
+        '"""Summary. Body."""', [SplitSummaryAndDocstringFormatter()], capsys, tmp_path
     ) as asserter:
         asserter.assert_format_when_activated()
         asserter.assert_no_change_when_deactivated()

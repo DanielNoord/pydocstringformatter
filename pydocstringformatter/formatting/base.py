@@ -36,13 +36,13 @@ class StringFormatter(Formatter):
     """Base class for formatter that only modifies the string content."""
 
     @abc.abstractmethod
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo) -> str:
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
         """Return a modified string."""
 
     def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         return tokenize.TokenInfo(
             tokeninfo.type,
-            self._treat_string(tokeninfo),
+            self._treat_string(tokeninfo, tokeninfo.start[1]),
             tokeninfo.start,
             tokeninfo.end,
             tokeninfo.line,
