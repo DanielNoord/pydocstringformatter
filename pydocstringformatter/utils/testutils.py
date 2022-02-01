@@ -6,7 +6,7 @@ from typing import List, Optional, Type
 
 import pytest
 
-import pydocstringformatter
+from pydocstringformatter import run_docstring_formatter
 from pydocstringformatter.formatting import Formatter
 
 LOGGER = logging.getLogger(__name__)
@@ -44,7 +44,7 @@ Temp file is '{self.file_to_format}'
     @staticmethod
     def __launch(commands: List[str]) -> None:
         """Launch pydocstringformatter while logging for easier debugging."""
-        pydocstringformatter.run_docstring_formatter(commands)
+        run_docstring_formatter(commands)
         LOGGER.info("Launching 'pydocstringformatter' with: %s", commands)
 
     def assert_format_when_activated(self) -> None:
