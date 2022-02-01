@@ -12,8 +12,7 @@ from pydocstringformatter.formatting import Formatter
 LOGGER = logging.getLogger(__name__)
 
 
-# pylint: disable-next=unsubscriptable-object
-class FormatterAsserter(contextlib.AbstractContextManager["FormatterAsserter"]):
+class FormatterAsserter(contextlib.AbstractContextManager):  # type: ignore[type-arg]
     """ContextManager used to assert that a Formatter does something on a docstring.
 
     Also permit to check that nothing happens if it's deactivated.
