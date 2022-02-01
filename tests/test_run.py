@@ -116,16 +116,12 @@ Formatted {expected_second_path} 📖
     assert not output.err
 
 
-@pytest.mark.parametrize(
-    "bad_docstring",
-    [
-        f'"""{"a" * 120}\n{"b" * 120}"""',
-    ],
-)
 def test_begin_quote_formatters(
-    bad_docstring: str, capsys: pytest.CaptureFixture[str], tmp_path: Path
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
 ) -> None:
     """Test that (optional) formatters are activated or not depending on options."""
-    with FormatterAssert(bad_docstring, FORMATTERS, capsys, tmp_path) as asserter:
+    with FormatterAssert(
+        f'"""{"a" * 120}\n{"b" * 120}"""', FORMATTERS, capsys, tmp_path
+    ) as asserter:
         asserter.assert_format_when_activated()
         asserter.assert_no_change_when_deactivated()
