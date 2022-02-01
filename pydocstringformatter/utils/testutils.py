@@ -2,7 +2,7 @@ import contextlib
 import logging
 from pathlib import Path
 from types import TracebackType
-from typing import List, Type, Union
+from typing import List, Optional, Type
 
 import pytest
 
@@ -12,11 +12,10 @@ from pydocstringformatter.formatting import Formatter
 LOGGER = logging.getLogger(__name__)
 
 
-class FormatterAssert(contextlib.AbstractContextManager):  # type: ignore[type-arg]
+class FormatterAssert(contextlib.AbstractContextManager["FormatterAssert"]):
+    """ContextManager used to assert that a Formatter does something on a docstring.
 
-    """Permit to assert that a Formatter does something on a docstring.
-
-    Also permit to check that nothing happen if it's deactivated.
+    Also permit to check that nothing happens if it's deactivated.
     """
 
     def __init__(
@@ -25,7 +24,7 @@ class FormatterAssert(contextlib.AbstractContextManager):  # type: ignore[type-a
         formatters: List[Formatter],
         capsys: pytest.CaptureFixture[str],
         tmp_path: Path,
-    ):
+    ) -> None:
         self.formatters = formatters
         file_name = "_".join([f.name for f in self.formatters])
         self.file_to_format = tmp_path / f"test_{file_name}.py"
@@ -43,12 +42,12 @@ Temp file is '{self.file_to_format}'
 
     @staticmethod
     def __launch(commands: List[str]) -> None:
-        """Launch pydocstringformatter, with a logging for easier debug."""
+        """Launch pydocstringformatter while logging for easier debugging."""
         pydocstringformatter.run_docstring_formatter(commands)
         LOGGER.info("Launching 'pydocstringformatter' with: %s", commands)
 
     def assert_format_when_activated(self) -> None:
-        """The formatter does something when activated."""
+        """Assert that the formatter does something when activated."""
         msg = self.assert_msg.format("Nothing", "activated")
         self.__launch(
             [str(self.file_to_format)] + [f.activate_option for f in self.formatters]
@@ -60,7 +59,7 @@ Temp file is '{self.file_to_format}'
         assert all(e in out for e in expected), msg
 
     def assert_no_change_when_deactivated(self) -> None:
-        """The formatter does nothing when deactivated."""
+        """Assert that the formatter does nothing when deactivated."""
         self.__launch(
             [str(self.file_to_format)] + [f.deactivate_option for f in self.formatters]
         )
@@ -72,8 +71,8 @@ Temp file is '{self.file_to_format}'
 
     def __exit__(
         self,
-        exc_type: Union[Type[BaseException], None],
-        exc_val: Union[BaseException, None],
-        exc_tb: Union[TracebackType, None],
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
     ) -> None:
         return None
