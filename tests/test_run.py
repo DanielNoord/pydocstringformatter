@@ -7,7 +7,7 @@ import pytest
 
 import pydocstringformatter
 from pydocstringformatter.formatting import FORMATTERS
-from pydocstringformatter.utils.testutils import FormatterAssert
+from pydocstringformatter.testutils import FormatterAssert
 
 
 def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
