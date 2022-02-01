@@ -1,35 +1,35 @@
 # pylint: disable=too-few-public-methods, protected-access
 """Run class."""
 
-import argparse
 import os
 import sys
 import tokenize
 from pathlib import Path
 from typing import List, Union
 
-from pydocstringformatter import __version__, formatting, utils
+from pydocstringformatter import __version__, configuration, formatting, utils
 
 
 class _Run:
     """Main class that represent a run of the program."""
 
     def __init__(self, argv: Union[List[str], None]) -> None:
-        self.arg_parser = utils._register_arguments(__version__)
-        utils._register_arguments_formatters(self.arg_parser, formatting.FORMATTERS)
-        self.config = argparse.Namespace()
+        # Load ArgumentsManager and set its namespace as instance's config attribute
+        self._arguments_manager = configuration.ArgumentsManager(
+            __version__,
+            formatting.FORMATTERS,
+        )
+        self.config = self._arguments_manager.namespace
 
         if argv := argv or sys.argv[1:]:
-            utils._parse_options(
-                self.arg_parser, self.config, argv, formatting.FORMATTERS
-            )
+            self._arguments_manager.parse_options(argv)
             self._check_files(self.config.files)
         else:
-            self.arg_parser.print_help()
+            self._arguments_manager.print_help()
 
     def _check_files(self, arguments: List[str]) -> None:
         """Find all files and perform the formatting."""
-        filepaths = utils._find_python_files(arguments)
+        filepaths = utils._find_python_files(arguments, self.config.exclude)
         self._format_files(filepaths)
 
     def _format_file(self, filename: Path) -> bool:

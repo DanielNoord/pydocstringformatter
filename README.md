@@ -19,21 +19,32 @@ pip install pydocstringformatter
 ## Usage
 
 ```shell
-usage: pydocstringformatter [-h] [-w] [-v] [files ...]
+usage: pydocstringformatter [-h] [-w] [--exclude EXCLUDE] [-v] [files ...]
 
 positional arguments:
   files
 
 options:
-  -h, --help     show this help message and exit
-  -w, --write    Write the changes to file instead of printing the diffs to stdout
-  -v, --version  Show version number and exit
+  -h, --help         show this help message and exit
+  -w, --write        Write the changes to file instead of printing the diffs to stdout
+  --exclude EXCLUDE  A comma separated list of glob patterns of file path names not to be formatted.
+  -v, --version      Show version number and exit
 ```
 
 ### Configuration
 
 Pydocstringformatter will also read any configuration added to the
 `[tool.pydocstringformatter]` section of a `pyproject.toml` file.
+
+For example:
+
+```toml
+[tool.pydocstringformatter]
+write = True
+exclude = "**/my_dir/**,**/my_other_dir/**"
+# Or:
+exclude = ["**/my_dir/**", "**/my_other_dir/**"]
+```
 
 ## Pre-commit
 
