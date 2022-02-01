@@ -7,7 +7,7 @@ import pytest
 
 import pydocstringformatter
 from pydocstringformatter.formatting import FORMATTERS
-from pydocstringformatter.testutils import FormatterAssert
+from pydocstringformatter.testutils import FormatterAsserter
 
 
 def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
@@ -120,7 +120,7 @@ def test_begin_quote_formatters(
     capsys: pytest.CaptureFixture[str], tmp_path: Path
 ) -> None:
     """Test that (optional) formatters are activated or not depending on options."""
-    with FormatterAssert(
+    with FormatterAsserter(
         f'"""{"a" * 120}\n{"b" * 120}"""', FORMATTERS, capsys, tmp_path
     ) as asserter:
         asserter.assert_format_when_activated()

@@ -13,7 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 # pylint: disable-next=unsubscriptable-object
-class FormatterAssert(contextlib.AbstractContextManager["FormatterAssert"]):
+class FormatterAsserter(contextlib.AbstractContextManager["FormatterAsserter"]):
     """ContextManager used to assert that a Formatter does something on a docstring.
 
     Also permit to check that nothing happens if it's deactivated.
@@ -38,7 +38,7 @@ class FormatterAssert(contextlib.AbstractContextManager["FormatterAssert"]):
 Temp file is '{self.file_to_format}'
 """
 
-    def __enter__(self) -> "FormatterAssert":
+    def __enter__(self) -> "FormatterAsserter":
         return self
 
     @staticmethod
