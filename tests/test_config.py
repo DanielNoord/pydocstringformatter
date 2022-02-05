@@ -204,3 +204,15 @@ class TestExcludeOption:
         output = capsys.readouterr()
         assert output.out == "Nothing to do! All docstrings are correct 🎉\n"
         assert not output.err
+
+    @staticmethod
+    def test_quiet_argument(capsys: pytest.CaptureFixture[str], test_file: str) -> None:
+        """Test the --quiet argument."""
+        pydocstringformatter.run_docstring_formatter([test_file, "-w", "--quiet"])
+
+        with open(test_file, encoding="utf-8") as file:
+            assert "".join(file.readlines()) == '"""A multi-line\ndocstring\n"""'
+
+        output = capsys.readouterr()
+        assert not output.out
+        assert not output.err

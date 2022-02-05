@@ -67,7 +67,9 @@ class _Run:
             if self.config.write:
                 with open(filename, "w", encoding="utf-8") as file:
                     file.write(tokenize.untokenize(changed_tokens))
-                    print(f"Formatted {filename_str} 📖")
+                    utils._print_to_console(
+                        f"Formatted {filename_str} 📖\n", self.config.quiet
+                    )
             else:
                 sys.stdout.write(
                     utils._generate_diff(
@@ -87,4 +89,6 @@ class _Run:
             is_changed = self._format_file(file) or is_changed
 
         if not is_changed:
-            utils._print_to_console("Nothing to do! All docstrings are correct 🎉\n")
+            utils._print_to_console(
+                "Nothing to do! All docstrings are correct 🎉\n", self.config.quiet
+            )
