@@ -11,10 +11,12 @@ def _encode_string(string: str) -> bytes:
     return string.encode("utf-8")
 
 
-def _print_to_console(string: str) -> None:
+def _print_to_console(string: str, quiet: bool) -> None:
     """Print a string to the console while handling edge cases.
 
-    This should be used instead of print() whenever we want to
-    print emoji's or non-ASCII characters.
+    This can be used instead of print() whenever we want to
+    print emoji's or non-ASCII characters, but also to check if we are
+    in quiet mode.
     """
-    sys.stdout.buffer.write(_encode_string(string))
+    if not quiet:
+        sys.stdout.buffer.write(_encode_string(string))

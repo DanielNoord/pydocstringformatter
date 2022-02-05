@@ -27,6 +27,7 @@ positional arguments:
 options:
   -h, --help         show this help message and exit
   -w, --write        Write the changes to file instead of printing the diffs to stdout
+  --quiet               Do not print any logging or status messages to stdout.
   --exclude EXCLUDE  A comma separated list of glob patterns of file path names not to be formatted.
   -v, --version      Show version number and exit
 ```

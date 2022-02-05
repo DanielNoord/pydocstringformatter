@@ -37,6 +37,12 @@ class ArgumentsManager:
         )
 
         self.parser.add_argument(
+            "--quiet",
+            action="store_true",
+            help="Do not print any logging or status messages to stdout.",
+        )
+
+        self.parser.add_argument(
             "--exclude",
             action="store",
             default=[""],
