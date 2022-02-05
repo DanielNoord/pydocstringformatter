@@ -2,4 +2,4 @@
   name: pydocstringformatter
   entry: pydocstringformatter
   language: python
-  args: ["--write"]
+  args: ["--write", "--quiet"]
