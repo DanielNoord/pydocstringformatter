@@ -21,19 +21,27 @@ class ArgumentsManager:
         self.formatters = formatters
         """List of loaded formatters."""
 
+        # First register all argument groups, then add arguments
+        self.configuration_group = self.parser.add_argument_group("configuration")
+        self.formatters_group = self.parser.add_argument_group("formatters")
+
         # Register all arguments
         self._register_arguments(version)
-        formatter_options._register_arguments_formatters(self.parser, self.formatters)
+        formatter_options._register_arguments_formatters(
+            self.formatters_group, self.formatters
+        )
 
     def _register_arguments(self, version: str) -> None:
         """Register all standard arguments on the parser."""
-        self.parser.add_argument("files", nargs="*", type=str)
+        self.parser.add_argument(
+            "files", nargs="*", type=str, help="The directory or files to format."
+        )
 
         self.parser.add_argument(
             "-w",
             "--write",
             action="store_true",
-            help="Write the changes to file instead of printing the diffs to stdout",
+            help="Write the changes to file instead of printing the diffs to stdout.",
         )
 
         self.parser.add_argument(
@@ -43,6 +51,14 @@ class ArgumentsManager:
         )
 
         self.parser.add_argument(
+            "-v",
+            "--version",
+            action="version",
+            version=version,
+            help="Show version number and exit.",
+        )
+
+        self.configuration_group.add_argument(
             "--exclude",
             action="store",
             default=[""],
@@ -51,14 +67,6 @@ class ArgumentsManager:
                 "A comma separated list of glob patterns of "
                 "file path names not to be formatted."
             ),
-        )
-
-        self.parser.add_argument(
-            "-v",
-            "--version",
-            action="version",
-            version=version,
-            help="Show version number and exit",
         )
 
     def parse_options(
