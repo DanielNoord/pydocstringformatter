@@ -82,7 +82,7 @@ multi-line docstring
 
 **PEP 257: _The closing quotes are on the same line as the opening quotes_**
 
-For consistency this rule also gets applied to multi-line docstrings
+For consistency this rule also gets applied to multi-line docstrings.
 
 ```python
 # Bad
@@ -110,6 +110,9 @@ multi-line docstring
 **PEP 257: _The docstring is a phrase ending in a period & Multi-line docstrings consist
 of a summary line just like a one-line docstring_**
 
+When the second line is one recurring character we consider the summary line to be a
+title as used in many Sphinx documentation schemes and do not add a period.
+
 ```python
 # Bad
 """My docstring"""
@@ -127,24 +130,39 @@ My docstring
 
 My docstring
 """
+
+"""My title
+===========
+
+My docstring
+"""
 ```
 
 **PEP 257: _Multi-line docstrings consist of a summary line just like a one-line
 docstring, followed by a blank line, followed by a more elaborate description._**
+
+When the second line is one recurring character we consider the summary line to be a
+title as used in many Sphinx documentation schemes and do not add a white line.
 
 ```python
 # Bad
 """Summary. Body."""
 
 """Summary.
-   Body.
-   """
+Body.
+"""
 
 # Good
 """Summary.
 
-   Body.
-   """
+Body.
+"""
+
+"""My title
+===========
+
+My docstring
+"""
 ```
 
 ## Development
