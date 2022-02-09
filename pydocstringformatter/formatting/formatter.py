@@ -44,7 +44,7 @@ class FinalPeriodFormatter(StringFormatter):
 
     name = "final-period"
 
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         """Add a period to the end of single-line docstrings and summaries."""
         # Handle single line docstrings
         if not tokeninfo.string.count("\n"):
