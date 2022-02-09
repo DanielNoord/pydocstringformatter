@@ -103,3 +103,24 @@ class SplitSummaryAndDocstringFormatter(StringFormatter):
                         + tokeninfo.string[index + 2 :]
                     )
         return tokeninfo.string
+
+
+class StripWhitespacesFormatter(StringFormatter):
+    """Strip 1) docstring start, 2) docstring end and 3) end of line."""
+
+    name = "strip-whitespaces"
+
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
+        """Strip whitespaces."""
+        quotes, lines = tokeninfo.string[:3], tokeninfo.string[3:-3].split("\n")
+        for index, line in enumerate(lines):
+            if index == 0:  # pylint: disable=compare-to-zero
+                lines[index] = line.lstrip().rstrip()
+            elif index == len(lines) - 1:
+                # Remove whitespaces if last line is completely empty
+                if len(line) > indent_length and line.count(" ") == len(line):
+                    lines[index] = ""
+            else:
+                lines[index] = line.rstrip()
+
+        return quotes + "\n".join(lines) + quotes

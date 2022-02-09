@@ -8,6 +8,7 @@ from pydocstringformatter.formatting.formatter import (
     ClosingQuotesFormatter,
     FinalPeriodFormatter,
     SplitSummaryAndDocstringFormatter,
+    StripWhitespacesFormatter,
 )
 
 # The order of these formatters is important as they are called in order.
@@ -17,6 +18,7 @@ from pydocstringformatter.formatting.formatter import (
 #   String manipulation in which being multi-line or single line matters
 FORMATTERS: List[Formatter] = [
     SplitSummaryAndDocstringFormatter(),
+    StripWhitespacesFormatter(),
     BeginningQuotesFormatter(),
     ClosingQuotesFormatter(),
     FinalPeriodFormatter(),
