@@ -149,6 +149,36 @@ docstring, followed by a blank line, followed by a more elaborate description._*
    """
 ```
 
+**_Trailing or leading whitespaces get removed as well._**
+
+```python
+# Bad
+"""  My docstring.  """
+
+"""  Summary.
+
+Body
+  """
+
+"""  My docstring.
+
+    My indented section
+"""
+
+# Good
+"""My docstring."""
+
+"""  Summary.
+
+Body
+"""
+
+"""My docstring.
+
+    My indented section
+"""
+```
+
 ## Development
 
 For development and contributing guidelines please see
