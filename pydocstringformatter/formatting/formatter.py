@@ -16,18 +16,22 @@ class BeginningQuotesFormatter(StringFormatter):
         return new_string
 
 
-class CapitalizeFirstLetter(StringFormatter):
+class CapitalizeFirstLetterFormatter(StringFormatter):
     """Capitalize the first letter of the docstring if appropriate."""
 
     name = "capitalize-first-letter"
-    SNAKE_CASE = re.compile(r"([^\W\dA-Z]+_[^\WA-Z]*)$")
+    first_letter_re = re.compile(r"""['"]{3}\s*(\w)""")
 
     def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
-        new = tokeninfo.string[3:].lstrip()
-        first_space_index = new.find(" ")
-        if self.SNAKE_CASE.match(new[:first_space_index]):
-            return tokeninfo.string
-        return tokeninfo.string[:3] + new[0].upper() + new[1:]
+        new_string = None
+        if match := self.first_letter_re.match(tokeninfo.string):
+            first_letter = match.end() - 1
+            new_string = (
+                tokeninfo.string[:first_letter]
+                + tokeninfo.string[first_letter].upper()
+                + tokeninfo.string[first_letter + 1 :]
+            )
+        return new_string or tokeninfo.string
 
 
 class ClosingQuotesFormatter(StringFormatter):
