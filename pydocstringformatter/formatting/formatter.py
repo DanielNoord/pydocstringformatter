@@ -70,15 +70,16 @@ class FinalPeriodFormatter(StringFormatter):
                 return tokeninfo.string[:-3] + "." + tokeninfo.string[-3:]
         # Handle multi-line docstrings
         else:
-            first_linebreak = tokeninfo.string.index("\n")
-            # If first linebreak is followed by another we're dealing with a summary
-            if tokeninfo.string[tokeninfo.string.index("\n") + 1] == "\n":
-                if tokeninfo.string[first_linebreak - 1] != ".":
-                    return (
-                        tokeninfo.string[:first_linebreak]
-                        + "."
-                        + tokeninfo.string[first_linebreak:]
-                    )
+            lines = tokeninfo.string.splitlines()
+            # If second line is one recurring character we're dealing with a rst title
+            if (stripped := lines[1].lstrip()) and stripped.count(stripped[0]) == len(
+                stripped
+            ):
+                return tokeninfo.string
+            # If second line is empty we're dealing with a summary
+            if lines[1] == "":
+                if lines[0][-1] != ".":
+                    return lines[0] + ".\n" + "\n".join(lines[1:])
             # TODO(#26): Handle multi-line docstrings that do not have a summary
             # This is obviously dependent on whether 'pydocstringformatter' will
             # start enforcing summaries :)
