@@ -159,3 +159,19 @@ class StripWhitespacesFormatter(StringAndQuotesFormatter):
                 lines[index] = line.rstrip()
 
         return quotes + "\n".join(lines) + quotes
+
+
+class QuotesTypeFormatter(StringAndQuotesFormatter):
+    """Change all opening and closing quotes to be triple quotes."""
+
+    name = "quotes-type"
+
+    def _treat_string(
+        self,
+        tokeninfo: tokenize.TokenInfo,
+        _: int,
+        __: str,
+        quotes_length: Literal[1, 3],
+    ) -> str:
+        """Change all opening and closing quotes if necessary."""
+        return f'"""{tokeninfo.string[quotes_length:-quotes_length]}"""'
