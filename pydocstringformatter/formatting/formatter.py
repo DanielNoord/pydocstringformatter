@@ -1,7 +1,11 @@
 import re
 import tokenize
+from typing import Literal
 
-from pydocstringformatter.formatting.base import StringFormatter
+from pydocstringformatter.formatting.base import (
+    StringAndQuotesFormatter,
+    StringFormatter,
+)
 
 
 class BeginningQuotesFormatter(StringFormatter):
@@ -20,7 +24,7 @@ class CapitalizeFirstLetterFormatter(StringFormatter):
     """Capitalize the first letter of the docstring if appropriate."""
 
     name = "capitalize-first-letter"
-    first_letter_re = re.compile(r"""['"]{3}\s*(\w)""")
+    first_letter_re = re.compile(r"""['"]{1,3}\s*(\w)""")
 
     def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         new_string = None
@@ -57,17 +61,23 @@ class ClosingQuotesFormatter(StringFormatter):
         return new_string
 
 
-class FinalPeriodFormatter(StringFormatter):
+class FinalPeriodFormatter(StringAndQuotesFormatter):
     """Add a period to the end of single line docstrings and summaries."""
 
     name = "final-period"
 
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
+    def _treat_string(
+        self,
+        tokeninfo: tokenize.TokenInfo,
+        _: int,
+        quotes: str,
+        quotes_length: Literal[1, 3],
+    ) -> str:
         """Add a period to the end of single-line docstrings and summaries."""
         # Handle single line docstrings
         if not tokeninfo.string.count("\n"):
-            if tokeninfo.string[-4] != ".":
-                return tokeninfo.string[:-3] + "." + tokeninfo.string[-3:]
+            if tokeninfo.string[-quotes_length - 1] != ".":
+                return tokeninfo.string[:-quotes_length] + "." + quotes
         # Handle multi-line docstrings
         else:
             lines = tokeninfo.string.splitlines()
@@ -124,14 +134,20 @@ class SplitSummaryAndDocstringFormatter(StringFormatter):
         return tokeninfo.string
 
 
-class StripWhitespacesFormatter(StringFormatter):
+class StripWhitespacesFormatter(StringAndQuotesFormatter):
     """Strip 1) docstring start, 2) docstring end and 3) end of line."""
 
     name = "strip-whitespaces"
 
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
+    def _treat_string(
+        self,
+        tokeninfo: tokenize.TokenInfo,
+        indent_length: int,
+        quotes: str,
+        quotes_length: Literal[1, 3],
+    ) -> str:
         """Strip whitespaces."""
-        quotes, lines = tokeninfo.string[:3], tokeninfo.string[3:-3].split("\n")
+        lines = tokeninfo.string[quotes_length:-quotes_length].split("\n")
         for index, line in enumerate(lines):
             if index == 0:  # pylint: disable=compare-to-zero
                 lines[index] = line.lstrip().rstrip()
