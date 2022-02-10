@@ -50,7 +50,7 @@ repos:
     rev: v0.931
     hooks:
       - id: mypy
-        args: [--ignore-missing-imports]
+        args: [--ignore-missing-imports, --config-file=pyproject.toml]
         exclude: *test-data
         additional_dependencies: [pytest-stub==1.1.0]
   - repo: https://github.com/DanielNoord/pydocstringformatter
