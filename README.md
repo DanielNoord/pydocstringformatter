@@ -167,6 +167,34 @@ My docstring
 """
 ```
 
+**PEP 257: _For consistency, always use """triple double quotes""" around docstrings._**
+
+```python
+# Bad
+"My docstring"
+
+'My docstring'
+
+'''My docstring'''
+
+'''Summary.
+
+Body.
+'''
+
+# Good
+"""My docstring"""
+
+"""My docstring"""
+
+"""My docstring"""
+
+"""Summary.
+
+Body.
+"""
+```
+
 **_Trailing or leading whitespaces get removed as well._**
 
 ```python

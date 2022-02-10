@@ -8,6 +8,7 @@ from pydocstringformatter.formatting.formatter import (
     CapitalizeFirstLetterFormatter,
     ClosingQuotesFormatter,
     FinalPeriodFormatter,
+    QuotesTypeFormatter,
     SplitSummaryAndDocstringFormatter,
     StripWhitespacesFormatter,
 )
@@ -24,4 +25,5 @@ FORMATTERS: List[Formatter] = [
     ClosingQuotesFormatter(),
     CapitalizeFirstLetterFormatter(),
     FinalPeriodFormatter(),
+    QuotesTypeFormatter(),
 ]
