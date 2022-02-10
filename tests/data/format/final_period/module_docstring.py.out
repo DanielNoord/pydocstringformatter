@@ -8,3 +8,9 @@ docstring
 
 docstring
 """
+
+"""Docstring?"""
+
+"""Docstring!"""
+
+"""Docstring‽"""
