@@ -65,7 +65,7 @@ class FinalPeriodFormatter(StringAndQuotesFormatter):
     """Add a period to the end of single line docstrings and summaries."""
 
     name = "final-period"
-    END_OF_SENTENCE_PUNCTUATION = {".", "?", "!", "‽"}
+    END_OF_SENTENCE_PUNCTUATION = {".", "?", "!", "‽", ":", ";"}
 
     def _treat_string(
         self,
