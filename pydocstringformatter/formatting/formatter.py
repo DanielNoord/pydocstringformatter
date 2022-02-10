@@ -16,6 +16,24 @@ class BeginningQuotesFormatter(StringFormatter):
         return new_string
 
 
+class CapitalizeFirstLetterFormatter(StringFormatter):
+    """Capitalize the first letter of the docstring if appropriate."""
+
+    name = "capitalize-first-letter"
+    first_letter_re = re.compile(r"""['"]{3}\s*(\w)""")
+
+    def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
+        new_string = None
+        if match := self.first_letter_re.match(tokeninfo.string):
+            first_letter = match.end() - 1
+            new_string = (
+                tokeninfo.string[:first_letter]
+                + tokeninfo.string[first_letter].upper()
+                + tokeninfo.string[first_letter + 1 :]
+            )
+        return new_string or tokeninfo.string
+
+
 class ClosingQuotesFormatter(StringFormatter):
     """Fix the position of the closing quotes."""
 
