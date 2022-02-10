@@ -110,6 +110,7 @@ multi-line docstring
 **PEP 257: _The docstring is a phrase ending in a period & Multi-line docstrings consist
 of a summary line just like a one-line docstring_**
 
+Since the first line should be a phrase or summary the first character gets capitalized.
 When the second line is one recurring character we consider the summary line to be a
 title as used in many Sphinx documentation schemes and do not add a period.
 

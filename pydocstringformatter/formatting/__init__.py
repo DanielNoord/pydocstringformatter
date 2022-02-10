@@ -5,6 +5,7 @@ from typing import List
 from pydocstringformatter.formatting.base import Formatter
 from pydocstringformatter.formatting.formatter import (
     BeginningQuotesFormatter,
+    CapitalizeFirstLetterFormatter,
     ClosingQuotesFormatter,
     FinalPeriodFormatter,
     SplitSummaryAndDocstringFormatter,
@@ -19,5 +20,6 @@ FORMATTERS: List[Formatter] = [
     SplitSummaryAndDocstringFormatter(),
     BeginningQuotesFormatter(),
     ClosingQuotesFormatter(),
+    CapitalizeFirstLetterFormatter(),
     FinalPeriodFormatter(),
 ]
