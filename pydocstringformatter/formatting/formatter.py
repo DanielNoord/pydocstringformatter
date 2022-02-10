@@ -65,6 +65,7 @@ class FinalPeriodFormatter(StringAndQuotesFormatter):
     """Add a period to the end of single line docstrings and summaries."""
 
     name = "final-period"
+    END_OF_SENTENCE_PUNCTUATION = {".", "?", "!", "‽"}
 
     def _treat_string(
         self,
@@ -76,7 +77,10 @@ class FinalPeriodFormatter(StringAndQuotesFormatter):
         """Add a period to the end of single-line docstrings and summaries."""
         # Handle single line docstrings
         if not tokeninfo.string.count("\n"):
-            if tokeninfo.string[-quotes_length - 1] not in {".", "?", "!", "‽"}:
+            if (
+                tokeninfo.string[-quotes_length - 1]
+                not in self.END_OF_SENTENCE_PUNCTUATION
+            ):
                 return tokeninfo.string[:-quotes_length] + "." + quotes
         # Handle multi-line docstrings
         else:
@@ -88,7 +92,7 @@ class FinalPeriodFormatter(StringAndQuotesFormatter):
                 return tokeninfo.string
             # If second line is empty we're dealing with a summary
             if lines[1] == "":
-                if lines[0][-1] not in {".", "?", "!", "‽"}:
+                if lines[0][-1] not in self.END_OF_SENTENCE_PUNCTUATION:
                     return lines[0] + ".\n" + "\n".join(lines[1:])
             # TODO(#26): Handle multi-line docstrings that do not have a summary
             # This is obviously dependent on whether 'pydocstringformatter' will
