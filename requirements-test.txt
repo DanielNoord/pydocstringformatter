@@ -1,5 +1,10 @@
 -e .
+# Requirements for testing and coverage reporting
 coverage[toml]==6.2
 coveralls==3.3.1
 pytest==6.2.5
 pytest-cov==3.0.0
+
+# Requirements for docs building
+myst-parser~=0.16
+sphinx~=4.4
