@@ -1,12 +1,14 @@
 # pylint: disable = redefined-outer-name
 import os
 import sys
+import tokenize
 from pathlib import Path
 
 import pytest
 
 import pydocstringformatter
 from pydocstringformatter.formatting import FORMATTERS
+from pydocstringformatter.formatting.base import StringFormatter
 from pydocstringformatter.formatting.formatter import SplitSummaryAndDocstringFormatter
 from pydocstringformatter.testutils import FormatterAsserter
 
@@ -24,6 +26,43 @@ def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
     assert "--no-beginning-quotes" in out
     assert "Deactivate the beginning-quotes formatter" in out
     assert not err
+
+
+def test_formatter_help_categories(capsys: pytest.CaptureFixture[str]) -> None:
+    """Test that formatter messages are in the correct group."""
+
+    class OptionalFormatter(StringFormatter):
+        """An optional formatter."""
+
+        name = "optional-formatter"
+        optional = True
+
+        def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
+            return tokeninfo.string
+
+    class NonOptionalFormatter(StringFormatter):
+        """A non-optional formatter."""
+
+        name = "non-optional-formatter"
+
+        def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
+            return tokeninfo.string
+
+    FORMATTERS.append(OptionalFormatter())
+    FORMATTERS.append(NonOptionalFormatter())
+    sys.argv = ["pydocstringformatter"]
+    pydocstringformatter.run_docstring_formatter()
+    out, _ = capsys.readouterr()
+    categories = out.split(":\n\n")
+    for category in categories:
+        if category.startswith("optional formatters"):
+            assert "--optional-formatter" in category
+            assert "--non-optional-formatter" not in category
+        elif category.startswith("default formatters"):
+            assert "--optional-formatter" not in category
+            assert "--non-optional-formatter" in category
+    FORMATTERS.pop()
+    FORMATTERS.pop()
 
 
 def test_sys_agv_as_arguments(
