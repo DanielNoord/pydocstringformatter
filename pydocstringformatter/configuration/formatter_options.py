@@ -21,10 +21,16 @@ def _load_formatters_default_option(
 
 
 def _register_arguments_formatters(
-    arg_group: argparse._ArgumentGroup, formatters: List[Formatter]
+    default_arg_group: argparse._ArgumentGroup,
+    optional_arg_group: argparse._ArgumentGroup,
+    formatters: List[Formatter],
 ) -> None:
     """Register a list of formatters, so they can all be deactivated or activated."""
     for formatter in formatters:
+        arg_group = default_arg_group
+        if formatter.optional:
+            arg_group = optional_arg_group
+
         name = formatter.name
         help_text = f"ctivate the {name} formatter"
         arg_group.add_argument(

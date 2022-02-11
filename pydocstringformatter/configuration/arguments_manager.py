@@ -23,12 +23,19 @@ class ArgumentsManager:
 
         # First register all argument groups, then add arguments
         self.configuration_group = self.parser.add_argument_group("configuration")
-        self.formatters_group = self.parser.add_argument_group("formatters")
+        self.default_formatters_group = self.parser.add_argument_group(
+            "default formatters", "these formatters are turned on by default"
+        )
+        self.optional_formatters_group = self.parser.add_argument_group(
+            "optional formatters", "these formatters are turned off by default"
+        )
 
         # Register all arguments
         self._register_arguments(version)
         formatter_options._register_arguments_formatters(
-            self.formatters_group, self.formatters
+            self.default_formatters_group,
+            self.optional_formatters_group,
+            self.formatters,
         )
 
     def _register_arguments(self, version: str) -> None:
