@@ -23,6 +23,7 @@ release = pydocstringformatter.__version__
 # -- General configuration ---------------------------------------------------
 
 extensions = ["myst_parser"]
+myst_heading_anchors = 2
 source_suffix = [".rst", ".md"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
