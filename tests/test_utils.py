@@ -13,11 +13,11 @@ UTILS_DATA = HERE.parent / "data" / "utils"
 
 
 class TestPythonFileFinder:
-    """Test the python file finder"""
+    """Test the python file finder."""
 
     @staticmethod
     def test_underscores_files() -> None:
-        """Test that we can find files with leading underscores"""
+        """Test that we can find files with leading underscores."""
         pathnames = _find_python_files([str(UTILS_DATA / "find_underscore_files")], [])
         expected_paths = [
             UTILS_DATA / "find_underscore_files" / "file_one.py",
@@ -29,7 +29,7 @@ class TestPythonFileFinder:
 
     @staticmethod
     def test_recursive_files() -> None:
-        """Test that we can find files recursively"""
+        """Test that we can find files recursively."""
         pathnames = _find_python_files(
             [str(UTILS_DATA / "find_recursive_files")], [], recursive=True
         )
@@ -49,7 +49,7 @@ class TestPythonFileFinder:
 
     @staticmethod
     def test_recursive_files_standard() -> None:
-        """Test that we can find files recursively even if argument is not supplied"""
+        """Test that we can find files recursively even if argument is not supplied."""
         pathnames = _find_python_files([str(UTILS_DATA / "find_recursive_files")], [])
         expected_paths = [
             UTILS_DATA / "find_recursive_files" / "file_one.py",
@@ -67,7 +67,7 @@ class TestPythonFileFinder:
 
     @staticmethod
     def test_ignore_recursive_files() -> None:
-        """Test that we ignore inner directories if recusrive is False"""
+        """Test that we ignore inner directories if recusrive is False."""
         pathnames = _find_python_files(
             [str(UTILS_DATA / "find_recursive_files")], [], recursive=False
         )
@@ -76,7 +76,7 @@ class TestPythonFileFinder:
 
     @staticmethod
     def test_ignore_non_python_file() -> None:
-        """Test that we ignore a non Python file"""
+        """Test that we ignore a non Python file."""
         pathnames = _find_python_files(
             [str(UTILS_DATA / "find_nothing" / "README.md")], []
         )
@@ -84,12 +84,12 @@ class TestPythonFileFinder:
 
 
 class TestDocstringFinder:
-    """Test the docstring finder"""
+    """Test the docstring finder."""
 
     docstring_data = UTILS_DATA / "find_docstrings"
 
     def test_function_docstrings(self) -> None:
-        """Test that we can find docstrings for function definitions"""
+        """Test that we can find docstrings for function definitions."""
         docstrings: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
         with open(
             self.docstring_data / "function_docstrings.py", encoding="utf-8"
@@ -128,7 +128,7 @@ class TestDocstringFinder:
         assert not docstrings
 
     def test_module_docstrings(self) -> None:
-        """Test that we find the correct module docstring"""
+        """Test that we find the correct module docstring."""
         docstrings: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
         with open(
             self.docstring_data / "module_docstrings.py", encoding="utf-8"
