@@ -13,7 +13,7 @@ CONFIG_DATA = HERE.parent / "data" / "config"
 def test_no_toml(
     capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Test a directory without a pyproject.toml"""
+    """Test a directory without a pyproject.toml."""
     monkeypatch.chdir(CONFIG_DATA / "no_toml")
     pydocstringformatter.run_docstring_formatter(["test_package"])
     output = capsys.readouterr()
@@ -31,7 +31,7 @@ def test_no_toml(
 def test_valid_toml(
     capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Test a correct toml with write = True"""
+    """Test a correct toml with write = True."""
     monkeypatch.chdir(CONFIG_DATA / "valid_toml")
     pydocstringformatter.run_docstring_formatter(["test_package"])
     output = capsys.readouterr()
@@ -42,7 +42,7 @@ def test_valid_toml(
 def test_valid_toml_two(
     capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Test a correct toml with write = False"""
+    """Test a correct toml with write = False."""
     monkeypatch.chdir(CONFIG_DATA / "valid_toml_two")
     pydocstringformatter.run_docstring_formatter(["test_package"])
     output = capsys.readouterr()
@@ -58,21 +58,21 @@ def test_valid_toml_two(
 
 
 def test_invalid_toml(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Test an invalid toml file"""
+    """Test an invalid toml file."""
     monkeypatch.chdir(CONFIG_DATA / "invalid_toml")
     with pytest.raises(exceptions.TomlParsingError):
         pydocstringformatter.run_docstring_formatter(["test_package"])
 
 
 def test_non_existing_options(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Test an toml file with unrecognized options"""
+    """Test an toml file with unrecognized options."""
     monkeypatch.chdir(CONFIG_DATA / "non_existing_options")
     with pytest.raises(exceptions.UnrecognizedOption):
         pydocstringformatter.run_docstring_formatter(["test_package"])
 
 
 def test_no_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -> None:
-    """Test that we print to stdout without the -w option"""
+    """Test that we print to stdout without the -w option."""
     pydocstringformatter.run_docstring_formatter([test_file])
 
     with open(test_file, encoding="utf-8") as file:
@@ -90,7 +90,7 @@ def test_no_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -
 
 
 def test_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -> None:
-    """Test the -w argument"""
+    """Test the -w argument."""
     try:
         expected_path = os.path.relpath(test_file)
     except ValueError:
@@ -109,7 +109,7 @@ def test_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -> N
 def test_long_write_argument(
     capsys: pytest.CaptureFixture[str], test_file: str
 ) -> None:
-    """Test the --write argument"""
+    """Test the --write argument."""
     try:
         expected_path = os.path.relpath(test_file)
     except ValueError:
@@ -126,7 +126,7 @@ def test_long_write_argument(
 
 
 def test_version_argument(capsys: pytest.CaptureFixture[str]) -> None:
-    """Test the --version argument and its shorter variant"""
+    """Test the --version argument and its shorter variant."""
     with pytest.raises(SystemExit):
         pydocstringformatter.run_docstring_formatter(["--version"])
     output = capsys.readouterr()
@@ -141,7 +141,7 @@ def test_version_argument(capsys: pytest.CaptureFixture[str]) -> None:
 
 
 class TestExcludeOption:
-    """Tests for the --exclude option"""
+    """Tests for the --exclude option."""
 
     @staticmethod
     def test_exclude_non_match(

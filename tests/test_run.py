@@ -68,7 +68,7 @@ def test_formatter_help_categories(capsys: pytest.CaptureFixture[str]) -> None:
 def test_sys_agv_as_arguments(
     capsys: pytest.CaptureFixture[str], test_file: str
 ) -> None:
-    """Test running with arguments in sys.argv"""
+    """Test running with arguments in sys.argv."""
     sys.argv = ["pydocstringformatter", test_file]
     pydocstringformatter.run_docstring_formatter()
 
@@ -90,7 +90,7 @@ def test_sys_agv_as_arguments(
 def test_output_message_nothing_done(
     capsys: pytest.CaptureFixture[str], test_file: str
 ) -> None:
-    """Test that we emit the correct message when nothing was done"""
+    """Test that we emit the correct message when nothing was done."""
     with open(test_file, "w", encoding="utf-8") as file:
         file.write('"""A multi-line\ndocstring\n"""')
     with open(test_file + "2", "w", encoding="utf-8") as file:
@@ -108,7 +108,7 @@ def test_output_message_nothing_done(
 def test_output_message_one_file(
     capsys: pytest.CaptureFixture[str], test_file: str
 ) -> None:
-    """Test that we emit the correct message when one out of two files was formatted"""
+    """Test that we emit the correct message when one out of two files was formatted."""
     try:
         expected_path = os.path.relpath(test_file)
     except ValueError:
@@ -129,7 +129,7 @@ def test_output_message_one_file(
 def test_output_message_two_files(
     capsys: pytest.CaptureFixture[str], test_file: str
 ) -> None:
-    """Test that we emit the correct message when two files were formatted"""
+    """Test that we emit the correct message when two files were formatted."""
     second_file = test_file.replace(".py", "2.py")
 
     try:
