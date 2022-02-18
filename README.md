@@ -19,6 +19,9 @@ pip install pydocstringformatter
 
 ## Usage
 
+[`Click here`](https://pydocstringformatter.readthedocs.io/en/latest/usage.html) for a
+full Usage overview.
+
 ```shell
 usage: pydocstringformatter [-h] [-w] [--exclude EXCLUDE] [-v] [files ...]
 
