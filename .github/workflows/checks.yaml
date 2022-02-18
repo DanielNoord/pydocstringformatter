@@ -1,0 +1,40 @@
+name: Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  docs-build:
+    name: Docs / Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code from GitHub
+        uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: 2
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2.3.2
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: pip install -U -r requirements-test.txt
+      - name: Make docs
+        run: |
+          cd docs
+          make html
+      - name: Compare the diff
+        run: |
+          git diff > DIFF
+          if [ -s DIFF ]; then
+            echo "Documentation is not up to date."
+            echo "Please perform the following commands locally and then re-commit."
+            echo "pip install -e ."
+            echo "cd docs"
+            echo "make html"
+            exit 1
+          else
+            echo "Documentation is up to date."
+          fi
