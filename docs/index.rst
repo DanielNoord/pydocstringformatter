@@ -1,6 +1,7 @@
 .. toctree::
    :hidden:
 
+   Home <self>
    usage
 
 .. include:: ../README.md
