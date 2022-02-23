@@ -232,4 +232,4 @@ Body
 ## Development
 
 For development and contributing guidelines please see
-[`Contributing`](https://github.com/DanielNoord/pydocstringformatter/blob/main/.github/CONTRIBUTING.md).
+[`Development`](https://pydocstringformatter.readthedocs.io/en/latest/development.html).
