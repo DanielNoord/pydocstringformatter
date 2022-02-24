@@ -23,6 +23,8 @@ class _Run:
 
         if argv := argv or sys.argv[1:]:
             self._arguments_manager.parse_options(argv)
+            for formatter in formatting.FORMATTERS:
+                formatter.set_config_namespace(self.config)
             self._check_files(self.config.files)
         else:
             self._arguments_manager.print_help()

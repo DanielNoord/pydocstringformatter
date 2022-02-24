@@ -1,4 +1,5 @@
 import abc
+import argparse
 import re
 import tokenize
 from typing import Literal
@@ -8,6 +9,8 @@ class Formatter:
     """Base class for docstring formatter."""
 
     optional = False
+    config: argparse.Namespace
+    """Namespace object set when set_config_namespace is called."""
 
     @property
     @abc.abstractmethod
@@ -32,6 +35,10 @@ class Formatter:
     @abc.abstractmethod
     def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         """Return a modified token."""
+
+    def set_config_namespace(self, config: argparse.Namespace) -> None:
+        """Set the config attribute for this formatter."""
+        self.config = config
 
 
 class StringFormatter(Formatter):
