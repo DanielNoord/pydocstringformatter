@@ -1,6 +1,5 @@
 class MyClass:
-    """
-    a multi-line
+    """a multi-line
     docstring"""
 
     class InnerClass:

@@ -12,11 +12,26 @@ class BeginningQuotesFormatter(StringFormatter):
     """Fix the position of the opening quotes."""
 
     name = "beginning-quotes"
+    potential_single_line = re.compile(
+        r"""
+        ['"]{1,3}         # 3 opening quotes
+        \n\s*.+           # A line with any length of characters
+        \n\s*             # A line with only whitespace
+        ['"]{1,3}         # 3 ending quote
+    """,
+        re.X,
+    )
+    """Regex pattern to match against a potential single line docstring."""
 
     def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         new_string = tokeninfo.string
         if new_string[3] == "\n":
-            new_string = re.sub(r"\n *", "", new_string, 1)
+            if (
+                new_string.count("\n") == 1  # Single line docstring
+                or self.config.summary_quotes_same_line  # Config for multi-line
+                or self.potential_single_line.match(new_string)  # Potential single line
+            ):
+                new_string = re.sub(r"\n *", "", new_string, 1)
         return new_string
 
 

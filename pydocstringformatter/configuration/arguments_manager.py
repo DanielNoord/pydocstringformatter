@@ -76,6 +76,16 @@ class ArgumentsManager:
             ),
         )
 
+        self.configuration_group.add_argument(
+            "--summary-quotes-same-line",
+            action="store_true",
+            help=(
+                "Force the start of a multi-line docstring to be on the "
+                "same line as the opening quotes. Similar to how this is enforced "
+                "for single line docstrings."
+            ),
+        )
+
     def parse_options(
         self,
         argv: List[str],
