@@ -86,7 +86,8 @@ multi-line docstring
 
 **PEP 257: _The closing quotes are on the same line as the opening quotes_**
 
-For consistency this rule also gets applied to multi-line docstrings.
+This can be enforced on multi-line docstrings with the `--summary-quotes-same-line`
+option. This behaviour is turned off by default.
 
 ```python
 # Bad
@@ -101,11 +102,23 @@ My
 multi-line docstring
 """
 
+# With --summary-quotes-same-line
+"""
+My
+multi-line docstring
+"""
+
 # Good
 """My docstring"""
 
 """My docstring"""
 
+"""
+My
+multi-line docstring
+"""
+
+# With --summary-quotes-same-line
 """My
 multi-line docstring
 """
@@ -121,20 +134,22 @@ title as used in many Sphinx documentation schemes and do not add a period.
 
 ```python
 # Bad
-"""My docstring"""
+"""my docstring"""
 
-"""Summary
+"""
+summary
 
-My docstring
+my docstring
 """
 
 
 # Good
 """My docstring."""
 
-"""Summary.
+"""
+Summary.
 
-My docstring
+my docstring
 """
 
 """My title

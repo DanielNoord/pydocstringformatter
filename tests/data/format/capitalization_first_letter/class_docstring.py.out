@@ -4,7 +4,8 @@ class MyClass:
     """
 
     class InnerClass:
-        """A multi-line
+        """
+        A multi-line
         docstring
         """
 

@@ -1,0 +1,10 @@
+def func():
+    """
+    A multi-line
+    docstring
+    """
+
+    def inner_func():
+        """
+        A multi-line
+        docstring"""

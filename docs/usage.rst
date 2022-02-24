@@ -6,6 +6,7 @@ Current usage of ``pydocstringformatter``:
 .. code-block:: shell
 
     usage: pydocstringformatter [-h] [-w] [--quiet] [-v] [--exclude EXCLUDE]
+                                [--summary-quotes-same-line]
                                 [--split-summary-body] [--no-split-summary-body]
                                 [--strip-whitespaces] [--no-strip-whitespaces]
                                 [--beginning-quotes] [--no-beginning-quotes]
@@ -29,6 +30,10 @@ Current usage of ``pydocstringformatter``:
     configuration:
       --exclude EXCLUDE     A comma separated list of glob patterns of file path
                             names not to be formatted.
+      --summary-quotes-same-line
+                            Force the start of a multi-line docstring to be on the
+                            same line as the opening quotes. Similar to how this
+                            is enforced for single line docstrings.
 
     default formatters:
       these formatters are turned on by default

@@ -22,6 +22,5 @@ def func():
     """
 
     def inner_func():
-        """
-        a multi-line
+        """a multi-line
         docstring"""
