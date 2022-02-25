@@ -93,13 +93,9 @@ class ArgumentsManager:
         """Load all default option values.
 
         The order of parsing is:
-        1. default values, 2. configuration files, 3. command line arguments.
+        1. configuration files, 2. command line arguments.
         """
         # pylint: disable=protected-access
-        formatter_options._load_formatters_default_option(
-            self.parser, self.namespace, self.formatters
-        )
-
         toml_parsing._parse_toml_file(self.parser, self.namespace)
 
         command_line_parsing._parse_command_line_arguments(

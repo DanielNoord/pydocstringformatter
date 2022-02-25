@@ -21,10 +21,12 @@ def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
     assert out.startswith("usage: pydocstringformatter [-h]")
 
     # Test that we print help messages for individual formatters as well
-    assert "--beginning-quotes" in out
-    assert "Activate the beginning-quotes formatter" in out
-    assert "--no-beginning-quotes" in out
-    assert "Deactivate the beginning-quotes formatter" in out
+    # Default formatter
+    assert "--strip-whitespaces" in out
+    assert "Activate or deactivate strip-whitespaces" in out
+    # Optional formatter
+    assert "--split-summary-body" in out
+    assert "Activate or deactivate split-summary-body" in out
     assert not err
 
 
