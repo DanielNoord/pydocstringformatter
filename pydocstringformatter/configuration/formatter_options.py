@@ -1,23 +1,10 @@
 import argparse
 from typing import List
 
+from pydocstringformatter.configuration.boolean_option_action import (
+    BooleanOptionalAction,
+)
 from pydocstringformatter.formatting.base import Formatter
-
-
-def _load_formatters_default_option(
-    parser: argparse.ArgumentParser,
-    namespace: argparse.Namespace,
-    formatters: List[Formatter],
-) -> None:
-    """Parse the state of the list of formatters based on their 'optional' attribute."""
-    arguments: List[str] = []
-    for formatter in formatters:
-        if formatter.optional:
-            arguments.append(formatter.deactivate_option)
-        elif not formatter.optional:
-            arguments.append(formatter.activate_option)
-
-    parser.parse_known_args(arguments, namespace)
 
 
 def _register_arguments_formatters(
@@ -32,16 +19,10 @@ def _register_arguments_formatters(
             arg_group = optional_arg_group
 
         name = formatter.name
-        help_text = f"ctivate the {name} formatter"
         arg_group.add_argument(
             formatter.activate_option,
-            action="store_true",
+            action=BooleanOptionalAction,
             dest=name,
-            help=f"A{help_text} : {formatter.__doc__}",
-        )
-        arg_group.add_argument(
-            formatter.deactivate_option,
-            action="store_false",
-            dest=name,
-            help=f"Dea{help_text}.",
+            help=f"Activate or deactivate {name}: {formatter.__doc__}",
+            default=not formatter.optional,
         )
