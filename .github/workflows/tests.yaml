@@ -51,7 +51,7 @@ jobs:
       - name: Install dependencies
         run: pip install -U -r requirements-test.txt
       - name: Download all coverage artifacts
-        uses: actions/download-artifact@v2.1.0
+        uses: actions/download-artifact@v3.0.0
       - name: Combine coverage results
         run: coverage combine coverage*/.coverage
       - name: Upload coverage to Coveralls
