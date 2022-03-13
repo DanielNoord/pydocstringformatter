@@ -12,3 +12,10 @@ def func():
     """A long summary
     without a period
     """
+
+
+def func():
+    """A summary.
+
+    A body
+    """
