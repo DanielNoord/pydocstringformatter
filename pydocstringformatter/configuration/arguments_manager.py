@@ -77,6 +77,17 @@ class ArgumentsManager:
         )
 
         self.configuration_group.add_argument(
+            "--max-summary-lines",
+            action="store",
+            default=1,
+            type=int,
+            help=(
+                "The maximum numbers of lines a summary can span. "
+                "The default value is 1."
+            ),
+        )
+
+        self.configuration_group.add_argument(
             "--summary-quotes-same-line",
             action="store_true",
             help=(
