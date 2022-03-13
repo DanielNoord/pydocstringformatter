@@ -6,6 +6,7 @@ Current usage of ``pydocstringformatter``:
 .. code-block:: shell
 
     usage: pydocstringformatter [-h] [-w] [--quiet] [-v] [--exclude EXCLUDE]
+                                [--max-summary-lines MAX_SUMMARY_LINES]
                                 [--summary-quotes-same-line]
                                 [--split-summary-body  --no-split-summary-body]
                                 [--strip-whitespaces  --no-strip-whitespaces]
@@ -29,6 +30,9 @@ Current usage of ``pydocstringformatter``:
     configuration:
       --exclude EXCLUDE     A comma separated list of glob patterns of file path
                             names not to be formatted.
+      --max-summary-lines MAX_SUMMARY_LINES
+                            The maximum numbers of lines a summary can span. The
+                            default value is 1.
       --summary-quotes-same-line
                             Force the start of a multi-line docstring to be on the
                             same line as the opening quotes. Similar to how this
@@ -65,8 +69,9 @@ Current usage of ``pydocstringformatter``:
 
       --split-summary-body, --no-split-summary-body
                             Activate or deactivate split-summary-body: Split the
-                            summary and body of a docstring based on a period in
-                            between them. This formatter is currently optional as
-                            its considered somwehat opinionated and might require
-                            major refactoring for existing projects. (default:
-                            False)
+                            summary and body of a docstring based on a period and
+                            max length. The maximum length of a summary can be set
+                            with the --max-summary-lines option. This formatter is
+                            currently optional as its considered somwehat
+                            opinionated and might require major refactoring for
+                            existing projects. (default: False)

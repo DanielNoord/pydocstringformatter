@@ -115,42 +115,92 @@ class FinalPeriodFormatter(StringAndQuotesFormatter):
         return tokeninfo.string
 
 
-class SplitSummaryAndDocstringFormatter(StringFormatter):
-    """Split the summary and body of a docstring based on a period in between them.
+class SplitSummaryAndDocstringFormatter(StringAndQuotesFormatter):
+    """Split the summary and body of a docstring based on a period and max length.
+
+    The maximum length of a summary can be set with the --max-summary-lines option.
 
     This formatter is currently optional as its considered somwehat opinionated
     and might require major refactoring for existing projects.
     """
 
     name = "split-summary-body"
+    # TODO(#68): Make this non-optional
     optional = True
 
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
+    end_of_sentence_period = re.compile(
+        r"""
+        (?<!e.g|i.e|etc)                        # Not preceded by 'e.g', 'i.e', 'etc'
+        \.                                  # A dot
+        (?!\w)                              # Not followed by a letter
+        """,
+        re.X,
+    )
+    """Pattern to match against an end of sentence period."""
+
+    # pylint: disable-next=too-many-branches
+    def _treat_string(
+        self,
+        tokeninfo: tokenize.TokenInfo,
+        indent_length: int,
+        quotes: str,
+        _: Literal[1, 3],
+    ) -> str:
         """Split a summary and body if there is a period after the summary."""
-        if index := tokeninfo.string.find("."):
-            if (
-                index not in (-1, len(tokeninfo.string) - 4)
-                and "\n" not in tokeninfo.string[:index]  # Skip multi-line summaries
-            ):
-                # Handle summary with part of docstring body on same line
-                if tokeninfo.string[index + 1] == " ":
-                    return (
-                        tokeninfo.string[:index]
-                        + f".\n\n{' ' * indent_length}"
-                        + tokeninfo.string[index + 2 :]
+        if "\n\n" in tokeninfo.string:
+            summary, description = tokeninfo.string.split("\n\n", maxsplit=1)
+        else:
+            summary, description = tokeninfo.string, None
+
+        new_summary = None
+
+        # Try to split on period
+        if match := re.search(self.end_of_sentence_period, summary):
+            index = match.start()
+
+            if summary[: index - 1].count("\n") < self.config.max_summary_lines:
+                if len(summary) == index + 1:
+                    new_summary = summary
+
+                # Handle summaries with more text on same line after the period
+                elif summary[index + 1] == " ":
+                    new_summary = (
+                        summary[:index]
+                        + f"\n\n{' ' * indent_length}"
+                        + summary[index + 2 :]
                     )
 
-                # Handle summary with part of docstring body on same line
-                if (
-                    tokeninfo.string[index + 1] == "\n"
-                    and tokeninfo.string[index + 2] != "\n"
-                ):
-                    return (
-                        tokeninfo.string[:index]
-                        + ".\n\n"
-                        + tokeninfo.string[index + 2 :]
-                    )
-        return tokeninfo.string
+                # Handle summaries that end with a period and a direct new line
+                # but not a double new line.
+                elif summary[index + 1] == "\n":
+                    # If this is the end of the docstring, don't do anything
+                    if summary[index + 2 :] == indent_length * " " + quotes:
+                        new_summary = summary
+                    # Split between period and rest of docstring
+                    else:
+                        new_summary = summary[:index] + ".\n\n" + summary[index + 2 :]
+
+        # Try to split on max length
+        if not new_summary and summary.count("\n") > self.config.max_summary_lines - 1:
+            lines = summary.splitlines()
+            new_summary = "\n".join(lines[: self.config.max_summary_lines])
+
+            # Handle summaries without any additional text beyond max lines
+            if lines[self.config.max_summary_lines] == indent_length * " " + quotes:
+                new_summary += "\n" + lines[self.config.max_summary_lines]
+
+            # Split between max lines and rest of docstring
+            else:
+                new_summary += "\n\n" + "\n".join(
+                    lines[self.config.max_summary_lines :]
+                )
+
+        # Re-concatenate summary and description
+        # TODO(#67): Create 'SummaryFormatter' class
+        docstring = new_summary or summary
+        if description:
+            docstring += "\n\n" + description
+        return docstring
 
 
 class StripWhitespacesFormatter(StringAndQuotesFormatter):

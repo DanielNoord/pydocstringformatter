@@ -50,7 +50,7 @@ def test_formatting(
     additional_args: List[str] = []
     if os.path.exists(test_file.replace(".py", ".args")):
         with open(test_file.replace(".py", ".args"), encoding="utf-8") as args_file:
-            additional_args = args_file.readlines()[0].split()
+            additional_args = [i.rstrip("\n") for i in args_file.readlines()]
 
     pydocstringformatter.run_docstring_formatter(
         [temp_file_name, "--write"] + additional_args

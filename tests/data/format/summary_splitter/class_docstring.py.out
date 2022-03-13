@@ -45,6 +45,7 @@ class MyClass:
 
 
 class MyClass:
-    """Summary over multiple
+    """Summary over multiple.
+
     lines.
     """
