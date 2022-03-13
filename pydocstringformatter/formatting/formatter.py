@@ -130,7 +130,7 @@ class SplitSummaryAndDocstringFormatter(StringAndQuotesFormatter):
 
     end_of_sentence_period = re.compile(
         r"""
-        (?<!e.g|i.e)                        # Not preceded by 'e.g', 'i.e'
+        (?<!e.g|i.e|etc)                        # Not preceded by 'e.g', 'i.e', 'etc'
         \.                                  # A dot
         (?!\w)                              # Not followed by a letter
         """,
