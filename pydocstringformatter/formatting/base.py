@@ -95,3 +95,40 @@ class StringAndQuotesFormatter(Formatter):
             tokeninfo.end,
             tokeninfo.line,
         )
+
+
+class SummaryFormatter(StringAndQuotesFormatter):
+    """Base class for formatter that only modifies the summary of a docstring."""
+
+    @abc.abstractmethod
+    def _treat_summary(self, summary: str, indent_length: int) -> str:
+        """Return a modified summary."""
+
+    def _treat_string(
+        self,
+        tokeninfo: tokenize.TokenInfo,
+        indent_length: int,
+        quotes: str,
+        quotes_length: Literal[1, 3],
+    ) -> str:
+        """Return a modified string."""
+        # TODO(#67): Handle identation at the end of a summary a little better
+
+        # Split summary and description
+        if "\n\n" in tokeninfo.string:
+            summary, description = tokeninfo.string.split("\n\n", maxsplit=1)
+            description = description[:-quotes_length]
+        else:
+            summary, description = tokeninfo.string, None
+            summary = summary[:-quotes_length]
+
+        # Remove opening quotes
+        summary = summary[quotes_length:]
+
+        new_summary = self._treat_summary(summary, indent_length)
+
+        # Re-compose docstring
+        docstring = f"{quotes}{new_summary}"
+        if description:
+            docstring += f"\n\n{description}"
+        return f"{docstring}{quotes}"
