@@ -5,6 +5,7 @@ from typing import Literal
 from pydocstringformatter.formatting.base import (
     StringAndQuotesFormatter,
     StringFormatter,
+    SummaryFormatter,
 )
 
 
@@ -115,7 +116,7 @@ class FinalPeriodFormatter(StringAndQuotesFormatter):
         return tokeninfo.string
 
 
-class SplitSummaryAndDocstringFormatter(StringAndQuotesFormatter):
+class SplitSummaryAndDocstringFormatter(SummaryFormatter):
     """Split the summary and body of a docstring based on a period and max length.
 
     The maximum length of a summary can be set with the --max-summary-lines option.
@@ -139,19 +140,8 @@ class SplitSummaryAndDocstringFormatter(StringAndQuotesFormatter):
     """Pattern to match against an end of sentence period."""
 
     # pylint: disable-next=too-many-branches
-    def _treat_string(
-        self,
-        tokeninfo: tokenize.TokenInfo,
-        indent_length: int,
-        quotes: str,
-        _: Literal[1, 3],
-    ) -> str:
+    def _treat_summary(self, summary: str, indent_length: int) -> str:
         """Split a summary and body if there is a period after the summary."""
-        if "\n\n" in tokeninfo.string:
-            summary, description = tokeninfo.string.split("\n\n", maxsplit=1)
-        else:
-            summary, description = tokeninfo.string, None
-
         new_summary = None
 
         # Try to split on period
@@ -174,7 +164,7 @@ class SplitSummaryAndDocstringFormatter(StringAndQuotesFormatter):
                 # but not a double new line.
                 elif summary[index + 1] == "\n":
                     # If this is the end of the docstring, don't do anything
-                    if summary[index + 2 :] == indent_length * " " + quotes:
+                    if summary[index + 2 :] == indent_length * " ":
                         new_summary = summary
                     # Split between period and rest of docstring
                     else:
@@ -186,7 +176,7 @@ class SplitSummaryAndDocstringFormatter(StringAndQuotesFormatter):
             new_summary = "\n".join(lines[: self.config.max_summary_lines])
 
             # Handle summaries without any additional text beyond max lines
-            if lines[self.config.max_summary_lines] == indent_length * " " + quotes:
+            if lines[self.config.max_summary_lines] == indent_length * " ":
                 new_summary += "\n" + lines[self.config.max_summary_lines]
 
             # Split between max lines and rest of docstring
@@ -195,12 +185,7 @@ class SplitSummaryAndDocstringFormatter(StringAndQuotesFormatter):
                     lines[self.config.max_summary_lines :]
                 )
 
-        # Re-concatenate summary and description
-        # TODO(#67): Create 'SummaryFormatter' class
-        docstring = new_summary or summary
-        if description:
-            docstring += "\n\n" + description
-        return docstring
+        return new_summary or summary
 
 
 class StripWhitespacesFormatter(StringAndQuotesFormatter):
