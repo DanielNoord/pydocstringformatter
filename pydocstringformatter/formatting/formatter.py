@@ -161,29 +161,17 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
                     )
 
                 # Handle summaries that end with a period and a direct new line
-                # but not a double new line.
                 elif summary[index + 1] == "\n":
-                    # If this is the end of the docstring, don't do anything
-                    if summary[index + 2 :] == indent_length * " ":
-                        new_summary = summary
-                    # Split between period and rest of docstring
-                    else:
-                        new_summary = summary[:index] + ".\n\n" + summary[index + 2 :]
+                    new_summary = summary[:index] + ".\n\n" + summary[index + 2 :]
 
         # Try to split on max length
         if not new_summary and summary.count("\n") > self.config.max_summary_lines - 1:
             lines = summary.splitlines()
-            new_summary = "\n".join(lines[: self.config.max_summary_lines])
-
-            # Handle summaries without any additional text beyond max lines
-            if lines[self.config.max_summary_lines] == indent_length * " ":
-                new_summary += "\n" + lines[self.config.max_summary_lines]
-
-            # Split between max lines and rest of docstring
-            else:
-                new_summary += "\n\n" + "\n".join(
-                    lines[self.config.max_summary_lines :]
-                )
+            new_summary = (
+                "\n".join(lines[: self.config.max_summary_lines])
+                + "\n\n"
+                + "\n".join(lines[self.config.max_summary_lines :])
+            )
 
         return new_summary or summary
 

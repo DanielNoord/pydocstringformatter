@@ -112,15 +112,25 @@ class SummaryFormatter(StringAndQuotesFormatter):
         quotes_length: Literal[1, 3],
     ) -> str:
         """Return a modified string."""
-        # TODO(#67): Handle identation at the end of a summary a little better
-
         # Split summary and description
         if "\n\n" in tokeninfo.string:
             summary, description = tokeninfo.string.split("\n\n", maxsplit=1)
+
+            # Remove final indentation, ending quotes and new line
             description = description[:-quotes_length]
+            if indent_length and description.endswith(indent_length * " "):
+                description = description[:-indent_length]
+            if description.endswith("\n"):
+                description = description[:-1]
         else:
             summary, description = tokeninfo.string, None
+
+            # Remove final indentation, ending quotes and new line
             summary = summary[:-quotes_length]
+            if indent_length and summary.endswith(indent_length * " "):
+                summary = summary[:-indent_length]
+            if summary.endswith("\n"):
+                summary = summary[:-1]
 
         # Remove opening quotes
         summary = summary[quotes_length:]
@@ -131,4 +141,8 @@ class SummaryFormatter(StringAndQuotesFormatter):
         docstring = f"{quotes}{new_summary}"
         if description:
             docstring += f"\n\n{description}"
+
+        # Determine whether ending quotes were initially on same or new line
+        if tokeninfo.string.splitlines()[-1] == indent_length * " " + quotes:
+            return f"{docstring}\n{indent_length * ' '}{quotes}"
         return f"{docstring}{quotes}"
