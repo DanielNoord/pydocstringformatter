@@ -115,7 +115,8 @@ class TestDocstringFinder:
         ]
 
     def test_dictionary_key_value_line(self) -> None:
-        """Test that we do not classify a line of string key and value pairs
+        """Test that we do not classify a line of string key and value pairs.
+
         as docstring
         """
         docstrings: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
