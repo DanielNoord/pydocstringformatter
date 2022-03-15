@@ -8,7 +8,7 @@ from pydocstringformatter.utils.exceptions import (
     PydocstringFormatterError,
 )
 
-__version__ = "0.5.1"
+__version__ = "0.6.0-dev"
 
 
 def run_docstring_formatter(argv: Union[List[str], None] = None) -> None:
