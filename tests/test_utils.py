@@ -115,10 +115,7 @@ class TestDocstringFinder:
         ]
 
     def test_dictionary_key_value_line(self) -> None:
-        """Test that we do not classify a line of string key and value pairs.
-
-        as docstring
-        """
+        """Test that string key-value pairs are not considered a docstring."""
         docstrings: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
         with open(self.docstring_data / "dictionary.py", encoding="utf-8") as file:
             tokens = list(tokenize.generate_tokens(file.readline))
