@@ -1,6 +1,6 @@
 def func():
     """My long
-    summary
+    summary.
 
     is way
     too long.
@@ -11,7 +11,7 @@ def func():
 
 def func():
     """A long summary
-    without a period
+    without a period.
     """
 
 

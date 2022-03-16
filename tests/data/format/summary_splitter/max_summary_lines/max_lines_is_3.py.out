@@ -1,7 +1,7 @@
 def func():
     """My long
     summary
-    is way
+    is way.
 
     too long.
 

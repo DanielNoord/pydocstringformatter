@@ -77,43 +77,23 @@ class ClosingQuotesFormatter(StringFormatter):
         return new_string
 
 
-class FinalPeriodFormatter(StringAndQuotesFormatter):
+class FinalPeriodFormatter(SummaryFormatter):
     """Add a period to the end of single line docstrings and summaries."""
 
     name = "final-period"
     END_OF_SENTENCE_PUNCTUATION = {".", "?", "!", "‽", ":", ";"}
 
-    def _treat_string(
-        self,
-        tokeninfo: tokenize.TokenInfo,
-        _: int,
-        quotes: str,
-        quotes_length: Literal[1, 3],
-    ) -> str:
+    def _treat_summary(self, summary: str, indent_length: int) -> str:
         """Add a period to the end of single-line docstrings and summaries."""
-        # Handle single line docstrings
-        if not tokeninfo.string.count("\n"):
-            if (
-                tokeninfo.string[-quotes_length - 1]
-                not in self.END_OF_SENTENCE_PUNCTUATION
-            ):
-                return tokeninfo.string[:-quotes_length] + "." + quotes
-        # Handle multi-line docstrings
-        else:
-            lines = tokeninfo.string.splitlines()
-            # If second line is one recurring character we're dealing with a rst title
-            if (stripped := lines[1].lstrip()) and stripped.count(stripped[0]) == len(
-                stripped
-            ):
-                return tokeninfo.string
-            # If second line is empty we're dealing with a summary
-            if lines[1] == "":
-                if lines[0][-1] not in self.END_OF_SENTENCE_PUNCTUATION:
-                    return lines[0] + ".\n" + "\n".join(lines[1:])
-            # TODO(#26): Handle multi-line docstrings that do not have a summary
-            # This is obviously dependent on whether 'pydocstringformatter' will
-            # start enforcing summaries :)
-        return tokeninfo.string
+        if summary[-1] in self.END_OF_SENTENCE_PUNCTUATION:
+            return summary
+
+        # If second line is one recurring character we're dealing with a rst title
+        last_line = summary.splitlines()[-1].lstrip()
+        if last_line.count(last_line[0]) == len(last_line):
+            return summary
+
+        return summary + "."
 
 
 class SplitSummaryAndDocstringFormatter(SummaryFormatter):
