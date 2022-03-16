@@ -16,10 +16,10 @@ def func(named_parameter: str) -> None:
 def func():
     """
     A multi-line
-    docstring
+    docstring.
     """
 
     def inner_func():
         """A multi-line
-        docstring
+        docstring.
         """

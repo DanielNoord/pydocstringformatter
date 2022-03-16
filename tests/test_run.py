@@ -75,15 +75,15 @@ def test_sys_agv_as_arguments(
     pydocstringformatter.run_docstring_formatter()
 
     with open(test_file, encoding="utf-8") as file:
-        assert "".join(file.readlines()) == '"""A multi-line\ndocstring"""'
+        assert "".join(file.readlines()) == '"""A multi-line\ndocstring."""'
 
     output = capsys.readouterr()
     assert output.out.endswith(
         '''
 @@ -1,2 +1,3 @@
  """A multi-line
--docstring"""
-+docstring
+-docstring."""
++docstring.
 +"""'''
     )
     assert not output.err
@@ -94,9 +94,9 @@ def test_output_message_nothing_done(
 ) -> None:
     """Test that we emit the correct message when nothing was done."""
     with open(test_file, "w", encoding="utf-8") as file:
-        file.write('"""A multi-line\ndocstring\n"""')
+        file.write('"""A multi-line\ndocstring.\n"""')
     with open(test_file + "2", "w", encoding="utf-8") as file:
-        file.write('"""A multi-line\ndocstring\n"""')
+        file.write('"""A multi-line\ndocstring.\n"""')
 
     pydocstringformatter.run_docstring_formatter(
         [str(Path(test_file).parent), "--write"]

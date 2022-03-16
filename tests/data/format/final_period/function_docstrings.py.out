@@ -7,12 +7,12 @@ def func()
 
 def func()
     """A multi-line
-    docstring
+    docstring.
     """
 
     def inner_func()
         """A multi-line
-        docstring
+        docstring.
         """
 
 

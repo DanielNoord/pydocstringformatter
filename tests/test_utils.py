@@ -149,7 +149,7 @@ def test_encoding_of_console_messages(
     """
     sys.stdout.reconfigure(encoding="cp1252")  # type: ignore[attr-defined]
     with open(test_file, "w", encoding="utf-8") as file:
-        file.write('"""A multi-line\ndocstring\n"""')
+        file.write('"""A multi-line\ndocstring.\n"""')
 
     pydocstringformatter.run_docstring_formatter([test_file, "--write"])
 

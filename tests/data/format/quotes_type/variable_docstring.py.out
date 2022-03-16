@@ -1,9 +1,9 @@
 MYVAR = 1
 """A multi-line
-docstring
+docstring.
 """
 
 MYVAR = 1
 """A multi-line
-docstring
+docstring.
 """

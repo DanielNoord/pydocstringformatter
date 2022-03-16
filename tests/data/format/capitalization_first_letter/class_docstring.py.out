@@ -1,23 +1,23 @@
 class MyClass:
     """A multi-line
-    docstring
+    docstring.
     """
 
     class InnerClass:
         """
         A multi-line
-        docstring
+        docstring.
         """
 
 
 class MyClass:
     """A multi-line
-    docstring
+    docstring.
     """
 
     class InnerClass:
         """A multi-line
-        docstring
+        docstring.
         """
 
 
