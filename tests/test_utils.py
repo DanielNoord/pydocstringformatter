@@ -154,5 +154,5 @@ def test_encoding_of_console_messages(
     pydocstringformatter.run_docstring_formatter([test_file, "--write"])
 
     output = capsys.readouterr()
-    assert output.out == "Nothing to do! All docstrings are correct 🎉\n"
+    assert output.out == "Nothing to do! All docstrings in 1 file are correct 🎉\n"
     assert not output.err

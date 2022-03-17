@@ -6,6 +6,7 @@ Current usage of ``pydocstringformatter``:
 .. code-block:: shell
 
     usage: pydocstringformatter [-h] [-w] [--quiet] [-v] [--exclude EXCLUDE]
+                                [--exit-code]
                                 [--max-summary-lines MAX_SUMMARY_LINES]
                                 [--summary-quotes-same-line]
                                 [--split-summary-body  --no-split-summary-body]
@@ -30,6 +31,9 @@ Current usage of ``pydocstringformatter``:
     configuration:
       --exclude EXCLUDE     A comma separated list of glob patterns of file path
                             names not to be formatted.
+      --exit-code           Turn on if the program should exit with bitwise exit
+                            codes. 0 = No changes, 32 = Changed files or printed
+                            diff.
       --max-summary-lines MAX_SUMMARY_LINES
                             The maximum numbers of lines a summary can span. The
                             default value is 1.

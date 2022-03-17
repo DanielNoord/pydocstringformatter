@@ -104,7 +104,7 @@ def test_output_message_nothing_done(
     )
 
     output = capsys.readouterr()
-    assert output.out == "Nothing to do! All docstrings are correct 🎉\n"
+    assert output.out == "Nothing to do! All docstrings in 1 file are correct 🎉\n"
     assert not output.err
 
 
@@ -179,3 +179,43 @@ def test_optional_formatters_argument(
     ) as asserter:
         asserter.assert_format_when_activated()
         asserter.assert_no_change_when_deactivated()
+
+
+class TestExitCodes:
+    """Tests for the --exit-code option."""
+
+    @staticmethod
+    def test_exit_code_with_write(test_file: str) -> None:
+        """Test that we emit the correct exit code in write mode."""
+        with pytest.raises(SystemExit) as exit_exec:
+            pydocstringformatter.run_docstring_formatter(
+                [str(Path(test_file)), "--write", "--exit-code"]
+            )
+
+        assert exit_exec.value.code == 32
+
+        # After first writing changes, now we expect no changes
+        with pytest.raises(SystemExit) as exit_exec:
+            pydocstringformatter.run_docstring_formatter(
+                [str(Path(test_file)), "--write", "--exit-code"]
+            )
+
+        assert not exit_exec.value.code
+
+    @staticmethod
+    def test_exit_code_without_write(test_file: str) -> None:
+        """Test that we emit the correct exit code in write mode."""
+        with pytest.raises(SystemExit) as exit_exec:
+            pydocstringformatter.run_docstring_formatter(
+                [str(Path(test_file)), "--exit-code"]
+            )
+
+        assert exit_exec.value.code == 32
+
+        # We expect an exit code on both occassions
+        with pytest.raises(SystemExit) as exit_exec:
+            pydocstringformatter.run_docstring_formatter(
+                [str(Path(test_file)), "--exit-code"]
+            )
+
+        assert exit_exec.value.code == 32

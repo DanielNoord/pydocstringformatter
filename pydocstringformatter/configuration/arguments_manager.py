@@ -77,6 +77,16 @@ class ArgumentsManager:
         )
 
         self.configuration_group.add_argument(
+            "--exit-code",
+            action="store_true",
+            default=False,
+            help=(
+                "Turn on if the program should exit with bitwise exit codes. "
+                "0 = No changes, 32 = Changed files or printed diff."
+            ),
+        )
+
+        self.configuration_group.add_argument(
             "--max-summary-lines",
             action="store",
             default=1,
