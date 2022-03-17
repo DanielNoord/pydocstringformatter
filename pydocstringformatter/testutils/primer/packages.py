@@ -1,0 +1,67 @@
+import logging
+import shutil
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, List, Union
+
+import git
+
+from pydocstringformatter.testutils.primer.const import PRIMER_DIRECTORY_PATH
+
+
+@dataclass
+class _PackageToPrime:
+    """Represents data about a package to be tested during primer tests."""
+
+    url: str
+    """URL of the repository to clone."""
+
+    branch: str
+    """Branch of the repository to clone."""
+
+    directories: List[str]
+    """Directories within the repository to run the program over."""
+
+    @property
+    def clone_directory(self) -> Path:
+        """Directory to clone repository into."""
+        clone_name = "/".join(self.url.split("/")[-2:]).replace(".git", "")
+        return PRIMER_DIRECTORY_PATH / clone_name
+
+    @property
+    def paths_to_lint(self) -> List[str]:
+        """The paths we need to run against."""
+        return [str(self.clone_directory / path) for path in self.directories]
+
+    def lazy_clone(self) -> None:
+        """Clone the repo or pull any new commits.
+
+        # TODO(#80): Allow re-using an already cloned repistory instead of removing it
+        Currently this is therefore not really 'lazy'.
+        """
+        logging.info("Lazy cloning %s", self.url)
+
+        if self.clone_directory.exists():
+            shutil.rmtree(self.clone_directory)
+
+        options: Dict[str, Union[str, int]] = {
+            "url": self.url,
+            "to_path": str(self.clone_directory),
+            "branch": self.branch,
+            "depth": 1,
+        }
+        git.Repo.clone_from(**options)
+
+
+PACKAGES = {
+    "pylint": _PackageToPrime(
+        "https://github.com/PyCQA/pylint",
+        "main",
+        ["pylint"],
+    ),
+    "pydocstringformatter": _PackageToPrime(
+        "https://github.com/DanielNoord/pydocstringformatter",
+        "main",
+        ["pydocstringformatter"],
+    ),
+}
