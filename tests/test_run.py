@@ -84,7 +84,8 @@ def test_sys_agv_as_arguments(
  """A multi-line
 -docstring."""
 +docstring.
-+"""'''
++"""
+'''
     )
     assert not output.err
 
