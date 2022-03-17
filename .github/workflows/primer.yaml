@@ -1,0 +1,83 @@
+# Most of this is inspired by the mypy primer
+
+name: Primer
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  primer-run:
+    name: Run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out working version
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 2
+      - name: Check out changeable version
+        uses: actions/checkout@v3.0.0
+        with:
+          path: program_to_test
+          fetch-depth: 0
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: pip install -U -r requirements-test.txt
+      - name: Run primer
+        shell: bash
+        run: |
+          cd program_to_test
+          echo "new commit"
+          git rev-list --format=%s --max-count=1 $GITHUB_SHA
+
+          MERGE_BASE=$(git merge-base $GITHUB_SHA origin/main)
+          git checkout -b base_commit $MERGE_BASE
+          echo "base commit"
+          git rev-list --format=%s --max-count=1 base_commit
+
+          echo "installing changeable version"
+          pip install -e .
+          cd ..
+
+          python -m pydocstringformatter.testutils.primer.primer --prepare
+          python -m pydocstringformatter.testutils.primer.primer --step-one
+
+          cd program_to_test
+          git checkout $GITHUB_SHA
+          cd ..
+          python -m pydocstringformatter.testutils.primer.primer --step-two
+      - name: Post comment
+        id: post-comment
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs')
+            const data = fs.readFileSync('.pydocstringformatter_primer_tests/fulldiff.txt', { encoding: 'utf8' })
+            console.log("Diff from primer:")
+            console.log(data)
+            let body
+            if (data.trim()) {
+              body = 'Diff from the primer, showing the effect of this PR on open source code:\n' + data
+            } else {
+              body = 'According to the primer, this change has no effect on the checked open source code. 🤖🎉'
+            }
+            await github.issues.createComment({
+              issue_number: ${{ github.event.pull_request.number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+      - name: Hide old comments
+        # Taken from mypy primer
+        # v0.3.0
+        uses: kanga333/comment-hider@bbdf5b562fbec24e6f60572d8f712017428b92e0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          leave_visible: 1
+          issue_number: ${{ steps.post-comment.outputs.result }}
