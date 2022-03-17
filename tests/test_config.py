@@ -1,3 +1,5 @@
+# pylint: disable=trailing-whitespace
+
 import os
 from pathlib import Path
 
@@ -23,7 +25,8 @@ def test_no_toml(
 -"""
 -A docstring"""
 +"""A docstring."""
- '''
+ 
+'''
     )
     assert not output.err
 
@@ -52,7 +55,8 @@ def test_valid_toml_two(
 -"""
 -A docstring"""
 +"""A docstring."""
- '''
+ 
+'''
     )
     assert not output.err
 
@@ -84,7 +88,8 @@ def test_no_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -
 @@ -1,2 +1,3 @@
  """A multi-line
 -docstring."""
-+docstring.\n+"""'''
++docstring.\n+"""
+'''
     )
     assert not output.err
 
@@ -157,7 +162,8 @@ class TestExcludeOption:
 -"""
 -A docstring"""
 +"""A docstring."""
- '''
+ 
+'''
         )
         assert not output.err
 
