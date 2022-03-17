@@ -42,3 +42,25 @@ To only run a specific test from that directory, for example
 .. code-block:: shell
 
   pytest -k multi_line-class_docstring
+
+
+Primer
+-------
+
+To check if any changes create any unforeseen regressions all pull requests are tested
+with our primer. This process is heavily inspired on other open source projects and our
+own primer is based on the one used by `mypy <http://mypy-lang.org>`_.
+
+You can also run the primer locally with minimal set-up. First you will need to make
+a duplicate of your ``pydocstringformatter`` directory in a new ``./program_to_test``
+directory. This is required so that the primer can check out multiple versions of the
+program and compare the difference.
+
+The next step is to follow the bash script in the ``Run primer`` step in the ``primer``
+workflow file, found at ``.github/workflows/primer.yaml``. This should allow you to run
+all necessary steps locally.
+
+The final output of the primer run can be found in ``.pydocstringformatter_primer_tests/fulldiff.txt``
+
+New projects to run the primer over can be added to the ``pydocstringformatter/testutils/primer/packages.py``
+file.
