@@ -15,6 +15,10 @@ strict = true
 show_error_codes = true
 enable_error_code = "ignore-without-code"
 
+[[tool.mypy.overrides]]
+module = ["git.*"]
+ignore_missing_imports = true
+
 [tool.pylint.MASTER]
 load-plugins=[
     "pylint.extensions.check_elif",
