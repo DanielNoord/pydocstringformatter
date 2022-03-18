@@ -2,7 +2,7 @@ import abc
 import argparse
 import re
 import tokenize
-from typing import Literal
+from typing import Literal, Optional, Tuple
 
 
 class Formatter:
@@ -97,24 +97,24 @@ class StringAndQuotesFormatter(Formatter):
         )
 
 
-class SummaryFormatter(StringAndQuotesFormatter):
-    """Base class for formatter that only modifies the summary of a docstring."""
+class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
+    """Base class for formatter that modifies the summary and description."""
 
     @abc.abstractmethod
     def _treat_summary(self, summary: str, indent_length: int) -> str:
         """Return a modified summary."""
 
-    def _treat_string(
-        self,
-        tokeninfo: tokenize.TokenInfo,
-        indent_length: int,
-        quotes: str,
-        quotes_length: Literal[1, 3],
-    ) -> str:
-        """Return a modified string."""
-        # Split summary and description
-        if "\n\n" in tokeninfo.string:
-            summary, description = tokeninfo.string.split("\n\n", maxsplit=1)
+    @abc.abstractmethod
+    def _treat_description(self, description: str, indent_length: int) -> str:
+        """Return a modified description."""
+
+    @staticmethod
+    def _separate_summary_and_description(
+        docstring: str, indent_length: int, quotes_length: Literal[1, 3]
+    ) -> Tuple[str, Optional[str]]:
+        """Split the summary and description and handle quotes and indentation."""
+        if "\n\n" in docstring:
+            summary, description = docstring.split("\n\n", maxsplit=1)
 
             # Remove final indentation, ending quotes and new line
             description = description[:-quotes_length]
@@ -123,7 +123,7 @@ class SummaryFormatter(StringAndQuotesFormatter):
             if description.endswith("\n"):
                 description = description[:-1]
         else:
-            summary, description = tokeninfo.string, None
+            summary, description = docstring, None
 
             # Remove final indentation, ending quotes and new line
             summary = summary[:-quotes_length]
@@ -132,17 +132,43 @@ class SummaryFormatter(StringAndQuotesFormatter):
             if summary.endswith("\n"):
                 summary = summary[:-1]
 
+        return summary, description
+
+    def _treat_string(
+        self,
+        tokeninfo: tokenize.TokenInfo,
+        indent_length: int,
+        quotes: str,
+        quotes_length: Literal[1, 3],
+    ) -> str:
+        summary, description = self._separate_summary_and_description(
+            tokeninfo.string,
+            indent_length,
+            quotes_length,
+        )
+
         # Remove opening quotes
         summary = summary[quotes_length:]
 
         new_summary = self._treat_summary(summary, indent_length)
-
-        # Re-compose docstring
         docstring = f"{quotes}{new_summary}"
+
         if description:
-            docstring += f"\n\n{description}"
+            new_description = self._treat_description(description, indent_length)
+            docstring += f"\n\n{new_description}"
 
         # Determine whether ending quotes were initially on same or new line
         if tokeninfo.string.splitlines()[-1] == indent_length * " " + quotes:
             return f"{docstring}\n{indent_length * ' '}{quotes}"
         return f"{docstring}{quotes}"
+
+
+class SummaryFormatter(SummaryAndDescriptionFormatter):
+    """Base class for formatter that only modifies the summary of a docstring."""
+
+    @abc.abstractmethod
+    def _treat_summary(self, summary: str, indent_length: int) -> str:
+        """Return a modified summary."""
+
+    def _treat_description(self, description: str, indent_length: int) -> str:
+        return description
