@@ -20,3 +20,9 @@ def _print_to_console(string: str, quiet: bool) -> None:
     """
     if not quiet:
         sys.stdout.buffer.write(_encode_string(string))
+
+
+def _sys_exit(value: int, option: bool) -> None:
+    """Sys.exit if the boolean passed says to do so."""
+    if option:
+        sys.exit(value)

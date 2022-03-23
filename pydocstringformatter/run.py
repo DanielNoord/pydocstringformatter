@@ -21,18 +21,36 @@ class _Run:
         )
         self.config = self._arguments_manager.namespace
 
-        if argv := argv or sys.argv[1:]:
-            self._arguments_manager.parse_options(argv)
-            for formatter in formatting.FORMATTERS:
-                formatter.set_config_namespace(self.config)
-            self._check_files(self.config.files)
-        else:
+        # Display help message if nothing is passed
+        if not (argv := argv or sys.argv[1:]):
             self._arguments_manager.print_help()
+            return
 
-    def _check_files(self, arguments: List[str]) -> None:
+        # Parse options and register on formatters
+        self._arguments_manager.parse_options(argv)
+        for formatter in formatting.FORMATTERS:
+            formatter.set_config_namespace(self.config)
+
+        self._check_files(self.config.files)
+
+    # pylint: disable-next=inconsistent-return-statements
+    def _check_files(self, files: List[str]) -> None:
         """Find all files and perform the formatting."""
-        filepaths = utils._find_python_files(arguments, self.config.exclude)
-        self._format_files(filepaths)
+        filepaths = utils._find_python_files(files, self.config.exclude)
+
+        is_changed = self._format_files(filepaths)
+
+        if is_changed:  # pylint: disable=consider-using-assignment-expr
+            return utils._sys_exit(32, self.config.exit_code)
+
+        files_string = f"{len(filepaths)} "
+        files_string += "files" if len(filepaths) != 1 else "file"
+        utils._print_to_console(
+            f"Nothing to do! All docstrings in {files_string} are correct 🎉\n",
+            self.config.quiet,
+        )
+
+        utils._sys_exit(0, self.config.exit_code)
 
     def _format_file(self, filename: Path) -> bool:
         """Format a file."""
@@ -83,14 +101,11 @@ class _Run:
 
         return is_changed
 
-    def _format_files(self, filepaths: List[Path]) -> None:
+    def _format_files(self, filepaths: List[Path]) -> bool:
         """Format a list of files."""
         is_changed = False
 
         for file in filepaths:
             is_changed = self._format_file(file) or is_changed
 
-        if not is_changed:
-            utils._print_to_console(
-                "Nothing to do! All docstrings are correct 🎉\n", self.config.quiet
-            )
+        return is_changed

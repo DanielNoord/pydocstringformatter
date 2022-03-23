@@ -39,7 +39,9 @@ def test_formatter_help_categories(capsys: pytest.CaptureFixture[str]) -> None:
         name = "optional-formatter"
         optional = True
 
-        def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
+        @staticmethod
+        def _treat_string(tokeninfo: tokenize.TokenInfo, _: int) -> str:
+            """Treat a string."""
             return tokeninfo.string
 
     class NonOptionalFormatter(StringFormatter):
@@ -47,7 +49,9 @@ def test_formatter_help_categories(capsys: pytest.CaptureFixture[str]) -> None:
 
         name = "non-optional-formatter"
 
-        def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
+        @staticmethod
+        def _treat_string(tokeninfo: tokenize.TokenInfo, _: int) -> str:
+            """Treat a string."""
             return tokeninfo.string
 
     FORMATTERS.append(OptionalFormatter())
@@ -96,7 +100,7 @@ def test_output_message_nothing_done(
     """Test that we emit the correct message when nothing was done."""
     with open(test_file, "w", encoding="utf-8") as file:
         file.write('"""A multi-line\ndocstring.\n"""')
-    with open(test_file + "2", "w", encoding="utf-8") as file:
+    with open(test_file.replace(".py", "2.py"), "w", encoding="utf-8") as file:
         file.write('"""A multi-line\ndocstring.\n"""')
 
     pydocstringformatter.run_docstring_formatter(
@@ -104,7 +108,7 @@ def test_output_message_nothing_done(
     )
 
     output = capsys.readouterr()
-    assert output.out == "Nothing to do! All docstrings are correct 🎉\n"
+    assert output.out == "Nothing to do! All docstrings in 2 files are correct 🎉\n"
     assert not output.err
 
 
@@ -117,8 +121,8 @@ def test_output_message_one_file(
     except ValueError:
         expected_path = test_file
 
-    with open(test_file + "2", "w", encoding="utf-8") as file:
-        file.write('"""A multi-line\ndocstring\n"""')
+    with open(test_file.replace(".py", "2.py"), "w", encoding="utf-8") as file:
+        file.write('"""A multi-line\ndocstring.\n"""')
 
     pydocstringformatter.run_docstring_formatter(
         [str(Path(test_file).parent), "--write"]
@@ -179,3 +183,43 @@ def test_optional_formatters_argument(
     ) as asserter:
         asserter.assert_format_when_activated()
         asserter.assert_no_change_when_deactivated()
+
+
+class TestExitCodes:
+    """Tests for the --exit-code option."""
+
+    @staticmethod
+    def test_exit_code_with_write(test_file: str) -> None:
+        """Test that we emit the correct exit code in write mode."""
+        with pytest.raises(SystemExit) as exit_exec:
+            pydocstringformatter.run_docstring_formatter(
+                [str(Path(test_file)), "--write", "--exit-code"]
+            )
+
+        assert exit_exec.value.code == 32
+
+        # After first writing changes, now we expect no changes
+        with pytest.raises(SystemExit) as exit_exec:
+            pydocstringformatter.run_docstring_formatter(
+                [str(Path(test_file)), "--write", "--exit-code"]
+            )
+
+        assert not exit_exec.value.code
+
+    @staticmethod
+    def test_exit_code_without_write(test_file: str) -> None:
+        """Test that we emit the correct exit code in write mode."""
+        with pytest.raises(SystemExit) as exit_exec:
+            pydocstringformatter.run_docstring_formatter(
+                [str(Path(test_file)), "--exit-code"]
+            )
+
+        assert exit_exec.value.code == 32
+
+        # We expect an exit code on both occassions
+        with pytest.raises(SystemExit) as exit_exec:
+            pydocstringformatter.run_docstring_formatter(
+                [str(Path(test_file)), "--exit-code"]
+            )
+
+        assert exit_exec.value.code == 32
