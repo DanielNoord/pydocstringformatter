@@ -33,25 +33,24 @@ class _Run:
 
         self._check_files(self.config.files)
 
+    # pylint: disable-next=inconsistent-return-statements
     def _check_files(self, files: List[str]) -> None:
         """Find all files and perform the formatting."""
         filepaths = utils._find_python_files(files, self.config.exclude)
 
         is_changed = self._format_files(filepaths)
 
-        if not is_changed:  # pylint: disable=consider-using-assignment-expr
-            if len(filepaths) > 1:
-                files_string = f"{len(filepaths)} files"
-            else:
-                files_string = "1 file"
+        if is_changed:  # pylint: disable=consider-using-assignment-expr
+            return utils._sys_exit(32, self.config.exit_code)
 
-            utils._print_to_console(
-                f"Nothing to do! All docstrings in {files_string} are correct 🎉\n",
-                self.config.quiet,
-            )
-            utils._sys_exit(0, self.config.exit_code)
-        else:
-            utils._sys_exit(32, self.config.exit_code)
+        files_string = f"{len(filepaths)} "
+        files_string += "files" if len(filepaths) != 1 else "file"
+        utils._print_to_console(
+            f"Nothing to do! All docstrings in {files_string} are correct 🎉\n",
+            self.config.quiet,
+        )
+
+        utils._sys_exit(0, self.config.exit_code)
 
     def _format_file(self, filename: Path) -> bool:
         """Format a file."""

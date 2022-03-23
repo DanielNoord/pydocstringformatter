@@ -175,7 +175,7 @@ class TestExcludeOption:
         monkeypatch.chdir(CONFIG_DATA / "exclude_match")
         pydocstringformatter.run_docstring_formatter(["test_package"])
         output = capsys.readouterr()
-        assert output.out == "Nothing to do! All docstrings in 1 file are correct 🎉\n"
+        assert output.out == "Nothing to do! All docstrings in 0 files are correct 🎉\n"
         assert not output.err
 
     @staticmethod
@@ -186,7 +186,7 @@ class TestExcludeOption:
         monkeypatch.chdir(CONFIG_DATA / "exclude_match_inner")
         pydocstringformatter.run_docstring_formatter(["test_package"])
         output = capsys.readouterr()
-        assert output.out == "Nothing to do! All docstrings in 1 file are correct 🎉\n"
+        assert output.out == "Nothing to do! All docstrings in 0 files are correct 🎉\n"
         assert not output.err
 
     @staticmethod
@@ -197,7 +197,7 @@ class TestExcludeOption:
         monkeypatch.chdir(CONFIG_DATA / "exclude_match_csv")
         pydocstringformatter.run_docstring_formatter(["test_package"])
         output = capsys.readouterr()
-        assert output.out == "Nothing to do! All docstrings in 1 file are correct 🎉\n"
+        assert output.out == "Nothing to do! All docstrings in 0 files are correct 🎉\n"
         assert not output.err
 
     @staticmethod
@@ -208,7 +208,7 @@ class TestExcludeOption:
         monkeypatch.chdir(CONFIG_DATA / "exclude_match_csv_list")
         pydocstringformatter.run_docstring_formatter(["test_package"])
         output = capsys.readouterr()
-        assert output.out == "Nothing to do! All docstrings in 1 file are correct 🎉\n"
+        assert output.out == "Nothing to do! All docstrings in 0 files are correct 🎉\n"
         assert not output.err
 
     @staticmethod
