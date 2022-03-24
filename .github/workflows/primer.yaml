@@ -50,7 +50,7 @@ jobs:
           python -m pydocstringformatter.testutils.primer.primer --step-two
       - name: Post comment
         id: post-comment
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
