@@ -39,7 +39,9 @@ def test_formatter_help_categories(capsys: pytest.CaptureFixture[str]) -> None:
         name = "optional-formatter"
         optional = True
 
-        def _treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
+        def _treat_string(
+            self, tokeninfo: tokenize.TokenInfo, indent_length: int
+        ) -> str:
             """Treat a string."""
             return tokeninfo.string
 
@@ -48,7 +50,9 @@ def test_formatter_help_categories(capsys: pytest.CaptureFixture[str]) -> None:
 
         name = "non-optional-formatter"
 
-        def _treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
+        def _treat_string(
+            self, tokeninfo: tokenize.TokenInfo, indent_length: int
+        ) -> str:
             """Treat a string."""
             return tokeninfo.string
 
