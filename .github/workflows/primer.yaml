@@ -50,7 +50,7 @@ jobs:
           python -m pydocstringformatter.testutils.primer.primer --step-two
       - name: Post comment
         id: post-comment
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -64,7 +64,7 @@ jobs:
             } else {
               body = 'According to the primer, this change has no effect on the checked open source code. 🤖🎉'
             }
-            await github.issues.createComment({
+            await github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
