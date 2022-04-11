@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.1.0
+    rev: v4.2.0
     hooks:
       - id: trailing-whitespace
         exclude: "tests/data/format/whitespace_stripper|tests/data/format/quotes_type|tests/test_config.py"
@@ -20,7 +20,7 @@ repos:
           - --remove-duplicate-keys
           - --remove-unused-variables
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.31.1
+    rev: v2.32.0
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
@@ -29,7 +29,7 @@ repos:
     hooks:
       - id: isort
   - repo: https://github.com/psf/black
-    rev: 22.1.0
+    rev: 22.3.0
     hooks:
       - id: black
         exclude: *test-data
@@ -41,7 +41,7 @@ repos:
         exclude: *test-data
         additional_dependencies: [flake8-typing-imports==1.10.1]
   - repo: https://github.com/pycqa/pylint
-    rev: v2.13.2
+    rev: v2.13.5
     hooks:
       - id: pylint
         exclude: *test-data
@@ -61,7 +61,7 @@ repos:
         exclude: *test-data
         args: [--split-summary-body]
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.6.1
+    rev: v2.6.2
     hooks:
       - id: prettier
         exclude: *test-data
