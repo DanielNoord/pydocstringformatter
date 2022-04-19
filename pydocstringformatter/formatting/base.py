@@ -101,7 +101,13 @@ class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
     """Base class for formatter that modifies the summary and description."""
 
     @abc.abstractmethod
-    def _treat_summary(self, summary: str, indent_length: int) -> str:
+    def _treat_summary(
+        self,
+        summary: str,
+        indent_length: int,
+        quotes_length: Literal[1, 3],
+        description_exists: bool,
+    ) -> str:
         """Return a modified summary."""
 
     @abc.abstractmethod
@@ -156,7 +162,9 @@ class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
             quotes_length,
         )
 
-        new_summary = self._treat_summary(summary, indent_length)
+        new_summary = self._treat_summary(
+            summary, indent_length, quotes_length, bool(description)
+        )
         docstring = f"{quotes}{prefix}{new_summary}"
 
         if description:
@@ -173,7 +181,13 @@ class SummaryFormatter(SummaryAndDescriptionFormatter):
     """Base class for formatter that only modifies the summary of a docstring."""
 
     @abc.abstractmethod
-    def _treat_summary(self, summary: str, indent_length: int) -> str:
+    def _treat_summary(
+        self,
+        summary: str,
+        indent_length: int,
+        quotes_length: Literal[1, 3],
+        description_exists: bool,
+    ) -> str:
         """Return a modified summary."""
 
     def _treat_description(self, description: str, indent_length: int) -> str:
