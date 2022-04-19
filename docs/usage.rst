@@ -11,6 +11,7 @@ Current usage of ``pydocstringformatter``:
                                 [--summary-quotes-same-line]
                                 [--split-summary-body  --no-split-summary-body]
                                 [--strip-whitespaces  --no-strip-whitespaces]
+                                [--linewrap-full-docstring  --no-linewrap-full-docstring]
                                 [--beginning-quotes  --no-beginning-quotes]
                                 [--closing-quotes  --no-closing-quotes]
                                 [--capitalize-first-letter  --no-capitalize-first-letter]
@@ -79,3 +80,7 @@ Current usage of ``pydocstringformatter``:
                             currently optional as its considered somwehat
                             opinionated and might require major refactoring for
                             existing projects. (default: False)
+      --linewrap-full-docstring, --no-linewrap-full-docstring
+                            Activate or deactivate linewrap-full-docstring:
+                            Linewrap the docstring by the pre-defined line length.
+                            (default: False)

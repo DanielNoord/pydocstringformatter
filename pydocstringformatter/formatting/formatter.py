@@ -1,4 +1,5 @@
 import re
+import textwrap
 import tokenize
 from typing import Literal
 
@@ -52,6 +53,50 @@ class CapitalizeFirstLetterFormatter(StringFormatter):
                 + tokeninfo.string[first_letter + 1 :]
             )
         return new_string or tokeninfo.string
+
+
+class LineWrapperFormatter(SummaryFormatter):
+    """Linewrap the docstring by the pre-defined line length."""
+
+    name = "linewrap-full-docstring"
+    optional = True
+
+    def _treat_summary(
+        self,
+        summary: str,
+        indent_length: int,
+        quotes_length: Literal[1, 3],
+        description_exists: bool,
+    ) -> str:
+        """Wrap the summary of a docstring."""
+
+        # We need to deduct ending quotes if there is no description
+        line_length = 88 if description_exists else 88 - quotes_length
+        summary_lines = summary.splitlines()
+
+        new_summary = "\n".join(
+            textwrap.wrap(
+                summary_lines[0],
+                width=line_length,
+                initial_indent=" " * (indent_length + quotes_length),
+                subsequent_indent=" " * indent_length,
+                replace_whitespace=True,
+            )
+        )[indent_length + quotes_length :]
+
+        if len(summary_lines) > 1:
+            for line in summary_lines[1:]:
+                new_summary += "\n"
+                new_summary += "\n".join(
+                    textwrap.wrap(
+                        line,
+                        width=line_length,
+                        subsequent_indent=" " * indent_length,
+                        replace_whitespace=True,
+                    )
+                )
+
+        return new_summary
 
 
 class ClosingQuotesFormatter(StringFormatter):
