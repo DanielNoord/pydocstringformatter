@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import argparse
 import os
-from typing import Any, Dict, Final, List, Optional
+from typing import Any, Final
 
 import tomli
 
@@ -9,7 +11,7 @@ from pydocstringformatter.utils.exceptions import TomlParsingError, Unrecognized
 OPTIONS_TYPES: Final = {"write": "store_true", "exclude": "store"}
 
 
-def _get_toml_file() -> Optional[Dict[str, Any]]:
+def _get_toml_file() -> dict[str, Any] | None:
     """See if there is a pyproject.toml and extract the correct section if it exists."""
     if os.path.isfile("pyproject.toml"):
         with open("pyproject.toml", "rb") as file:
@@ -19,12 +21,12 @@ def _get_toml_file() -> Optional[Dict[str, Any]]:
                 raise TomlParsingError from exc
             if tool_section := toml_dict.get("tool", None):
                 if pydocformat_sect := tool_section.get("pydocstringformatter", None):
-                    assert isinstance(pydocformat_sect, Dict)
+                    assert isinstance(pydocformat_sect, dict)
                     return pydocformat_sect
     return None
 
 
-def _parse_toml_option(opt: str, value: Any) -> List[str]:
+def _parse_toml_option(opt: str, value: Any) -> list[str]:
     """Parse an options value in the correct argument type for argparse."""
     try:
         action = OPTIONS_TYPES[opt]
@@ -45,7 +47,7 @@ def _parse_toml_file(
 ) -> None:
     """Get and parse the relevant section form a pyproject.toml file."""
     if toml_sect := _get_toml_file():
-        arguments: List[str] = []
+        arguments: list[str] = []
 
         for key, value in toml_sect.items():
             arguments += _parse_toml_option(key, value)

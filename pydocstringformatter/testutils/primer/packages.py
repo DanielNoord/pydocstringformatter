@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 import logging
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Union
 
 import git
 
@@ -19,7 +20,7 @@ class _PackageToPrime:
     branch: str
     """Branch of the repository to clone."""
 
-    directories: List[str]
+    directories: list[str]
     """Directories within the repository to run the program over."""
 
     @property
@@ -29,7 +30,7 @@ class _PackageToPrime:
         return PRIMER_DIRECTORY_PATH / clone_name
 
     @property
-    def paths_to_lint(self) -> List[str]:
+    def paths_to_lint(self) -> list[str]:
         """The paths we need to run against."""
         return [str(self.clone_directory / path) for path in self.directories]
 
@@ -44,7 +45,7 @@ class _PackageToPrime:
         if self.clone_directory.exists():
             shutil.rmtree(self.clone_directory)
 
-        options: Dict[str, Union[str, int]] = {
+        options: dict[str, str | int] = {
             "url": self.url,
             "to_path": str(self.clone_directory),
             "branch": self.branch,

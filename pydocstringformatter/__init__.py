@@ -1,7 +1,7 @@
 # pylint: disable = import-outside-toplevel
+from __future__ import annotations
 
 import sys
-from typing import List, Union
 
 from pydocstringformatter.utils.exceptions import (
     ParsingError,
@@ -11,7 +11,7 @@ from pydocstringformatter.utils.exceptions import (
 __version__ = "0.6.0-dev"
 
 
-def run_docstring_formatter(argv: Union[List[str], None] = None) -> None:
+def run_docstring_formatter(argv: list[str] | None = None) -> None:
     """Run the formatter."""
     from pydocstringformatter.run import _Run
 

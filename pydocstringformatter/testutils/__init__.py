@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 import contextlib
 import logging
 from pathlib import Path
 from types import TracebackType
-from typing import List, Optional, Type
 
 import pytest
 
@@ -21,7 +22,7 @@ class FormatterAsserter(contextlib.AbstractContextManager):  # type: ignore[type
     def __init__(
         self,
         docstring: str,
-        formatters: List[Formatter],
+        formatters: list[Formatter],
         capsys: pytest.CaptureFixture[str],
         tmp_path: Path,
     ) -> None:
@@ -37,11 +38,11 @@ class FormatterAsserter(contextlib.AbstractContextManager):  # type: ignore[type
 Temp file is '{self.file_to_format}'
 """
 
-    def __enter__(self) -> "FormatterAsserter":
+    def __enter__(self) -> FormatterAsserter:
         return self
 
     @staticmethod
-    def __launch(commands: List[str]) -> None:
+    def __launch(commands: list[str]) -> None:
         """Launch pydocstringformatter while logging for easier debugging."""
         run_docstring_formatter(commands)
         LOGGER.info("Launching 'pydocstringformatter' with: %s", commands)
@@ -71,8 +72,8 @@ Temp file is '{self.file_to_format}'
 
     def __exit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         return None

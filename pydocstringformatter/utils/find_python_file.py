@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 import glob
 import os
 from pathlib import Path
-from typing import List, Set
 
 
 def _is_python_file(filename: str) -> bool:
@@ -10,12 +11,12 @@ def _is_python_file(filename: str) -> bool:
 
 
 def _find_python_files(
-    filenames: List[str], exclude: List[str], recursive: bool = True
-) -> List[Path]:
+    filenames: list[str], exclude: list[str], recursive: bool = True
+) -> list[Path]:
     """Find all python files for a list of potential file and directory names."""
-    pathnames: List[Path] = []
+    pathnames: list[Path] = []
 
-    to_exclude: Set[str] = set()
+    to_exclude: set[str] = set()
     for exclude_glob in exclude:
         to_exclude.update(set(glob.iglob(exclude_glob, recursive=recursive)))
 

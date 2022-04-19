@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import re
-from typing import Any, Dict
+from typing import Any
 
 from docutils import nodes
 from sphinx import addnodes, application
@@ -21,7 +23,7 @@ class LinkTransformer(SphinxTransform):
 
     docs_regex = re.compile(r".*[/\\]docs[/\\]")
 
-    def apply(self, **_: Dict[str, Any]) -> None:
+    def apply(self, **_: dict[str, Any]) -> None:
         """Apply the transformation."""
         for node in self.document.traverse(nodes.reference):
             if (

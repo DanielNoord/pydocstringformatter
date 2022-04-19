@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List
 
 from pydocstringformatter.testutils.primer.const import DIFF_OUTPUT
 from pydocstringformatter.testutils.primer.packages import PACKAGES, _PackageToPrime
@@ -9,7 +10,7 @@ from pydocstringformatter.testutils.primer.packages import PACKAGES, _PackageToP
 
 def _fix_diff(output: str, package: _PackageToPrime) -> str:
     """Make the diff more readable and useful."""
-    new_output: List[str] = []
+    new_output: list[str] = []
 
     for index, line in enumerate(output.splitlines()):
         if line.startswith("--- "):
@@ -65,7 +66,7 @@ def _run_step_two() -> None:
     This reiterates over all packages that need to be 'primed',
     runs the program in diff mode and stores the output to file.
     """
-    output: Dict[str, str] = {}
+    output: dict[str, str] = {}
 
     for name, package in PACKAGES.items():
         process = subprocess.run(
