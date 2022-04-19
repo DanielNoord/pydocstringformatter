@@ -111,7 +111,7 @@ class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
     @staticmethod
     def _separate_summary_and_description(
         docstring: str, indent_length: int, quotes_length: Literal[1, 3]
-    ) -> Tuple[str, Optional[str]]:
+    ) -> Tuple[str, str, Optional[str]]:
         """Split the summary and description and handle quotes and indentation."""
         if "\n\n" in docstring:
             summary, description = docstring.split("\n\n", maxsplit=1)
@@ -132,7 +132,16 @@ class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
             if summary.endswith("\n"):
                 summary = summary[:-1]
 
-        return summary, description
+        # Remove opening quotes
+        summary = summary[quotes_length:]
+
+        # Prefix is the new-line + idententation for summaries that
+        # are not on the same line as the opening quotes
+        prefix = ""
+        if summary.startswith("\n"):
+            prefix = "\n" + indent_length * " "
+            summary = summary[1 + indent_length :]
+        return prefix, summary, description
 
     def _treat_string(
         self,
@@ -141,17 +150,14 @@ class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
         quotes: str,
         quotes_length: Literal[1, 3],
     ) -> str:
-        summary, description = self._separate_summary_and_description(
+        prefix, summary, description = self._separate_summary_and_description(
             tokeninfo.string,
             indent_length,
             quotes_length,
         )
 
-        # Remove opening quotes
-        summary = summary[quotes_length:]
-
         new_summary = self._treat_summary(summary, indent_length)
-        docstring = f"{quotes}{new_summary}"
+        docstring = f"{quotes}{prefix}{new_summary}"
 
         if description:
             new_description = self._treat_description(description, indent_length)
