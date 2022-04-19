@@ -26,3 +26,11 @@ def func():
     def inner_func():
         """Summary.
         Body without period"""
+
+
+def func():
+    """
+    Summary.
+
+    Body of the docstring.
+    """

@@ -42,3 +42,11 @@ def func():
 
         Body without period
         """
+
+
+def func():
+    """
+    Summary.
+
+    Body of the docstring.
+    """
