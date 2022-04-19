@@ -83,7 +83,13 @@ class FinalPeriodFormatter(SummaryFormatter):
     name = "final-period"
     END_OF_SENTENCE_PUNCTUATION = {".", "?", "!", "‽", ":", ";"}
 
-    def _treat_summary(self, summary: str, indent_length: int) -> str:
+    def _treat_summary(
+        self,
+        summary: str,
+        indent_length: int,
+        quotes_length: Literal[1, 3],
+        description_exists: bool,
+    ) -> str:
         """Add a period to the end of single-line docstrings and summaries."""
         if summary[-1] in self.END_OF_SENTENCE_PUNCTUATION:
             return summary
@@ -120,7 +126,13 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
     """Pattern to match against an end of sentence period."""
 
     # pylint: disable-next=too-many-branches
-    def _treat_summary(self, summary: str, indent_length: int) -> str:
+    def _treat_summary(
+        self,
+        summary: str,
+        indent_length: int,
+        quotes_length: Literal[1, 3],
+        description_exists: bool,
+    ) -> str:
         """Split a summary and body if there is a period after the summary."""
         new_summary = None
 
