@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 import argparse
-from typing import List
 
 from pydocstringformatter.configuration import (
     command_line_parsing,
@@ -13,7 +14,7 @@ from pydocstringformatter.formatting.base import Formatter
 class ArgumentsManager:
     """Handler for arugments adding and parsing."""
 
-    def __init__(self, version: str, formatters: List[Formatter]) -> None:
+    def __init__(self, version: str, formatters: list[Formatter]) -> None:
         # Initialize instance attributes for argument parsing
         self.parser = argparse.ArgumentParser(prog="pydocstringformatter")
         self.namespace = argparse.Namespace()
@@ -109,7 +110,7 @@ class ArgumentsManager:
 
     def parse_options(
         self,
-        argv: List[str],
+        argv: list[str],
     ) -> None:
         """Load all default option values.
 

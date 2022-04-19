@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import argparse
-from typing import Any, Literal, Optional, Sequence, Union
+from collections.abc import Sequence
+from typing import Any, Literal
 
 
 class BooleanOptionalAction(argparse.Action):
@@ -18,7 +21,7 @@ class BooleanOptionalAction(argparse.Action):
         type: Literal[None] = None,  # pylint: disable=redefined-builtin
         choices: Literal[None] = None,
         required: bool = False,
-        help: Optional[str] = None,  # pylint: disable=redefined-builtin
+        help: str | None = None,  # pylint: disable=redefined-builtin
         metavar: Literal[None] = None,
     ) -> None:
         # Non-argparse changes
@@ -52,8 +55,8 @@ class BooleanOptionalAction(argparse.Action):
         self,
         parser: argparse.ArgumentParser,
         namespace: argparse.Namespace,
-        values: Union[str, Sequence[Any], None],
-        option_string: Optional[str] = None,
+        values: str | Sequence[Any] | None,
+        option_string: str | None = None,
     ) -> None:
         """Store correct value on the namespace object."""
         assert option_string, (

@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 import argparse
-from typing import List
 
 from pydocstringformatter.configuration.boolean_option_action import (
     BooleanOptionalAction,
@@ -10,7 +11,7 @@ from pydocstringformatter.formatting.base import Formatter
 def _register_arguments_formatters(
     default_arg_group: argparse._ArgumentGroup,
     optional_arg_group: argparse._ArgumentGroup,
-    formatters: List[Formatter],
+    formatters: list[Formatter],
 ) -> None:
     """Register a list of formatters, so they can all be deactivated or activated."""
     for formatter in formatters:

@@ -1,11 +1,11 @@
 # pylint: disable=too-few-public-methods, protected-access
 """Run class."""
+from __future__ import annotations
 
 import os
 import sys
 import tokenize
 from pathlib import Path
-from typing import List, Union
 
 from pydocstringformatter import __version__, configuration, formatting, utils
 
@@ -13,7 +13,7 @@ from pydocstringformatter import __version__, configuration, formatting, utils
 class _Run:
     """Main class that represent a run of the program."""
 
-    def __init__(self, argv: Union[List[str], None]) -> None:
+    def __init__(self, argv: list[str] | None) -> None:
         # Load ArgumentsManager and set its namespace as instance's config attribute
         self._arguments_manager = configuration.ArgumentsManager(
             __version__,
@@ -34,7 +34,7 @@ class _Run:
         self._check_files(self.config.files)
 
     # pylint: disable-next=inconsistent-return-statements
-    def _check_files(self, files: List[str]) -> None:
+    def _check_files(self, files: list[str]) -> None:
         """Find all files and perform the formatting."""
         filepaths = utils._find_python_files(files, self.config.exclude)
 
@@ -54,7 +54,7 @@ class _Run:
 
     def _format_file(self, filename: Path) -> bool:
         """Format a file."""
-        changed_tokens: List[tokenize.TokenInfo] = []
+        changed_tokens: list[tokenize.TokenInfo] = []
         is_changed = False
 
         with tokenize.open(filename) as file:
@@ -101,7 +101,7 @@ class _Run:
 
         return is_changed
 
-    def _format_files(self, filepaths: List[Path]) -> bool:
+    def _format_files(self, filepaths: list[Path]) -> bool:
         """Format a list of files."""
         is_changed = False
 

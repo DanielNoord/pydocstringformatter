@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 import sys
 import tokenize
 from pathlib import Path
-from typing import List, Tuple
 
 import pytest
 
@@ -90,7 +91,7 @@ class TestDocstringFinder:
 
     def test_function_docstrings(self) -> None:
         """Test that we can find docstrings for function definitions."""
-        docstrings: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
+        docstrings: list[tuple[tuple[int, int], tuple[int, int]]] = []
         with open(
             self.docstring_data / "function_docstrings.py", encoding="utf-8"
         ) as file:
@@ -116,7 +117,7 @@ class TestDocstringFinder:
 
     def test_dictionary_key_value_line(self) -> None:
         """Test that string key-value pairs are not considered a docstring."""
-        docstrings: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
+        docstrings: list[tuple[tuple[int, int], tuple[int, int]]] = []
         with open(self.docstring_data / "dictionary.py", encoding="utf-8") as file:
             tokens = list(tokenize.generate_tokens(file.readline))
             for index, tokeninfo in enumerate(tokens):
@@ -127,7 +128,7 @@ class TestDocstringFinder:
 
     def test_module_docstrings(self) -> None:
         """Test that we find the correct module docstring."""
-        docstrings: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
+        docstrings: list[tuple[tuple[int, int], tuple[int, int]]] = []
         with open(
             self.docstring_data / "module_docstrings.py", encoding="utf-8"
         ) as file:
