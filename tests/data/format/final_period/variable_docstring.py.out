@@ -2,8 +2,9 @@ MYVAR = 1
 """Docstring."""
 
 MYVAR = 1
-"""A multi-line
-docstring.
+"""A multi-line.
+
+docstring
 """
 
 MYVAR = 1
