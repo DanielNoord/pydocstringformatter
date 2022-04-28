@@ -156,8 +156,6 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
     """
 
     name = "split-summary-body"
-    # TODO(#68): Make this non-optional
-    optional = True
 
     end_of_sentence_period = re.compile(
         r"""
@@ -187,7 +185,7 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
         if match := re.search(self.end_of_sentence_period, summary):
             index = match.start()
 
-            if summary[: index - 1].count("\n") < self.config.max_summary_lines:
+            if summary[:index].count("\n") < self.config.max_summary_lines:
                 if len(summary) == index + 1:
                     new_summary = summary
 
