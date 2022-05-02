@@ -23,6 +23,9 @@ class _PackageToPrime:
     directories: list[str]
     """Directories within the repository to run the program over."""
 
+    arguments: list[str]
+    """List of arguments to pass when priming the package."""
+
     @property
     def clone_directory(self) -> Path:
         """Directory to clone repository into."""
@@ -59,10 +62,12 @@ PACKAGES = {
         "https://github.com/PyCQA/pylint",
         "main",
         ["pylint"],
+        ["--max-summary-lines=2"],
     ),
     "pydocstringformatter": _PackageToPrime(
         "https://github.com/DanielNoord/pydocstringformatter",
         "main",
         ["pydocstringformatter"],
+        [],
     ),
 }
