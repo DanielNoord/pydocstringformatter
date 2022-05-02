@@ -50,7 +50,8 @@ def _run_step_one() -> None:
     for package in PACKAGES.values():
         subprocess.run(
             [sys.executable, "-m", "pydocstringformatter", "-w"]
-            + package.paths_to_lint,
+            + package.paths_to_lint
+            + package.arguments,
             cwd=Path(__file__).parent.parent.parent,
             capture_output=True,
             text=True,
@@ -70,7 +71,9 @@ def _run_step_two() -> None:
 
     for name, package in PACKAGES.items():
         process = subprocess.run(
-            [sys.executable, "-m", "pydocstringformatter"] + package.paths_to_lint,
+            [sys.executable, "-m", "pydocstringformatter"]
+            + package.paths_to_lint
+            + package.arguments,
             cwd=Path(__file__).parent.parent.parent,
             capture_output=True,
             text=True,
