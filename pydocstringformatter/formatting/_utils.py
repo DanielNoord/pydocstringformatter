@@ -1,3 +1,7 @@
+import functools
+
+
+@functools.lru_cache(maxsize=None)
 def is_rst_title(summary: str) -> bool:
     """Check if the second line of a summary is one recurring character."""
     # If second line is one recurring character we're dealing with a rst title
