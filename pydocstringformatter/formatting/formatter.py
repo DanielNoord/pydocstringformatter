@@ -150,9 +150,6 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
     """Split the summary and body of a docstring based on a period and max length.
 
     The maximum length of a summary can be set with the --max-summary-lines option.
-
-    This formatter is currently optional as its considered somwehat opinionated
-    and might require major refactoring for existing projects.
     """
 
     name = "split-summary-body"

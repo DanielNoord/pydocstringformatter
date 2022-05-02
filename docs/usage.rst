@@ -54,10 +54,7 @@ Current usage of ``pydocstringformatter``:
                             Activate or deactivate split-summary-body: Split the
                             summary and body of a docstring based on a period and
                             max length. The maximum length of a summary can be set
-                            with the --max-summary-lines option. This formatter is
-                            currently optional as its considered somwehat
-                            opinionated and might require major refactoring for
-                            existing projects. (default: True)
+                            with the --max-summary-lines option. (default: True)
       --beginning-quotes, --no-beginning-quotes
                             Activate or deactivate beginning-quotes: Fix the
                             position of the opening quotes. (default: True)
