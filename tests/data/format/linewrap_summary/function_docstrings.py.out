@@ -31,3 +31,21 @@ def func():
     """A multi-line summary that can be on one line, Something that is just too
     longgg.
     """
+
+
+def func():
+    """A multi-line summary that can be on one line, Something that is just too
+    long.
+    """
+
+
+def func():
+    """A multi-line summary that can be on one line, Something that is just too lon."""
+
+
+# Regression for bug found in pylint
+# We should re-add the quotes to line length if they will never be on the first line.
+class LinesChunk:
+    """The LinesChunk object computes and stores the hash of some consecutive stripped
+    lines of a lineset.
+    """

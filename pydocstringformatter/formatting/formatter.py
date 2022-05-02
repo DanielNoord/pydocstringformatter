@@ -71,8 +71,21 @@ class LineWrapperFormatter(SummaryFormatter):
     ) -> str:
         """Wrap the summary of a docstring."""
 
-        # We need to deduct ending quotes if there is no description
-        line_length = 88 if description_exists else 88 - quotes_length
+        line_length = 88
+
+        # Without a description we need to consider the length including closing quotes
+        if not description_exists:
+
+            # Calculate length without the ending quotes
+            length_without_ending = indent_length + quotes_length + len(summary)
+
+            # If potential length is less than line length we need to consider ending
+            # quotes as well for the line length
+            if length_without_ending < line_length:
+                # We substract one more because we don't want a new line with just the
+                # ending quotes
+                line_length -= quotes_length + 1
+
         summary_lines = summary.splitlines()
 
         new_summary = "\n".join(
