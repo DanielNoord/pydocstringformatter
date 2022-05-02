@@ -21,8 +21,8 @@ from pydocstringformatter.formatting.formatter import (
 #   Determine if multi-line or single line and position quotes accordingly
 #   String manipulation in which being multi-line or single line matters
 FORMATTERS: list[Formatter] = [
-    SplitSummaryAndDocstringFormatter(),
     StripWhitespacesFormatter(),
+    SplitSummaryAndDocstringFormatter(),
     LineWrapperFormatter(),
     BeginningQuotesFormatter(),
     ClosingQuotesFormatter(),

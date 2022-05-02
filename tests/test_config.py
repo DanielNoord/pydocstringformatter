@@ -85,10 +85,13 @@ def test_no_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -
     output = capsys.readouterr()
     assert output.out.endswith(
         '''
-@@ -1,2 +1,3 @@
- """A multi-line
+@@ -1,2 +1,4 @@
+-"""A multi-line
 -docstring."""
-+docstring.\n+"""
++"""A multi-line.
++
++docstring.
++"""
 '''
     )
     assert not output.err
@@ -104,7 +107,7 @@ def test_write_argument(capsys: pytest.CaptureFixture[str], test_file: str) -> N
     pydocstringformatter.run_docstring_formatter([test_file, "-w"])
 
     with open(test_file, encoding="utf-8") as file:
-        assert "".join(file.readlines()) == '"""A multi-line\ndocstring.\n"""'
+        assert "".join(file.readlines()) == '"""A multi-line.\n\ndocstring.\n"""'
 
     output = capsys.readouterr()
     assert output.out == f"Formatted {expected_path} 📖\n"
@@ -123,7 +126,7 @@ def test_long_write_argument(
     pydocstringformatter.run_docstring_formatter([test_file, "--write"])
 
     with open(test_file, encoding="utf-8") as file:
-        assert "".join(file.readlines()) == '"""A multi-line\ndocstring.\n"""'
+        assert "".join(file.readlines()) == '"""A multi-line.\n\ndocstring.\n"""'
 
     output = capsys.readouterr()
     assert output.out == f"Formatted {expected_path} 📖\n"
@@ -217,7 +220,7 @@ class TestExcludeOption:
         pydocstringformatter.run_docstring_formatter([test_file, "-w", "--quiet"])
 
         with open(test_file, encoding="utf-8") as file:
-            assert "".join(file.readlines()) == '"""A multi-line\ndocstring.\n"""'
+            assert "".join(file.readlines()) == '"""A multi-line.\n\ndocstring.\n"""'
 
         output = capsys.readouterr()
         assert not output.out

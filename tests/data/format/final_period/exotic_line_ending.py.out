@@ -9,5 +9,4 @@ def function():
     """This has peculiar line ending;
 
     but it should not matter.
-
     """

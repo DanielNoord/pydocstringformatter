@@ -9,8 +9,8 @@ Current usage of ``pydocstringformatter``:
                                 [--exit-code]
                                 [--max-summary-lines MAX_SUMMARY_LINES]
                                 [--summary-quotes-same-line]
-                                [--split-summary-body  --no-split-summary-body]
                                 [--strip-whitespaces  --no-strip-whitespaces]
+                                [--split-summary-body  --no-split-summary-body]
                                 [--linewrap-full-docstring  --no-linewrap-full-docstring]
                                 [--beginning-quotes  --no-beginning-quotes]
                                 [--closing-quotes  --no-closing-quotes]
@@ -50,6 +50,11 @@ Current usage of ``pydocstringformatter``:
                             Activate or deactivate strip-whitespaces: Strip 1)
                             docstring start, 2) docstring end and 3) end of line.
                             (default: True)
+      --split-summary-body, --no-split-summary-body
+                            Activate or deactivate split-summary-body: Split the
+                            summary and body of a docstring based on a period and
+                            max length. The maximum length of a summary can be set
+                            with the --max-summary-lines option. (default: True)
       --beginning-quotes, --no-beginning-quotes
                             Activate or deactivate beginning-quotes: Fix the
                             position of the opening quotes. (default: True)
@@ -72,14 +77,6 @@ Current usage of ``pydocstringformatter``:
     optional formatters:
       these formatters are turned off by default
 
-      --split-summary-body, --no-split-summary-body
-                            Activate or deactivate split-summary-body: Split the
-                            summary and body of a docstring based on a period and
-                            max length. The maximum length of a summary can be set
-                            with the --max-summary-lines option. This formatter is
-                            currently optional as its considered somwehat
-                            opinionated and might require major refactoring for
-                            existing projects. (default: False)
       --linewrap-full-docstring, --no-linewrap-full-docstring
                             Activate or deactivate linewrap-full-docstring:
                             Linewrap the docstring by the pre-defined line length.

@@ -3,6 +3,7 @@ import textwrap
 import tokenize
 from typing import Literal
 
+from pydocstringformatter.formatting import _utils
 from pydocstringformatter.formatting.base import (
     StringAndQuotesFormatter,
     StringFormatter,
@@ -152,9 +153,7 @@ class FinalPeriodFormatter(SummaryFormatter):
         if summary[-1] in self.END_OF_SENTENCE_PUNCTUATION:
             return summary
 
-        # If second line is one recurring character we're dealing with a rst title
-        last_line = summary.splitlines()[-1].lstrip()
-        if last_line.count(last_line[0]) == len(last_line):
+        if _utils.is_rst_title(summary):
             return summary
 
         return summary + "."
@@ -164,14 +163,9 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
     """Split the summary and body of a docstring based on a period and max length.
 
     The maximum length of a summary can be set with the --max-summary-lines option.
-
-    This formatter is currently optional as its considered somwehat opinionated
-    and might require major refactoring for existing projects.
     """
 
     name = "split-summary-body"
-    # TODO(#68): Make this non-optional
-    optional = True
 
     end_of_sentence_period = re.compile(
         r"""
@@ -194,11 +188,14 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
         """Split a summary and body if there is a period after the summary."""
         new_summary = None
 
+        if _utils.is_rst_title(summary):
+            return summary
+
         # Try to split on period
         if match := re.search(self.end_of_sentence_period, summary):
             index = match.start()
 
-            if summary[: index - 1].count("\n") < self.config.max_summary_lines:
+            if summary[:index].count("\n") < self.config.max_summary_lines:
                 if len(summary) == index + 1:
                     new_summary = summary
 
