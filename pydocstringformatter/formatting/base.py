@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import abc
 import argparse
+import functools
 import re
 import tokenize
 from typing import Literal
@@ -117,6 +118,7 @@ class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
         """Return a modified description."""
 
     @staticmethod
+    @functools.lru_cache(maxsize=None)
     def _separate_summary_and_description(
         docstring: str, indent_length: int, quotes_length: Literal[1, 3]
     ) -> tuple[str, str, str | None]:
