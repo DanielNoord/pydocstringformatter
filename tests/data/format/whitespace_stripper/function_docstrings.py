@@ -14,3 +14,28 @@ def func():
         """  A multi-line  
         docstring  
         """
+
+
+def func():
+    """Summary.
+
+    Body.
+
+    """
+
+    def inner_func():
+        """Summary.
+
+        Body.
+
+
+
+        """
+
+    def inner_func():
+        """Summary.
+
+
+        Body.
+
+        """
