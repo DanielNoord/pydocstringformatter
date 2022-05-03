@@ -47,7 +47,7 @@ For example:
 
 ```toml
 [tool.pydocstringformatter]
-write = True
+write = true
 exclude = "**/my_dir/**,**/my_other_dir/**"
 # Or:
 exclude = ["**/my_dir/**", "**/my_other_dir/**"]
