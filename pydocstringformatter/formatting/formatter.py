@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 import textwrap
 import tokenize
@@ -237,17 +239,35 @@ class StripWhitespacesFormatter(StringAndQuotesFormatter):
     ) -> str:
         """Strip whitespaces."""
         lines = tokeninfo.string[quotes_length:-quotes_length].split("\n")
-        for index, line in enumerate(lines):
-            if index == 0:  # pylint: disable=compare-to-zero
-                lines[index] = line.lstrip().rstrip()
-            elif index == len(lines) - 1:
-                # Remove whitespaces if last line is completely empty
-                if len(line) > indent_length and line.count(" ") == len(line):
-                    lines[index] = ""
-            else:
-                lines[index] = line.rstrip()
+        new_lines: list[str] = []
 
-        return quotes + "\n".join(lines) + quotes
+        for index, line in enumerate(lines):
+            if line == "":
+                # Remove double white lines
+                if index and lines[index - 1] == "":
+                    continue
+
+            # On the first line strip from both sides
+            if index == 0:  # pylint: disable=compare-to-zero
+                new_lines.append(line.lstrip().rstrip())
+
+            # Check last line
+            elif index == len(lines) - 1:
+                # If completely whitespace, just return the indent_length
+                if line.count(" ") == len(line):
+                    new_lines.append(indent_length * " ")
+                else:
+                    new_lines.append(line)
+
+            # Else, only strip right side
+            else:
+                new_lines.append(line.rstrip())
+
+        # Remove a final white line
+        if len(new_lines) > 3 and new_lines[-2] == "":
+            new_lines.pop(-2)
+
+        return quotes + "\n".join(new_lines) + quotes
 
 
 class QuotesTypeFormatter(StringAndQuotesFormatter):

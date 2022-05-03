@@ -16,3 +16,22 @@ def func():
 
         docstring
         """
+
+
+def func():
+    """Summary.
+
+    Body.
+    """
+
+    def inner_func():
+        """Summary.
+
+        Body.
+        """
+
+    def inner_func():
+        """Summary.
+
+        Body.
+        """
