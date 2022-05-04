@@ -32,7 +32,7 @@ See
 
 As such, the biggest difference between the two is that `pydocstringformatter` fixes
 some of the open issues we found in `docformatter`. In general, the output of both
-formatters (and any other docstring formatter) should be relatively the same.
+formatters (and any other docstring formatter) should be relatively similar.
 
 ## How to install
 
