@@ -30,9 +30,9 @@ _"A docstring formatter that follows PEP8 and PEP257 but makes some of the more
 See
 [the original answer](https://github.com/DanielNoord/pydocstringformatter/issues/38).
 
-As such, the biggest difference between the two is that `pydocstringformatter`
-fixes some of the open issues we found in `docformatter`. In general, the output
-of both formatters (and any other docstring formatter) should be relatively the same.
+As such, the biggest difference between the two is that `pydocstringformatter` fixes
+some of the open issues we found in `docformatter`. In general, the output of both
+formatters (and any other docstring formatter) should be relatively the same.
 
 ## How to install
 
