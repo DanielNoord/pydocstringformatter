@@ -22,7 +22,7 @@ is now also no longer fully supported.
 Therefore, some contributors of `pylint` got together and started working on our own formatter to fulfill
 our needs. 
 
-When asked they defined the objective of the tools as:
+When asked we defined the objective of the tools as:
 
 _"A docstring formatter that follows PEP8 and PEP257 but makes some of the more 'controversial' elements of the PEPs optional"_
 
