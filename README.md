@@ -6,27 +6,29 @@
 
 # Pydocstringformatter
 
-A tool to automatically format Python docstrings to follow recommendations
-from [`PEP 8`](https://www.python.org/dev/peps/pep-0008/) and
-[`PEP 257`](https://www.python.org/dev/peps/pep-0257/). 
+A tool to automatically format Python docstrings to follow recommendations from
+[`PEP 8`](https://www.python.org/dev/peps/pep-0008/) and
+[`PEP 257`](https://www.python.org/dev/peps/pep-0257/).
 
 See [What it does](#what-it-does) for currently supported auto-formatting.
 
 ### Rationale
 
-This project is heavily inspired by [`docformatter`](https://github.com/PyCQA/docformatter). 
+This project is heavily inspired by
+[`docformatter`](https://github.com/PyCQA/docformatter).
 
-When this project was started `docformatter` did not meet all of the requirements the 
-[`pylint`](https://github.com/PyCQA/pylint) project had for its docstring formatter and sadly `docformatter`
-is now also no longer fully supported.
-Therefore, some contributors of `pylint` got together and started working on our own formatter to fulfill
-our needs. 
+When this project was started `docformatter` did not meet all of the requirements the
+[`pylint`](https://github.com/PyCQA/pylint) project had for its docstring formatter and
+sadly `docformatter` is now also no longer fully supported. Therefore, some contributors
+of `pylint` got together and started working on our own formatter to fulfill our needs.
 
 When asked we defined the objective of the tools as:
 
-_"A docstring formatter that follows PEP8 and PEP257 but makes some of the more 'controversial' elements of the PEPs optional"_
+_"A docstring formatter that follows PEP8 and PEP257 but makes some of the more
+'controversial' elements of the PEPs optional"_
 
-See [the original answer](https://github.com/DanielNoord/pydocstringformatter/issues/38).
+See
+[the original answer](https://github.com/DanielNoord/pydocstringformatter/issues/38).
 
 ## How to install
 
