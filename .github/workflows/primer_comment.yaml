@@ -60,6 +60,7 @@ jobs:
               repo: context.repo.repo,
               body
             })
+            return prNumber
       - name: Hide old comments
         # Taken from mypy primer
         # v0.3.0
