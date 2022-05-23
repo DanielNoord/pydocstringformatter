@@ -1,0 +1,13 @@
+def func():
+    """A very long line that needs to be wrapped especially this sentence."""
+
+def func():
+    """Event multi line docstrings need to be wrapped.
+
+    This description is way too long. It definitely needs to be wrapped.
+    """
+
+# Regression for bug found in pylint
+# We should re-add the quotes to line length if they will never be on the first line.
+class LinesChunk:
+    """The LinesChunk object computes and store."""

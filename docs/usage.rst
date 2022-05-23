@@ -6,9 +6,9 @@ Current usage of ``pydocstringformatter``:
 .. code-block:: shell
 
     usage: pydocstringformatter [-h] [-w] [--quiet] [-v] [--exclude EXCLUDE]
-                                [--exit-code]
-                                [--max-summary-lines MAX_SUMMARY_LINES]
+                                [--exit-code] [--max-summary-lines int]
                                 [--summary-quotes-same-line]
+                                [--max-line-length int]
                                 [--strip-whitespaces  --no-strip-whitespaces]
                                 [--split-summary-body  --no-split-summary-body]
                                 [--linewrap-full-docstring  --no-linewrap-full-docstring]
@@ -35,13 +35,15 @@ Current usage of ``pydocstringformatter``:
       --exit-code           Turn on if the program should exit with bitwise exit
                             codes. 0 = No changes, 32 = Changed files or printed
                             diff.
-      --max-summary-lines MAX_SUMMARY_LINES
+      --max-summary-lines int
                             The maximum numbers of lines a summary can span. The
                             default value is 1.
       --summary-quotes-same-line
                             Force the start of a multi-line docstring to be on the
                             same line as the opening quotes. Similar to how this
                             is enforced for single line docstrings.
+      --max-line-length int
+                            Maximum line length of docstrings.
 
     default formatters:
       these formatters are turned on by default
