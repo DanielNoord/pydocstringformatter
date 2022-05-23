@@ -4,7 +4,7 @@ name: Comment with primer diff
 
 on:
   workflow_run:
-    workflows: [Run primer]
+    workflows: [Primer]
     types:
       - completed
 

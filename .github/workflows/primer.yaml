@@ -1,6 +1,6 @@
 # Most of this is inspired by the mypy primer
 
-name: Run primer
+name: Primer
 
 on:
   pull_request:
