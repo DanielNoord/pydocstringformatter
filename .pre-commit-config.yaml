@@ -55,7 +55,7 @@ repos:
         additional_dependencies:
           [pytest-stub==1.1.0, types-docutils~=0.17.5, sphinx~=4.4]
   - repo: https://github.com/DanielNoord/pydocstringformatter
-    rev: v0.5.3
+    rev: v0.6.0
     hooks:
       - id: pydocstringformatter
         exclude: *test-data
