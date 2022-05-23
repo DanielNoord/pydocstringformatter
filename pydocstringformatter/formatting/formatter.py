@@ -73,7 +73,7 @@ class LineWrapperFormatter(SummaryFormatter):
     ) -> str:
         """Wrap the summary of a docstring."""
 
-        line_length = 88
+        line_length = self.config.max_line_length
 
         # Without a description we need to consider the length including closing quotes
         if not description_exists:
@@ -84,7 +84,7 @@ class LineWrapperFormatter(SummaryFormatter):
             # If potential length is less than line length we need to consider ending
             # quotes as well for the line length
             if length_without_ending < line_length:
-                # We substract one more because we don't want a new line with just the
+                # We subtract one more because we don't want a new line with just the
                 # ending quotes
                 line_length -= quotes_length + 1
 

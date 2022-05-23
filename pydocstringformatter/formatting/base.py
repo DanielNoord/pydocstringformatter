@@ -145,7 +145,7 @@ class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
         # Remove opening quotes
         summary = summary[quotes_length:]
 
-        # Prefix is the new-line + idententation for summaries that
+        # Prefix is the new-line + indentation for summaries that
         # are not on the same line as the opening quotes
         prefix = ""
         if summary.startswith("\n"):

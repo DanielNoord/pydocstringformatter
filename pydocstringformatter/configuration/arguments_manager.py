@@ -96,6 +96,7 @@ class ArgumentsManager:
                 "The maximum numbers of lines a summary can span. "
                 "The default value is 1."
             ),
+            metavar="int",
         )
 
         self.configuration_group.add_argument(
@@ -106,6 +107,15 @@ class ArgumentsManager:
                 "same line as the opening quotes. Similar to how this is enforced "
                 "for single line docstrings."
             ),
+        )
+
+        self.configuration_group.add_argument(
+            "--max-line-length",
+            action="store",
+            default=88,
+            type=int,
+            help="Maximum line length of docstrings.",
+            metavar="int",
         )
 
     def parse_options(

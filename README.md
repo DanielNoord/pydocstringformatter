@@ -56,6 +56,7 @@ options:
   -w, --write           Write the changes to file instead of printing the diffs to stdout.
   --quiet               Do not print any logging or status messages to stdout.
   -v, --version         Show version number and exit.
+  --max-line-length     The maximum docstring line length. Default set to 88.
 
 configuration:
   --exclude EXCLUDE     A comma separated list of glob patterns of file path names not to be formatted.
