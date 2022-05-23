@@ -49,6 +49,8 @@ jobs:
           cd ..
           python -m pydocstringformatter.testutils.primer.primer --step-two
       - name: Post comment
+        permissions:
+          pull-requests: write
         id: post-comment
         uses: actions/github-script@v6
         with:
@@ -71,6 +73,8 @@ jobs:
               body
             })
       - name: Hide old comments
+        permissions:
+          pull-requests: write
         # Taken from mypy primer
         # v0.3.0
         uses: kanga333/comment-hider@bbdf5b562fbec24e6f60572d8f712017428b92e0
