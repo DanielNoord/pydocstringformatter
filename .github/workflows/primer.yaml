@@ -54,9 +54,10 @@ jobs:
         with:
           name: primer_diffs
           path: .pydocstringformatter_primer_tests/fulldiff.txt
-      - name: Save and upload PR number
+      - name: Save PR number
         run: |
           echo ${{ github.event.pull_request.number }} | tee pr_number.txt
+      - name: Upload PR number
         uses: actions/upload-artifact@v2
         with:
           name: primer_diffs
