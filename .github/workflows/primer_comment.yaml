@@ -53,8 +53,9 @@ jobs:
             } else {
               body = 'According to the primer, this change has no effect on the checked open source code. 🤖🎉'
             }
+            const prNumber = parseInt(fs.readFileSync("pr_number.txt", { encoding: "utf8" }))
             await github.rest.issues.createComment({
-              issue_number: ${{ github.event.pull_request.number }},
+              issue_number: prNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body
