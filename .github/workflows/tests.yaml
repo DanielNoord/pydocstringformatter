@@ -54,10 +54,10 @@ jobs:
         uses: actions/download-artifact@v3.0.0
       - name: Combine coverage results
         run: coverage combine coverage*/.coverage
-      - name: Upload coverage to Coveralls
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: coveralls --service=github
+      - uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true
+          verbose: true
 
   tests-windows:
     name: Run / ${{ matrix.python-version }} / Windows
