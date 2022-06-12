@@ -1,5 +1,5 @@
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/pydocstringformatter.svg)](https://pypi.python.org/pypi/pydocstringformatter/)
-[![Coverage Status](https://coveralls.io/repos/github/DanielNoord/pydocstringformatter/badge.svg?branch=main)](https://coveralls.io/github/DanielNoord/pydocstringformatter?branch=main)
+[![codecov](https://codecov.io/gh/DanielNoord/pydocstringformatter/branch/main/graph/badge.svg?token=TR61QNMBZG)](https://codecov.io/gh/DanielNoord/pydocstringformatter)
 [![Tests](https://github.com/DanielNoord/pydocstringformatter/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/DanielNoord/pydocstringformatter/actions/workflows/tests.yaml)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/DanielNoord/pydocstringformatter/main.svg)](https://results.pre-commit.ci/latest/github/DanielNoord/pydocstringformatter/main)
 [![Documentation Status](https://readthedocs.org/projects/pydocstringformatter/badge/?version=latest)](https://pydocstringformatter.readthedocs.io/en/latest/?badge=latest)
