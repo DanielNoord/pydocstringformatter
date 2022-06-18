@@ -3,8 +3,9 @@ repos:
     rev: v4.3.0
     hooks:
       - id: trailing-whitespace
-        exclude: "tests/data/format/whitespace_stripper|tests/data/format/quotes_type|tests/test_config.py"
+        exclude: "tests/data/format/whitespace_stripper|tests/data/format/quotes_type|tests/data/format/newlines|tests/test_config.py"
       - id: end-of-file-fixer
+        exclude: "tests/data/format/newlines"
       - id: check-yaml
       - id: check-toml
         exclude: &test-data "tests/data"

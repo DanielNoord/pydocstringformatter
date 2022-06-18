@@ -64,6 +64,9 @@ class _Run:
                 raise utils.ParsingError(
                     f"Can't parse {os.path.relpath(filename)}. Is it valid Python code?"
                 ) from exc
+            # Record type of newlines so we can make sure to use
+            # the same later on.
+            newlines = file.newlines
 
         for index, tokeninfo in enumerate(tokens):
             new_tokeninfo = tokeninfo
@@ -85,7 +88,15 @@ class _Run:
                 filename_str = str(filename)
 
             if self.config.write:
-                with open(filename, "w", encoding="utf-8") as file:
+                if isinstance(newlines, tuple):
+                    newlines = newlines[0]
+                    print(
+                        "Found multiple newline variants in "
+                        f"{os.path.abspath(filename_str)}. "
+                        "Using variant that occurred first.",
+                        file=sys.stderr,
+                    )
+                with open(filename, "w", encoding="utf-8", newline=newlines) as file:
                     file.write(tokenize.untokenize(changed_tokens))
                     utils._print_to_console(
                         f"Formatted {filename_str} 📖\n", self.config.quiet
