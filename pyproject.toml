@@ -46,6 +46,7 @@ enable = [
 
 [tool.pylint.BASIC]
 no-docstring-rgx = "__.*__"
+good-names = "f"
 
 [tool.pylint.TYPECHECK]
 generated-members = "argparse.Namespace"

@@ -35,23 +35,26 @@ def test_formatting(
     We create and write to a temporary file so that the original test file
     isn't overwritten and the 'py.out' file can represent an actual
     python file instead of a diff.
+
+    Everything is tested in bytes as we want to preserve the type of the
+    line endings of the original file.
     """
     # Setup
     temp_file_name = str(tmp_path / "test_file.py")
-    with open(test_file + ".out", encoding="utf-8") as expected_output:
-        expected_lines = expected_output.readlines()
+    with open(test_file, "rb") as f:
+        expected_output = f.read()
 
     # Get original lines from test file and write to temporary file
-    with open(test_file, encoding="utf-8") as original_file:
-        original_lines = original_file.readlines()
-    with open(temp_file_name, "w", encoding="utf-8") as temp_file:
-        temp_file.writelines(original_lines)
+    with open(test_file, "rb") as f:
+        original_bytes = f.read()
+    with open(temp_file_name, "wb") as f:
+        f.write(original_bytes)
 
     # Get any additional args as specified by an .args file
     additional_args: list[str] = []
     if os.path.exists(test_file.replace(".py", ".args")):
-        with open(test_file.replace(".py", ".args"), encoding="utf-8") as args_file:
-            additional_args = [i.rstrip("\n") for i in args_file.readlines()]
+        with open(test_file.replace(".py", ".args"), encoding="utf-8") as f:
+            additional_args = [i.rstrip("\n") for i in f.readlines()]
 
     pydocstringformatter.run_docstring_formatter(
         [temp_file_name, "--write"] + additional_args
@@ -59,5 +62,5 @@ def test_formatting(
 
     output = capsys.readouterr()
     assert not output.err
-    with open(temp_file_name, encoding="utf-8") as temp_file:
-        assert temp_file.readlines() == expected_lines
+    with open(temp_file_name, "rb") as f:
+        assert f.read() == expected_output
