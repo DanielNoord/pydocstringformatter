@@ -41,7 +41,16 @@ def test_formatting(
     """
     # Setup
     temp_file_name = str(tmp_path / "test_file.py")
-    with open(test_file, "rb") as f:
+
+    # Check if there is a specific output for the standard newline of this OS.
+    # For example, this allows testing that in files without any initial newlines
+    # we use the standard newline whenever we need one.
+    test_name = f"{test_file}-{os.linesep.encode().hex()}.out"
+    if not os.path.isfile(test_name):
+        # This is the regular output file.
+        test_name = test_file + ".out"
+
+    with open(test_name, "rb") as f:
         expected_output = f.read()
 
     # Get original lines from test file and write to temporary file
@@ -56,11 +65,18 @@ def test_formatting(
         with open(test_file.replace(".py", ".args"), encoding="utf-8") as f:
             additional_args = [i.rstrip("\n") for i in f.readlines()]
 
+    # Get message on stderr
+    if os.path.exists(test_file.replace(".py", ".err")):
+        with open(test_file.replace(".py", ".err"), encoding="utf-8") as f:
+            error_message = f.read()
+    else:
+        error_message = ""
+
     pydocstringformatter.run_docstring_formatter(
         [temp_file_name, "--write"] + additional_args
     )
 
     output = capsys.readouterr()
-    assert not output.err
+    assert output.err == error_message.format(testfile=os.path.abspath(temp_file_name))
     with open(temp_file_name, "rb") as f:
         assert f.read() == expected_output

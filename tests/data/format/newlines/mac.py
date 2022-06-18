@@ -1,0 +1,1 @@
+var = 1"""A multi-line.docstring."""var = 1"""A single-line docstring."""
