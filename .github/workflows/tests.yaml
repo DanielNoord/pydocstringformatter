@@ -13,14 +13,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.8, 3.9, "3.10"]
+        python-version: [3.8, 3.9, "3.10", "3.11-dev"]
     steps:
       - name: Check out code from GitHub
         uses: actions/checkout@v3.0.2
-      - name: Set temp directory
-        run: echo "TEMP=$env:USERPROFILE\AppData\Local\Temp" >> $env:GITHUB_ENV
-        # Workaround to set correct temp directory on Windows
-        # https://github.com/actions/virtual-environments/issues/712
       - name: Set up Python ${{ matrix.python-version }}
         id: python
         uses: actions/setup-python@v4
@@ -65,7 +61,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.8, 3.9, "3.10"]
+        python-version: [3.8, 3.9, "3.10", "3.11-dev"]
     steps:
       - name: Check out code from GitHub
         uses: actions/checkout@v3.0.2
