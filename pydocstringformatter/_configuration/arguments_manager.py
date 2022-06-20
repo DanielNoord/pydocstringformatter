@@ -8,7 +8,7 @@ from pydocstringformatter._configuration import (
     toml_parsing,
 )
 from pydocstringformatter._configuration.validators import VALIDATORS
-from pydocstringformatter.formatting.base import Formatter
+from pydocstringformatter._formatting.base import Formatter
 
 
 class ArgumentsManager:

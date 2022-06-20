@@ -5,7 +5,7 @@ import argparse
 from pydocstringformatter._configuration.boolean_option_action import (
     BooleanOptionalAction,
 )
-from pydocstringformatter.formatting.base import Formatter
+from pydocstringformatter._formatting.base import Formatter
 
 
 def _register_arguments_formatters(

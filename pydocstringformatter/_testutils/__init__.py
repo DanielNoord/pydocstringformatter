@@ -8,7 +8,7 @@ from types import TracebackType
 import pytest
 
 from pydocstringformatter import run_docstring_formatter
-from pydocstringformatter.formatting import Formatter
+from pydocstringformatter._formatting import Formatter
 
 LOGGER = logging.getLogger(__name__)
 

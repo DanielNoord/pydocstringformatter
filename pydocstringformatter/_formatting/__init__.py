@@ -3,8 +3,8 @@ from __future__ import annotations
 __all__ = ["FORMATTERS", "Formatter"]
 
 
-from pydocstringformatter.formatting.base import Formatter
-from pydocstringformatter.formatting.formatter import (
+from pydocstringformatter._formatting.base import Formatter
+from pydocstringformatter._formatting.formatter import (
     BeginningQuotesFormatter,
     CapitalizeFirstLetterFormatter,
     ClosingQuotesFormatter,

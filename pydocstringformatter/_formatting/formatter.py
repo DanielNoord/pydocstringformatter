@@ -5,8 +5,8 @@ import textwrap
 import tokenize
 from typing import Literal
 
-from pydocstringformatter.formatting import _utils
-from pydocstringformatter.formatting.base import (
+from pydocstringformatter._formatting import _utils
+from pydocstringformatter._formatting.base import (
     StringAndQuotesFormatter,
     StringFormatter,
     SummaryFormatter,

@@ -7,7 +7,7 @@ import sys
 import tokenize
 from pathlib import Path
 
-from pydocstringformatter import __version__, _utils, formatting
+from pydocstringformatter import __version__, _formatting, _utils
 from pydocstringformatter._configuration.arguments_manager import ArgumentsManager
 
 
@@ -16,7 +16,7 @@ class _Run:
 
     def __init__(self, argv: list[str] | None) -> None:
         # Load ArgumentsManager and set its namespace as instance's config attribute
-        self._arguments_manager = ArgumentsManager(__version__, formatting.FORMATTERS)
+        self._arguments_manager = ArgumentsManager(__version__, _formatting.FORMATTERS)
         self.config = self._arguments_manager.namespace
 
         # Display help message if nothing is passed
@@ -26,7 +26,7 @@ class _Run:
 
         # Parse options and register on formatters
         self._arguments_manager.parse_options(argv)
-        for formatter in formatting.FORMATTERS:
+        for formatter in _formatting.FORMATTERS:
             formatter.set_config_namespace(self.config)
 
         self._check_files(self.config.files)
@@ -70,7 +70,7 @@ class _Run:
             new_tokeninfo = tokeninfo
 
             if _utils._is_docstring(new_tokeninfo, tokens[index - 1]):
-                for formatter in formatting.FORMATTERS:
+                for formatter in _formatting.FORMATTERS:
                     if getattr(self.config, formatter.name):
                         new_tokeninfo = formatter.treat_token(new_tokeninfo)
             changed_tokens.append(new_tokeninfo)
