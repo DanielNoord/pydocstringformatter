@@ -6,7 +6,7 @@ from typing import Any, Final
 
 import tomli
 
-from pydocstringformatter.utils.exceptions import TomlParsingError, UnrecognizedOption
+from pydocstringformatter._utils.exceptions import TomlParsingError, UnrecognizedOption
 
 OPTIONS_TYPES: Final = {"write": "store_true", "exclude": "store"}
 

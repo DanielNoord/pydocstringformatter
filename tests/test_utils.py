@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 import pydocstringformatter
-from pydocstringformatter.utils import _find_python_files, _is_docstring
+from pydocstringformatter._utils import _find_python_files, _is_docstring
 
 HERE = Path(__file__)
 UTILS_DATA = HERE.parent / "data" / "utils"

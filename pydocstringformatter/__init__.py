@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import sys
 
-from pydocstringformatter.utils.exceptions import (
+from pydocstringformatter._utils.exceptions import (
     ParsingError,
     PydocstringFormatterError,
 )
