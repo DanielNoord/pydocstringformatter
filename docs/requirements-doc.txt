@@ -1,4 +1,5 @@
 -e .
-myst-parser~=0.16
-sphinx~=4.4
-types-docutils~=0.17.5
+myst-parser~=0.18
+sphinx~=5.0.2
+furo==2022.4.7
+types-docutils~=0.18
