@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 
-from pydocstringformatter.configuration.boolean_option_action import (
+from pydocstringformatter._configuration.boolean_option_action import (
     BooleanOptionalAction,
 )
 from pydocstringformatter.formatting.base import Formatter

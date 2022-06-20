@@ -7,7 +7,8 @@ import sys
 import tokenize
 from pathlib import Path
 
-from pydocstringformatter import __version__, configuration, formatting, utils
+from pydocstringformatter import __version__, formatting, utils
+from pydocstringformatter._configuration.arguments_manager import ArgumentsManager
 
 
 class _Run:
@@ -15,10 +16,7 @@ class _Run:
 
     def __init__(self, argv: list[str] | None) -> None:
         # Load ArgumentsManager and set its namespace as instance's config attribute
-        self._arguments_manager = configuration.ArgumentsManager(
-            __version__,
-            formatting.FORMATTERS,
-        )
+        self._arguments_manager = ArgumentsManager(__version__, formatting.FORMATTERS)
         self.config = self._arguments_manager.namespace
 
         # Display help message if nothing is passed
