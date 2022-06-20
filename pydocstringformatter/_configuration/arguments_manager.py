@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import argparse
 
-from pydocstringformatter.configuration import (
+from pydocstringformatter._configuration import (
     command_line_parsing,
     formatter_options,
     toml_parsing,
 )
-from pydocstringformatter.configuration.validators import VALIDATORS
+from pydocstringformatter._configuration.validators import VALIDATORS
 from pydocstringformatter.formatting.base import Formatter
 
 
