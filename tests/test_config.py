@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 import pydocstringformatter
-from pydocstringformatter.utils import exceptions
+from pydocstringformatter._utils import exceptions
 
 HERE = Path(__file__)
 CONFIG_DATA = HERE.parent / "data" / "config"

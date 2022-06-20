@@ -7,7 +7,7 @@ import sys
 import tokenize
 from pathlib import Path
 
-from pydocstringformatter import __version__, formatting, utils
+from pydocstringformatter import __version__, _utils, formatting
 from pydocstringformatter._configuration.arguments_manager import ArgumentsManager
 
 
@@ -34,21 +34,21 @@ class _Run:
     # pylint: disable-next=inconsistent-return-statements
     def _check_files(self, files: list[str]) -> None:
         """Find all files and perform the formatting."""
-        filepaths = utils._find_python_files(files, self.config.exclude)
+        filepaths = _utils._find_python_files(files, self.config.exclude)
 
         is_changed = self._format_files(filepaths)
 
         if is_changed:  # pylint: disable=consider-using-assignment-expr
-            return utils._sys_exit(32, self.config.exit_code)
+            return _utils._sys_exit(32, self.config.exit_code)
 
         files_string = f"{len(filepaths)} "
         files_string += "files" if len(filepaths) != 1 else "file"
-        utils._print_to_console(
+        _utils._print_to_console(
             f"Nothing to do! All docstrings in {files_string} are correct 🎉\n",
             self.config.quiet,
         )
 
-        utils._sys_exit(0, self.config.exit_code)
+        _utils._sys_exit(0, self.config.exit_code)
 
     def _format_file(self, filename: Path) -> bool:
         """Format a file."""
@@ -59,7 +59,7 @@ class _Run:
             try:
                 tokens = list(tokenize.generate_tokens(file.readline))
             except tokenize.TokenError as exc:
-                raise utils.ParsingError(
+                raise _utils.ParsingError(
                     f"Can't parse {os.path.relpath(filename)}. Is it valid Python code?"
                 ) from exc
             # Record type of newlines so we can make sure to use
@@ -69,7 +69,7 @@ class _Run:
         for index, tokeninfo in enumerate(tokens):
             new_tokeninfo = tokeninfo
 
-            if utils._is_docstring(new_tokeninfo, tokens[index - 1]):
+            if _utils._is_docstring(new_tokeninfo, tokens[index - 1]):
                 for formatter in formatting.FORMATTERS:
                     if getattr(self.config, formatter.name):
                         new_tokeninfo = formatter.treat_token(new_tokeninfo)
@@ -96,12 +96,12 @@ class _Run:
                     )
                 with open(filename, "w", encoding="utf-8", newline=newlines) as file:
                     file.write(tokenize.untokenize(changed_tokens))
-                    utils._print_to_console(
+                    _utils._print_to_console(
                         f"Formatted {filename_str} 📖\n", self.config.quiet
                     )
             else:
                 sys.stdout.write(
-                    utils._generate_diff(
+                    _utils._generate_diff(
                         tokenize.untokenize(tokens),
                         tokenize.untokenize(changed_tokens),
                         filename_str,
