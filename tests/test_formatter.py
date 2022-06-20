@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pydocstringformatter.formatting import FORMATTERS
+from pydocstringformatter._formatting import FORMATTERS
 
 
 def test_formatter_names() -> None:
