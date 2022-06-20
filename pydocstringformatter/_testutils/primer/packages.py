@@ -11,7 +11,7 @@ from pydocstringformatter._testutils.primer.const import PRIMER_DIRECTORY_PATH
 
 
 @dataclass
-class _PackageToPrime:
+class PackageToPrime:
     """Represents data about a package to be tested during primer tests."""
 
     url: str
@@ -58,13 +58,13 @@ class _PackageToPrime:
 
 
 PACKAGES = {
-    "pylint": _PackageToPrime(
+    "pylint": PackageToPrime(
         "https://github.com/PyCQA/pylint",
         "main",
         ["pylint"],
         ["--max-summary-lines=2"],
     ),
-    "pydocstringformatter": _PackageToPrime(
+    "pydocstringformatter": PackageToPrime(
         "https://github.com/DanielNoord/pydocstringformatter",
         "main",
         ["pydocstringformatter"],

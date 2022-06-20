@@ -28,7 +28,7 @@ class BeginningQuotesFormatter(StringFormatter):
     )
     """Regex pattern to match against a potential single line docstring."""
 
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
+    def treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         new_string = tokeninfo.string
         if new_string[3] == "\n":
             if (
@@ -46,7 +46,7 @@ class CapitalizeFirstLetterFormatter(StringFormatter):
     name = "capitalize-first-letter"
     first_letter_re = re.compile(r"""['"]{1,3}\s*(\w)""", re.DOTALL)
 
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
+    def treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         new_string = None
         if match := self.first_letter_re.match(tokeninfo.string):
             first_letter = match.end() - 1
@@ -64,7 +64,7 @@ class LineWrapperFormatter(SummaryFormatter):
     name = "linewrap-full-docstring"
     optional = True
 
-    def _treat_summary(
+    def treat_summary(
         self,
         summary: str,
         indent_length: int,
@@ -120,7 +120,7 @@ class ClosingQuotesFormatter(StringFormatter):
 
     name = "closing-quotes"
 
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
+    def treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         """Fix the position of end quotes for multi-line docstrings."""
         new_string = tokeninfo.string
         if "\n" not in new_string:
@@ -144,7 +144,7 @@ class FinalPeriodFormatter(SummaryFormatter):
     name = "final-period"
     END_OF_SENTENCE_PUNCTUATION = {".", "?", "!", "‽", ":", ";"}
 
-    def _treat_summary(
+    def treat_summary(
         self,
         summary: str,
         indent_length: int,
@@ -180,7 +180,7 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
     """Pattern to match against an end of sentence period."""
 
     # pylint: disable-next=too-many-branches
-    def _treat_summary(
+    def treat_summary(
         self,
         summary: str,
         indent_length: int,
@@ -230,7 +230,7 @@ class StripWhitespacesFormatter(StringAndQuotesFormatter):
 
     name = "strip-whitespaces"
 
-    def _treat_string(
+    def treat_string(
         self,
         tokeninfo: tokenize.TokenInfo,
         indent_length: int,
@@ -275,7 +275,7 @@ class QuotesTypeFormatter(StringAndQuotesFormatter):
 
     name = "quotes-type"
 
-    def _treat_string(
+    def treat_string(
         self,
         tokeninfo: tokenize.TokenInfo,
         _: int,

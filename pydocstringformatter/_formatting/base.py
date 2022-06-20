@@ -48,13 +48,13 @@ class StringFormatter(Formatter):
     """Base class for formatter that only modifies the string content."""
 
     @abc.abstractmethod
-    def _treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
+    def treat_string(self, tokeninfo: tokenize.TokenInfo, indent_length: int) -> str:
         """Return a modified string."""
 
     def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
         return tokenize.TokenInfo(
             tokeninfo.type,
-            self._treat_string(tokeninfo, tokeninfo.start[1]),
+            self.treat_string(tokeninfo, tokeninfo.start[1]),
             tokeninfo.start,
             tokeninfo.end,
             tokeninfo.line,
@@ -68,7 +68,7 @@ class StringAndQuotesFormatter(Formatter):
     """Pattern to match against opening quotes."""
 
     @abc.abstractmethod
-    def _treat_string(
+    def treat_string(
         self,
         tokeninfo: tokenize.TokenInfo,
         indent_length: int,
@@ -88,7 +88,7 @@ class StringAndQuotesFormatter(Formatter):
 
         return tokenize.TokenInfo(
             tokeninfo.type,
-            self._treat_string(
+            self.treat_string(
                 tokeninfo,
                 tokeninfo.start[1],
                 quotes,
@@ -104,7 +104,7 @@ class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
     """Base class for formatter that modifies the summary and description."""
 
     @abc.abstractmethod
-    def _treat_summary(
+    def treat_summary(
         self,
         summary: str,
         indent_length: int,
@@ -114,12 +114,12 @@ class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
         """Return a modified summary."""
 
     @abc.abstractmethod
-    def _treat_description(self, description: str, indent_length: int) -> str:
+    def treat_description(self, description: str, indent_length: int) -> str:
         """Return a modified description."""
 
     @staticmethod
     @functools.lru_cache(maxsize=None)
-    def _separate_summary_and_description(
+    def separate_summary_and_description(
         docstring: str, indent_length: int, quotes_length: Literal[1, 3]
     ) -> tuple[str, str, str | None]:
         """Split the summary and description and handle quotes and indentation."""
@@ -153,26 +153,26 @@ class SummaryAndDescriptionFormatter(StringAndQuotesFormatter):
             summary = summary[1 + indent_length :]
         return prefix, summary, description
 
-    def _treat_string(
+    def treat_string(
         self,
         tokeninfo: tokenize.TokenInfo,
         indent_length: int,
         quotes: str,
         quotes_length: Literal[1, 3],
     ) -> str:
-        prefix, summary, description = self._separate_summary_and_description(
+        prefix, summary, description = self.separate_summary_and_description(
             tokeninfo.string,
             indent_length,
             quotes_length,
         )
 
-        new_summary = self._treat_summary(
+        new_summary = self.treat_summary(
             summary, indent_length, quotes_length, bool(description)
         )
         docstring = f"{quotes}{prefix}{new_summary}"
 
         if description:
-            new_description = self._treat_description(description, indent_length)
+            new_description = self.treat_description(description, indent_length)
             docstring += f"\n\n{new_description}"
 
         # Determine whether ending quotes were initially on same or new line
@@ -185,7 +185,7 @@ class SummaryFormatter(SummaryAndDescriptionFormatter):
     """Base class for formatter that only modifies the summary of a docstring."""
 
     @abc.abstractmethod
-    def _treat_summary(
+    def treat_summary(
         self,
         summary: str,
         indent_length: int,
@@ -194,5 +194,5 @@ class SummaryFormatter(SummaryAndDescriptionFormatter):
     ) -> str:
         """Return a modified summary."""
 
-    def _treat_description(self, description: str, indent_length: int) -> str:
+    def treat_description(self, description: str, indent_length: int) -> str:
         return description

@@ -5,10 +5,10 @@ import sys
 from pathlib import Path
 
 from pydocstringformatter._testutils.primer.const import DIFF_OUTPUT
-from pydocstringformatter._testutils.primer.packages import PACKAGES, _PackageToPrime
+from pydocstringformatter._testutils.primer.packages import PACKAGES, PackageToPrime
 
 
-def _fix_diff(output: str, package: _PackageToPrime) -> str:
+def fix_diff(output: str, package: PackageToPrime) -> str:
     """Make the diff more readable and useful."""
     new_output: list[str] = []
 
@@ -28,7 +28,7 @@ def _fix_diff(output: str, package: _PackageToPrime) -> str:
     return "\n".join(new_output)
 
 
-def _run_prepare() -> None:
+def run_prepare() -> None:
     """Prepare everything for the primer to be run.
 
     This clones all packages that need to be 'primed' and
@@ -40,7 +40,7 @@ def _run_prepare() -> None:
     print("## Preparation of primer successful!")
 
 
-def _run_step_one() -> None:
+def run_step_one() -> None:
     """Run program over all packages in write mode.
 
     Runs the program in write mode over all packages that need
@@ -61,7 +61,7 @@ def _run_step_one() -> None:
     print("## Step one of primer successful!")
 
 
-def _run_step_two() -> None:
+def run_step_two() -> None:
     """Run program over all packages and store the diff.
 
     This reiterates over all packages that need to be 'primed',
@@ -79,7 +79,7 @@ def _run_step_two() -> None:
             text=True,
             check=False,
         )
-        output[name] = _fix_diff(process.stdout, package)
+        output[name] = fix_diff(process.stdout, package)
 
     final_output = ""
     for name, string in output.items():
@@ -93,17 +93,17 @@ def _run_step_two() -> None:
     print("## Step two of primer successful!")
 
 
-def _run_primer() -> None:
+def run_primer() -> None:
     """Run the primer test."""
     args = sys.argv[1:]
 
     if "--prepare" in args:
-        _run_prepare()
+        run_prepare()
     elif "--step-one" in args:
-        _run_step_one()
+        run_step_one()
     elif "--step-two" in args:
-        _run_step_two()
+        run_step_two()
 
 
 if __name__ == "__main__":
-    _run_primer()
+    run_primer()
