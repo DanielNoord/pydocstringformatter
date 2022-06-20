@@ -7,7 +7,7 @@ from pathlib import Path
 
 import git
 
-from pydocstringformatter.testutils.primer.const import PRIMER_DIRECTORY_PATH
+from pydocstringformatter._testutils.primer.const import PRIMER_DIRECTORY_PATH
 
 
 @dataclass

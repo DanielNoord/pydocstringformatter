@@ -7,10 +7,10 @@ from pathlib import Path
 import pytest
 
 import pydocstringformatter
+from pydocstringformatter._testutils import FormatterAsserter
 from pydocstringformatter.formatting import FORMATTERS
 from pydocstringformatter.formatting.base import StringFormatter
 from pydocstringformatter.formatting.formatter import SplitSummaryAndDocstringFormatter
-from pydocstringformatter.testutils import FormatterAsserter
 
 
 def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:

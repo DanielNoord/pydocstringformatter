@@ -4,8 +4,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-from pydocstringformatter.testutils.primer.const import DIFF_OUTPUT
-from pydocstringformatter.testutils.primer.packages import PACKAGES, _PackageToPrime
+from pydocstringformatter._testutils.primer.const import DIFF_OUTPUT
+from pydocstringformatter._testutils.primer.packages import PACKAGES, _PackageToPrime
 
 
 def _fix_diff(output: str, package: _PackageToPrime) -> str:
