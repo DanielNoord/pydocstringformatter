@@ -8,7 +8,7 @@ from pydocstringformatter._configuration.boolean_option_action import (
 from pydocstringformatter._formatting.base import Formatter
 
 
-def _register_arguments_formatters(
+def register_arguments_formatters(
     default_arg_group: argparse._ArgumentGroup,
     optional_arg_group: argparse._ArgumentGroup,
     formatters: list[Formatter],

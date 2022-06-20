@@ -1,7 +1,7 @@
 import difflib
 
 
-def _generate_diff(old: str, new: str, filename: str) -> str:
+def generate_diff(old: str, new: str, filename: str) -> str:
     """Generate a printable diff for two strings of sourcecode."""
     return (
         "\n".join(

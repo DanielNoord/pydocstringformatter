@@ -29,28 +29,28 @@ class _Run:
         for formatter in _formatting.FORMATTERS:
             formatter.set_config_namespace(self.config)
 
-        self._check_files(self.config.files)
+        self.check_files(self.config.files)
 
     # pylint: disable-next=inconsistent-return-statements
-    def _check_files(self, files: list[str]) -> None:
+    def check_files(self, files: list[str]) -> None:
         """Find all files and perform the formatting."""
-        filepaths = _utils._find_python_files(files, self.config.exclude)
+        filepaths = _utils.find_python_files(files, self.config.exclude)
 
-        is_changed = self._format_files(filepaths)
+        is_changed = self.format_files(filepaths)
 
         if is_changed:  # pylint: disable=consider-using-assignment-expr
-            return _utils._sys_exit(32, self.config.exit_code)
+            return _utils.sys_exit(32, self.config.exit_code)
 
         files_string = f"{len(filepaths)} "
         files_string += "files" if len(filepaths) != 1 else "file"
-        _utils._print_to_console(
+        _utils.print_to_console(
             f"Nothing to do! All docstrings in {files_string} are correct 🎉\n",
             self.config.quiet,
         )
 
-        _utils._sys_exit(0, self.config.exit_code)
+        _utils.sys_exit(0, self.config.exit_code)
 
-    def _format_file(self, filename: Path) -> bool:
+    def format_file(self, filename: Path) -> bool:
         """Format a file."""
         changed_tokens: list[tokenize.TokenInfo] = []
         is_changed = False
@@ -69,7 +69,7 @@ class _Run:
         for index, tokeninfo in enumerate(tokens):
             new_tokeninfo = tokeninfo
 
-            if _utils._is_docstring(new_tokeninfo, tokens[index - 1]):
+            if _utils.is_docstring(new_tokeninfo, tokens[index - 1]):
                 for formatter in _formatting.FORMATTERS:
                     if getattr(self.config, formatter.name):
                         new_tokeninfo = formatter.treat_token(new_tokeninfo)
@@ -96,12 +96,12 @@ class _Run:
                     )
                 with open(filename, "w", encoding="utf-8", newline=newlines) as file:
                     file.write(tokenize.untokenize(changed_tokens))
-                    _utils._print_to_console(
+                    _utils.print_to_console(
                         f"Formatted {filename_str} 📖\n", self.config.quiet
                     )
             else:
                 sys.stdout.write(
-                    _utils._generate_diff(
+                    _utils.generate_diff(
                         tokenize.untokenize(tokens),
                         tokenize.untokenize(changed_tokens),
                         filename_str,
@@ -110,11 +110,11 @@ class _Run:
 
         return is_changed
 
-    def _format_files(self, filepaths: list[Path]) -> bool:
+    def format_files(self, filepaths: list[Path]) -> bool:
         """Format a list of files."""
         is_changed = False
 
         for file in filepaths:
-            is_changed = self._format_file(file) or is_changed
+            is_changed = self.format_file(file) or is_changed
 
         return is_changed

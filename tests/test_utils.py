@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 import pydocstringformatter
-from pydocstringformatter._utils import _find_python_files, _is_docstring
+from pydocstringformatter._utils import find_python_files, is_docstring
 
 HERE = Path(__file__)
 UTILS_DATA = HERE.parent / "data" / "utils"
@@ -19,7 +19,7 @@ class TestPythonFileFinder:
     @staticmethod
     def test_underscores_files() -> None:
         """Test that we can find files with leading underscores."""
-        pathnames = _find_python_files([str(UTILS_DATA / "find_underscore_files")], [])
+        pathnames = find_python_files([str(UTILS_DATA / "find_underscore_files")], [])
         expected_paths = [
             UTILS_DATA / "find_underscore_files" / "file_one.py",
             UTILS_DATA / "find_underscore_files" / "_file_two.py",
@@ -31,7 +31,7 @@ class TestPythonFileFinder:
     @staticmethod
     def test_recursive_files() -> None:
         """Test that we can find files recursively."""
-        pathnames = _find_python_files(
+        pathnames = find_python_files(
             [str(UTILS_DATA / "find_recursive_files")], [], recursive=True
         )
         expected_paths = [
@@ -51,7 +51,7 @@ class TestPythonFileFinder:
     @staticmethod
     def test_recursive_files_standard() -> None:
         """Test that we can find files recursively even if argument is not supplied."""
-        pathnames = _find_python_files([str(UTILS_DATA / "find_recursive_files")], [])
+        pathnames = find_python_files([str(UTILS_DATA / "find_recursive_files")], [])
         expected_paths = [
             UTILS_DATA / "find_recursive_files" / "file_one.py",
             UTILS_DATA
@@ -69,7 +69,7 @@ class TestPythonFileFinder:
     @staticmethod
     def test_ignore_recursive_files() -> None:
         """Test that we ignore inner directories if recusrive is False."""
-        pathnames = _find_python_files(
+        pathnames = find_python_files(
             [str(UTILS_DATA / "find_recursive_files")], [], recursive=False
         )
         expected_paths = [UTILS_DATA / "find_recursive_files" / "file_one.py"]
@@ -78,7 +78,7 @@ class TestPythonFileFinder:
     @staticmethod
     def test_ignore_non_python_file() -> None:
         """Test that we ignore a non Python file."""
-        pathnames = _find_python_files(
+        pathnames = find_python_files(
             [str(UTILS_DATA / "find_nothing" / "README.md")], []
         )
         assert not pathnames
@@ -97,7 +97,7 @@ class TestDocstringFinder:
         ) as file:
             tokens = list(tokenize.generate_tokens(file.readline))
             for index, tokeninfo in enumerate(tokens):
-                if _is_docstring(tokeninfo, tokens[index - 1]):
+                if is_docstring(tokeninfo, tokens[index - 1]):
                     docstrings.append((tokeninfo.start, tokeninfo.end))
 
         assert docstrings == [
@@ -121,7 +121,7 @@ class TestDocstringFinder:
         with open(self.docstring_data / "dictionary.py", encoding="utf-8") as file:
             tokens = list(tokenize.generate_tokens(file.readline))
             for index, tokeninfo in enumerate(tokens):
-                if _is_docstring(tokeninfo, tokens[index - 1]):
+                if is_docstring(tokeninfo, tokens[index - 1]):
                     docstrings.append((tokeninfo.start, tokeninfo.end))
 
         assert not docstrings
@@ -134,7 +134,7 @@ class TestDocstringFinder:
         ) as file:
             tokens = list(tokenize.generate_tokens(file.readline))
             for index, tokeninfo in enumerate(tokens):
-                if _is_docstring(tokeninfo, tokens[index - 1]):
+                if is_docstring(tokeninfo, tokens[index - 1]):
                     docstrings.append((tokeninfo.start, tokeninfo.end))
 
         assert docstrings == [((3, 0), (4, 3))]

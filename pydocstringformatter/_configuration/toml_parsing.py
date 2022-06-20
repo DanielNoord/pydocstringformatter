@@ -11,7 +11,7 @@ from pydocstringformatter._utils.exceptions import TomlParsingError, Unrecognize
 OPTIONS_TYPES: Final = {"write": "store_true", "exclude": "store"}
 
 
-def _get_toml_file() -> dict[str, Any] | None:
+def get_toml_file() -> dict[str, Any] | None:
     """See if there is a pyproject.toml and extract the correct section if it exists."""
     if os.path.isfile("pyproject.toml"):
         with open("pyproject.toml", "rb") as file:
@@ -26,7 +26,7 @@ def _get_toml_file() -> dict[str, Any] | None:
     return None
 
 
-def _parse_toml_option(opt: str, value: Any) -> list[str]:
+def parse_toml_option(opt: str, value: Any) -> list[str]:
     """Parse an options value in the correct argument type for argparse."""
     try:
         action = OPTIONS_TYPES[opt]
@@ -42,14 +42,14 @@ def _parse_toml_option(opt: str, value: Any) -> list[str]:
     return []  # pragma: no cover
 
 
-def _parse_toml_file(
+def parse_toml_file(
     parser: argparse.ArgumentParser, namespace: argparse.Namespace
 ) -> None:
     """Get and parse the relevant section form a pyproject.toml file."""
-    if toml_sect := _get_toml_file():
+    if toml_sect := get_toml_file():
         arguments: list[str] = []
 
         for key, value in toml_sect.items():
-            arguments += _parse_toml_option(key, value)
+            arguments += parse_toml_option(key, value)
 
         parser.parse_args(arguments, namespace)

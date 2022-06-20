@@ -32,14 +32,14 @@ class ArgumentsManager:
         )
 
         # Register all arguments
-        self._register_arguments(version)
-        formatter_options._register_arguments_formatters(
+        self.register_arguments(version)
+        formatter_options.register_arguments_formatters(
             self.default_formatters_group,
             self.optional_formatters_group,
             self.formatters,
         )
 
-    def _register_arguments(self, version: str) -> None:
+    def register_arguments(self, version: str) -> None:
         """Register all standard arguments on the parser."""
         self.parser.add_argument(
             "files", nargs="*", type=str, help="The directory or files to format."
@@ -128,9 +128,9 @@ class ArgumentsManager:
         1. configuration files, 2. command line arguments.
         """
         # pylint: disable=protected-access
-        toml_parsing._parse_toml_file(self.parser, self.namespace)
+        toml_parsing.parse_toml_file(self.parser, self.namespace)
 
-        command_line_parsing._parse_command_line_arguments(
+        command_line_parsing.parse_command_line_arguments(
             self.parser, self.namespace, argv
         )
 

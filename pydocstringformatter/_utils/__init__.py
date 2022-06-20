@@ -3,18 +3,18 @@ from pydocstringformatter._utils.exceptions import (
     PydocstringFormatterError,
     TomlParsingError,
 )
-from pydocstringformatter._utils.file_diference import _generate_diff
-from pydocstringformatter._utils.find_docstrings import _is_docstring
-from pydocstringformatter._utils.find_python_file import _find_python_files
-from pydocstringformatter._utils.output import _print_to_console, _sys_exit
+from pydocstringformatter._utils.file_diference import generate_diff
+from pydocstringformatter._utils.find_docstrings import is_docstring
+from pydocstringformatter._utils.find_python_file import find_python_files
+from pydocstringformatter._utils.output import print_to_console, sys_exit
 
 __all__ = [
-    "_find_python_files",
-    "_generate_diff",
-    "_is_docstring",
+    "find_python_files",
+    "generate_diff",
+    "is_docstring",
     "ParsingError",
     "PydocstringFormatterError",
     "TomlParsingError",
-    "_print_to_console",
-    "_sys_exit",
+    "print_to_console",
+    "sys_exit",
 ]

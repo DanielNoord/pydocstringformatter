@@ -42,13 +42,13 @@ jobs:
           pip install -e .
           cd ..
 
-          python -m pydocstringformatter.testutils.primer.primer --prepare
-          python -m pydocstringformatter.testutils.primer.primer --step-one
+          python -m pydocstringformatter._testutils.primer.primer --prepare
+          python -m pydocstringformatter._testutils.primer.primer --step-one
 
           cd program_to_test
           git checkout $GITHUB_SHA
           cd ..
-          python -m pydocstringformatter.testutils.primer.primer --step-two
+          python -m pydocstringformatter._testutils.primer.primer --step-two
       - name: Upload primer diff
         uses: actions/upload-artifact@v3
         with:
