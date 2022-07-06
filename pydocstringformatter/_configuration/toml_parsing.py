@@ -2,13 +2,11 @@ from __future__ import annotations
 
 import argparse
 import os
-from typing import Any, Final
+from typing import Any
 
 import tomli
 
 from pydocstringformatter._utils.exceptions import TomlParsingError, UnrecognizedOption
-
-OPTIONS_TYPES: Final = {"write": "store_true", "exclude": "store"}
 
 
 def get_toml_file() -> dict[str, Any] | None:
@@ -26,19 +24,27 @@ def get_toml_file() -> dict[str, Any] | None:
     return None
 
 
-def parse_toml_option(opt: str, value: Any) -> list[str]:
+def parse_toml_option(
+    parser: argparse.ArgumentParser, opt: str, value: Any
+) -> list[str]:
     """Parse an options value in the correct argument type for argparse."""
+    # pylint: disable=protected-access
     try:
-        action = OPTIONS_TYPES[opt]
+        action = parser._option_string_actions[f"--{opt}"]
     except KeyError as exc:
-        raise UnrecognizedOption(f"Don't recognize option {opt}") from exc
+        try:
+            action = parser._option_string_actions[f"-{opt}"]
+        except KeyError:
+            raise UnrecognizedOption(f"Don't recognize option {opt}") from exc
 
-    if action == "store_true":
+    if isinstance(action, argparse._StoreTrueAction):
         if value is True:
-            return [f"--{opt}"]
+            return [action.option_strings[0]]
         return []
-    if action == "store":
-        return [f"--{opt}", value]
+    if isinstance(action, argparse._StoreAction):
+        if isinstance(value, int):
+            value = str(value)
+        return [action.option_strings[0], value]
     return []  # pragma: no cover
 
 
@@ -50,6 +56,6 @@ def parse_toml_file(
         arguments: list[str] = []
 
         for key, value in toml_sect.items():
-            arguments += parse_toml_option(key, value)
+            arguments += parse_toml_option(parser, key, value)
 
         parser.parse_args(arguments, namespace)
