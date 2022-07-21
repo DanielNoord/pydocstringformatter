@@ -5,7 +5,11 @@ import argparse
 import functools
 import re
 import tokenize
-from typing import Literal
+from collections.abc import Iterator
+from itertools import tee
+from typing import Literal, TypeVar
+
+_T = TypeVar("_T")
 
 
 class Formatter:
@@ -196,3 +200,59 @@ class SummaryFormatter(SummaryAndDescriptionFormatter):
 
     def treat_description(self, description: str, indent_length: int) -> str:
         return description
+
+
+def _pairwise(iterator: Iterator[_T]) -> Iterator[tuple[_T, _T]]:
+    """Create an iterator over pairs of successive elements."""
+    first, second = tee(iterator)
+    next(second)
+    return zip(first, second)
+
+
+class NumpydocSectionFormatter(StringAndQuotesFormatter, metaclass=abc.ABCMeta):
+    """Base class for formatters working on numpydoc sections."""
+
+    @abc.abstractmethod
+    def treat_sections(self, sections: list[list[str]]) -> list[list[str]]:
+        """Process the individual numpydoc sections."""
+
+    def treat_string(
+        self,
+        tokeninfo: tokenize.TokenInfo,
+        indent_length: int,
+        quotes: str,
+        quotes_length: Literal[1, 3],
+    ) -> str:
+        """Split numpydoc sections, pass them for processing, then rejoin them."""
+        # Split sections
+        lines = tokeninfo.string[quotes_length:-quotes_length].split("\n")
+        if lines[-1].isspace():
+            last_line = lines[-1]
+            lines[-1] = ""
+        else:
+            last_line = ""
+
+        section_heading_lines = [
+            index
+            for index, line in enumerate(lines)
+            if "-" in line and all(char in " \t-" for char in line)
+        ]
+        section_starts = [index - 1 for index in section_heading_lines]
+        section_starts.append(len(lines))
+        section_starts.insert(0, 0)
+
+        sections = [
+            lines[curr_section_start:next_section_start]
+            for curr_section_start, next_section_start in _pairwise(
+                iter(section_starts)
+            )
+        ]
+        # Process sections
+        new_sections = self.treat_sections(sections)
+
+        # Rejoin sections
+        new_lines = [line for section in new_sections for line in section]
+        if len(last_line) > 0:
+            new_lines[-1] = last_line
+        body = "\n".join(new_lines)
+        return f"{quotes:s}{body:s}{quotes:s}"
