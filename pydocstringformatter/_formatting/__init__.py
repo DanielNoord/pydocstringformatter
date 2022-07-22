@@ -10,6 +10,8 @@ from pydocstringformatter._formatting.formatter import (
     ClosingQuotesFormatter,
     FinalPeriodFormatter,
     LineWrapperFormatter,
+    NumpydocParameterNameColonTypeFormatter,
+    NumpydocSectionOrderingFormatter,
     QuotesTypeFormatter,
     SplitSummaryAndDocstringFormatter,
     StripWhitespacesFormatter,
@@ -29,4 +31,6 @@ FORMATTERS: list[Formatter] = [
     CapitalizeFirstLetterFormatter(),
     FinalPeriodFormatter(),
     QuotesTypeFormatter(),
+    NumpydocSectionOrderingFormatter(),
+    NumpydocParameterNameColonTypeFormatter(),
 ]

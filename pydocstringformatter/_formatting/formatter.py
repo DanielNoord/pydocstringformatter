@@ -7,6 +7,7 @@ from typing import Literal
 
 from pydocstringformatter._formatting import _utils
 from pydocstringformatter._formatting.base import (
+    NumpydocSectionFormatter,
     StringAndQuotesFormatter,
     StringFormatter,
     SummaryFormatter,
@@ -284,3 +285,87 @@ class QuotesTypeFormatter(StringAndQuotesFormatter):
     ) -> str:
         """Change all opening and closing quotes if necessary."""
         return f'"""{tokeninfo.string[quotes_length:-quotes_length]}"""'
+
+
+class NumpydocSectionOrderingFormatter(NumpydocSectionFormatter):
+    """Change section order to match numpydoc guidelines."""
+
+    name = "numpydoc-section-order"
+    optional = True
+
+    numpydoc_section_order = (
+        # I'm folding summary, deprecation warning, and extended
+        # summary into "before first heading"
+        "Parameters",
+        "Attributes",
+        "Methods",
+        "Returns",
+        "Yields",
+        "Receives",
+        "Other Parameters",
+        "Raises",
+        "Warns",
+        "Warnings",
+        "See Also",
+        "Notes",
+        "References",
+        "Examples",
+    )
+
+    def treat_sections(self, sections: list[list[str]]) -> list[list[str]]:
+        """Sort the numpydoc sections into the numpydoc order."""
+        # section_names = [sec_lines[0].strip() for sec_lines in sections]
+        # assert all(name in self.numpydoc_section_order for name in section_names[1:])
+        new_sections = sorted(
+            sections[1:],
+            key=lambda sec_lines: self.numpydoc_section_order.index(
+                sec_lines[0].strip()
+            ),
+        )
+        new_sections.insert(0, sections[0])
+        return new_sections
+
+
+class NumpydocParameterNameColonTypeFormatter(NumpydocSectionFormatter):
+    """Ensure proper spacing around the colon separating names from types."""
+
+    name = "numpydoc-name-type-spacing"
+    optional = True
+
+    numpydoc_sections_with_parameters = (
+        "Parameters",
+        "Attributes",
+        "Returns",
+        "Yields",
+        "Receives",
+        "Other Parameters",
+        "See Also",
+    )
+
+    def treat_sections(self, sections: list[list[str]]) -> list[list[str]]:
+        """Ensure proper spacing around the colon separating names from types."""
+        new_sections = []
+        for section_lines in sections:
+            section_name = section_lines[0].lstrip()
+            if section_name in self.numpydoc_sections_with_parameters:
+                initial_indent = section_lines[0].index(section_name)
+                new_section = []
+                for line in section_lines:
+                    if len(line) <= initial_indent:
+                        # blank or just whitespace
+                        new_line = line
+                    elif line[initial_indent].isspace():
+                        # Description block
+                        new_line = line
+                    elif ":" not in line:
+                        # Header line, or no name, or maybe no
+                        # type/description
+                        new_line = line
+                    else:
+                        param_name, param_type = line.split(":", 1)
+                        new_line = f"{param_name.rstrip():s} : {param_type.lstrip():s}"
+                    new_section.append(new_line)
+            else:
+                new_section = section_lines
+            new_sections.append(new_section)
+        return new_sections
