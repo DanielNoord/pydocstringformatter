@@ -9,6 +9,7 @@ Current usage of ``pydocstringformatter``:
                                 [--exit-code] [--max-summary-lines int]
                                 [--summary-quotes-same-line]
                                 [--max-line-length int]
+                                [--style {pep257} [{pep257} ...]]
                                 [--strip-whitespaces  --no-strip-whitespaces]
                                 [--split-summary-body  --no-split-summary-body]
                                 [--linewrap-full-docstring  --no-linewrap-full-docstring]
@@ -44,6 +45,9 @@ Current usage of ``pydocstringformatter``:
                             is enforced for single line docstrings.
       --max-line-length int
                             Maximum line length of docstrings.
+      --style {pep257} [{pep257} ...]
+                            Docstring styles that are used in the project. Can be
+                            more than one.
 
     default formatters:
       these formatters are turned on by default

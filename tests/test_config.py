@@ -7,6 +7,7 @@ import pytest
 
 import pydocstringformatter
 from pydocstringformatter._utils import exceptions
+from pydocstringformatter.run import _Run
 
 HERE = Path(__file__)
 CONFIG_DATA = HERE.parent / "data" / "config"
@@ -225,3 +226,27 @@ class TestExcludeOption:
         output = capsys.readouterr()
         assert not output.out
         assert not output.err
+
+
+class TestStyleOption:
+    """Tests for the --style option."""
+
+    def test_style_default(self, test_file: str) -> None:
+        """Test that the default value of --style is pep257."""
+        run = _Run([test_file])
+        assert run.config.style == ["pep257"]
+
+    def test_style_pep257(self, test_file: str) -> None:
+        """Test that we don't duplicate the default value if we pass it again."""
+        run = _Run([test_file, "--style", "pep257"])
+        assert run.config.style == ["pep257"]
+
+    def test_style_invalid_choice(self, capsys: pytest.CaptureFixture[str]) -> None:
+        """Test that we correctly reject invalid styles."""
+        with pytest.raises(SystemExit) as excinfo:
+            _Run(["--style", "invalid"])
+        assert excinfo.value.code == 2
+
+        output = capsys.readouterr()
+        assert not output.out
+        assert "--style: invalid choice: 'invalid'" in output.err
