@@ -118,6 +118,15 @@ class ArgumentsManager:
             metavar="int",
         )
 
+        self.configuration_group.add_argument(
+            "--style",
+            action="extend",
+            type=str,
+            nargs="+",
+            choices=["pep257"],
+            help="Docstring styles that are used in the project. Can be more than one.",
+        )
+
     def parse_options(
         self,
         argv: list[str],
@@ -125,7 +134,7 @@ class ArgumentsManager:
         """Load all default option values.
 
         The order of parsing is:
-        1. configuration files, 2. command line arguments.
+        1. configuration files, 2. command line arguments, 3. set default values.
         """
         # pylint: disable=protected-access
         toml_parsing.parse_toml_file(self.parser, self.namespace)
@@ -133,6 +142,11 @@ class ArgumentsManager:
         command_line_parsing.parse_command_line_arguments(
             self.parser, self.namespace, argv
         )
+
+        # 'style' uses the 'extend' action. If we use a normal default value,
+        # and the default gets supplied as well style == ["pep257", "pep257"].
+        if self.namespace.style is None:
+            self.namespace.style = ["pep257"]
 
     def print_help(self) -> None:
         """Print the help or usage message."""
