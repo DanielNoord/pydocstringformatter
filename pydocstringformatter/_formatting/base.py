@@ -15,6 +15,12 @@ class Formatter:
     config: argparse.Namespace
     """Namespace object set when set_config_namespace is called."""
 
+    style = ["default"]
+    """Names of the docstring style(s) that are associated with this formatter.
+
+    Default is always ran.
+    """
+
     @property
     @abc.abstractmethod
     def name(self) -> str:

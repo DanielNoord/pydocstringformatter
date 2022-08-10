@@ -71,7 +71,10 @@ class _Run:
 
             if _utils.is_docstring(new_tokeninfo, tokens[index - 1]):
                 for formatter in _formatting.FORMATTERS:
-                    if getattr(self.config, formatter.name):
+                    if (
+                        "default" in formatter.style
+                        or any(i in formatter.style for i in self.config.style)
+                    ) and getattr(self.config, formatter.name):
                         new_tokeninfo = formatter.treat_token(new_tokeninfo)
             changed_tokens.append(new_tokeninfo)
 
