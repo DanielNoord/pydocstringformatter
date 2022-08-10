@@ -9,7 +9,9 @@ import pytest
 import pydocstringformatter
 from pydocstringformatter._formatting import FORMATTERS
 from pydocstringformatter._formatting.base import StringFormatter
-from pydocstringformatter._formatting.formatter import SplitSummaryAndDocstringFormatter
+from pydocstringformatter._formatting.formatters_pep257 import (
+    SplitSummaryAndDocstringFormatter,
+)
 from pydocstringformatter._testutils import FormatterAsserter
 
 
