@@ -4,15 +4,17 @@ __all__ = ["FORMATTERS", "Formatter"]
 
 
 from pydocstringformatter._formatting.base import Formatter
-from pydocstringformatter._formatting.formatter import (
+from pydocstringformatter._formatting.formatters_default import (
     BeginningQuotesFormatter,
     CapitalizeFirstLetterFormatter,
     ClosingQuotesFormatter,
     FinalPeriodFormatter,
     LineWrapperFormatter,
     QuotesTypeFormatter,
-    SplitSummaryAndDocstringFormatter,
     StripWhitespacesFormatter,
+)
+from pydocstringformatter._formatting.formatters_pep257 import (
+    SplitSummaryAndDocstringFormatter,
 )
 
 # The order of these formatters is important as they are called in order.
