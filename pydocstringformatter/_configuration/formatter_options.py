@@ -24,6 +24,7 @@ def register_arguments_formatters(
             formatter.activate_option,
             action=BooleanOptionalAction,
             dest=name,
-            help=f"Activate or deactivate {name}: {formatter.__doc__}",
+            help=f"Activate or deactivate {name}: {formatter.__doc__}"
+            f" Styles: {','.join(formatter.style)}.",
             default=not formatter.optional,
         )

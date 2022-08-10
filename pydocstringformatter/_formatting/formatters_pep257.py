@@ -15,6 +15,8 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
 
     name = "split-summary-body"
 
+    style = ["pep257"]
+
     end_of_sentence_period = re.compile(
         r"""
         (?<!e.g|i.e|etc)                        # Not preceded by 'e.g', 'i.e', 'etc'

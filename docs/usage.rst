@@ -55,30 +55,33 @@ Current usage of ``pydocstringformatter``:
       --strip-whitespaces, --no-strip-whitespaces
                             Activate or deactivate strip-whitespaces: Strip 1)
                             docstring start, 2) docstring end and 3) end of line.
-                            (default: True)
+                            Styles: default. (default: True)
       --split-summary-body, --no-split-summary-body
                             Activate or deactivate split-summary-body: Split the
                             summary and body of a docstring based on a period and
                             max length. The maximum length of a summary can be set
-                            with the --max-summary-lines option. (default: True)
+                            with the --max-summary-lines option. Styles: pep257.
+                            (default: True)
       --beginning-quotes, --no-beginning-quotes
                             Activate or deactivate beginning-quotes: Fix the
-                            position of the opening quotes. (default: True)
+                            position of the opening quotes. Styles: default.
+                            (default: True)
       --closing-quotes, --no-closing-quotes
                             Activate or deactivate closing-quotes: Fix the
-                            position of the closing quotes. (default: True)
+                            position of the closing quotes. Styles: default.
+                            (default: True)
       --capitalize-first-letter, --no-capitalize-first-letter
                             Activate or deactivate capitalize-first-letter:
                             Capitalize the first letter of the docstring if
-                            appropriate. (default: True)
+                            appropriate. Styles: default. (default: True)
       --final-period, --no-final-period
                             Activate or deactivate final-period: Add a period to
                             the end of single line docstrings and summaries.
-                            (default: True)
+                            Styles: default. (default: True)
       --quotes-type, --no-quotes-type
                             Activate or deactivate quotes-type: Change all opening
-                            and closing quotes to be triple quotes. (default:
-                            True)
+                            and closing quotes to be triple quotes. Styles:
+                            default. (default: True)
 
     optional formatters:
       these formatters are turned off by default
@@ -86,4 +89,4 @@ Current usage of ``pydocstringformatter``:
       --linewrap-full-docstring, --no-linewrap-full-docstring
                             Activate or deactivate linewrap-full-docstring:
                             Linewrap the docstring by the pre-defined line length.
-                            (default: False)
+                            Styles: default. (default: False)
