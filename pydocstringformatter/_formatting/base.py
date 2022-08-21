@@ -5,7 +5,12 @@ import argparse
 import functools
 import re
 import tokenize
-from typing import Literal
+from collections import OrderedDict
+from collections.abc import Iterator
+from itertools import tee
+from typing import Literal, TypeVar
+
+_T = TypeVar("_T")
 
 
 class Formatter:
@@ -202,3 +207,92 @@ class SummaryFormatter(SummaryAndDescriptionFormatter):
 
     def treat_description(self, description: str, indent_length: int) -> str:
         return description
+
+
+def _pairwise(iterator: Iterator[_T]) -> Iterator[tuple[_T, _T]]:
+    """Create an iterator over pairs of successive elements."""
+    first, second = tee(iterator)
+    next(second)
+    return zip(first, second)
+
+
+class NumpydocSectionFormatter(StringAndQuotesFormatter, metaclass=abc.ABCMeta):
+    """Base class for formatters working on numpydoc sections."""
+
+    style = ["numpydoc"]
+
+    @abc.abstractmethod
+    def treat_sections(
+        self, sections: OrderedDict[str, list[str]]
+    ) -> OrderedDict[str, list[str]]:
+        """Process the individual numpydoc sections."""
+
+    def treat_string(
+        self,
+        tokeninfo: tokenize.TokenInfo,
+        indent_length: int,
+        quotes: str,
+        quotes_length: Literal[1, 3],
+    ) -> str:
+        """Split numpydoc sections, pass them for processing, then rejoin them."""
+        lines = tokeninfo.string[quotes_length:-quotes_length].split("\n")
+        # Handle the spaces before the closing quotes
+        last_line = lines[-1]
+        if lines[-1].isspace():
+            lines[-1] = ""
+
+        # Split sections
+        section_hyphen_lines = [
+            index
+            for index, line in enumerate(lines)
+            if "-" in line and all(char in " \t-" for char in line)
+        ]
+        section_starts = (
+            [0] + [index - 1 for index in section_hyphen_lines] + [len(lines)]
+        )
+        sections = OrderedDict(
+            [
+                (
+                    lines[curr_section_start].lstrip(),
+                    lines[curr_section_start:next_section_start],
+                )
+                for curr_section_start, next_section_start in _pairwise(
+                    iter(section_starts)
+                )
+            ]
+        )
+
+        if not section_hyphen_lines or section_hyphen_lines[0] > 1:
+            # The "Summary" section here includes the numpydoc
+            # summary, deprecation warning, and extended summary
+            # sections.  There's not an easy split for those the way
+            # there is for the other sections.
+            _, summary_section = sections.popitem(last=False)
+            sections["Summary"] = summary_section
+            sections.move_to_end("Summary", last=False)
+
+        # Process sections
+        new_sections = self.treat_sections(sections)
+
+        # Check that indent on first line of section didn't get weird
+        first_section = True
+        for section in new_sections.values():
+            if first_section:
+                section[0] = section[0].lstrip()
+                first_section = False
+            elif not section[0][0].isspace():
+                section[0] = f"{' ' * indent_length:s}{section[0]:s}"
+
+        # Rejoin sections
+        lines = [line for section in new_sections.values() for line in section]
+        # Ensure the last line puts the quotes in the right spot
+        if lines and lines[-1] == "":
+            if (last_line == "") or last_line.isspace():
+                # Try to preserve unindented closing quotes
+                lines[-1] = last_line
+            else:
+                # Quotes weren't on a different line before formatting
+                # but are now
+                lines[-1] = indent_length * " "
+        body = "\n".join(lines)
+        return f"{quotes:s}{body:s}{quotes:s}"

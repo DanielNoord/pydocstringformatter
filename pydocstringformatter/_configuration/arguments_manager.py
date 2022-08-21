@@ -123,7 +123,7 @@ class ArgumentsManager:
             action="extend",
             type=str,
             nargs="+",
-            choices=["pep257"],
+            choices=["pep257", "numpydoc"],
             help="Docstring styles that are used in the project. Can be more than one.",
         )
 
