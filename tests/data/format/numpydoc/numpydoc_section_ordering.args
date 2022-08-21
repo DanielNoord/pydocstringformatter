@@ -1,0 +1,6 @@
+--style=numpydoc
+--no-numpydoc-name-type-spacing
+--no-numpydoc-section-spacing
+--no-numpydoc-section-hyphen-length
+--no-final-period
+--no-closing-quotes
