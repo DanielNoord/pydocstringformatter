@@ -26,15 +26,13 @@ class Formatter:
     Default is always ran.
     """
 
-    @property
-    @abc.abstractmethod
-    def name(self) -> str:
-        """Name of the Formatter.
+    name: str
+    """Name of the Formatter.
 
-        This will be used to create argparse options when added to
-        'pydocstringformatter.formatting.FORMATTERS'. Therefore, it is
-        user-facing and should be chosen carefully.
-        """
+    This will be used to create argparse options when added to
+    'pydocstringformatter.formatting.FORMATTERS'. Therefore, it is
+    REQUIRED, user-facing and should be chosen carefully.
+    """
 
     @property
     def activate_option(self) -> str:
