@@ -241,6 +241,11 @@ class TestStyleOption:
         run = _Run([test_file, "--style", "pep257"])
         assert run.config.style == ["pep257"]
 
+    def test_style_numpydoc_only(self, test_file: str) -> None:
+        """Test that we can specify only a non-default style."""
+        run = _Run([test_file, "--style", "numpydoc"])
+        assert ["numpydoc"] == run.config.style
+
     def test_style_invalid_choice(self, capsys: pytest.CaptureFixture[str]) -> None:
         """Test that we correctly reject invalid styles."""
         with pytest.raises(SystemExit) as excinfo:
