@@ -13,6 +13,12 @@ from pydocstringformatter._formatting.formatters_default import (
     QuotesTypeFormatter,
     StripWhitespacesFormatter,
 )
+from pydocstringformatter._formatting.formatters_numpydoc import (
+    NumpydocNameColonTypeFormatter,
+    NumpydocSectionHyphenLengthFormatter,
+    NumpydocSectionOrderingFormatter,
+    NumpydocSectionSpacingFormatter,
+)
 from pydocstringformatter._formatting.formatters_pep257 import (
     SplitSummaryAndDocstringFormatter,
 )
@@ -31,4 +37,8 @@ FORMATTERS: list[Formatter] = [
     CapitalizeFirstLetterFormatter(),
     FinalPeriodFormatter(),
     QuotesTypeFormatter(),
+    NumpydocSectionOrderingFormatter(),
+    NumpydocNameColonTypeFormatter(),
+    NumpydocSectionSpacingFormatter(),
+    NumpydocSectionHyphenLengthFormatter(),
 ]
