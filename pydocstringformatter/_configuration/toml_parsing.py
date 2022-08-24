@@ -2,11 +2,15 @@ from __future__ import annotations
 
 import argparse
 import os
+import sys
 from typing import Any
 
-import tomli
-
 from pydocstringformatter._utils.exceptions import TomlParsingError, UnrecognizedOption
+
+if sys.version_info <= (3, 11):
+    import tomli as tomllib
+else:
+    import tomllib
 
 
 def get_toml_file() -> dict[str, Any] | None:
@@ -14,8 +18,8 @@ def get_toml_file() -> dict[str, Any] | None:
     if os.path.isfile("pyproject.toml"):
         with open("pyproject.toml", "rb") as file:
             try:
-                toml_dict = tomli.load(file)
-            except tomli.TOMLDecodeError as exc:
+                toml_dict = tomllib.load(file)
+            except tomllib.TOMLDecodeError as exc:
                 raise TomlParsingError from exc
             if tool_section := toml_dict.get("tool", None):
                 if pydocformat_sect := tool_section.get("pydocstringformatter", None):
