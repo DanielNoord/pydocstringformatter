@@ -8,7 +8,8 @@
 
 A tool to automatically format Python docstrings to follow recommendations from
 [`PEP 8`](https://www.python.org/dev/peps/pep-0008/) and
-[`PEP 257`](https://www.python.org/dev/peps/pep-0257/) (or other supported style guides.)
+[`PEP 257`](https://www.python.org/dev/peps/pep-0257/) (or other supported style
+guides.)
 
 See [What it does](#what-it-does) for currently supported auto-formatting.
 
@@ -19,8 +20,9 @@ This project is heavily inspired by
 
 When this project was started `docformatter` did not meet all of the requirements the
 [`pylint`](https://github.com/PyCQA/pylint) project had for its docstring formatter and
-was no longer actively maintained (this has changed since then). Therefore, some contributors
-of `pylint` got together and started working on our own formatter to fulfill our needs.
+was no longer actively maintained (this has changed since then). Therefore, some
+contributors of `pylint` got together and started working on our own formatter to
+fulfill our needs.
 
 When asked we defined the objective of the tool as:
 
@@ -62,9 +64,9 @@ exclude = ["**/my_dir/**", "**/my_other_dir/**"]
 
 #### Style
 
-Pydocstringformatter can be configured to use a specific style. The default is ``pep257`` but
-we support other styles as well.
-These can also be used at the same time. For example with:
+Pydocstringformatter can be configured to use a specific style. The default is `pep257`
+but we support other styles as well. These can also be used at the same time. For
+example with:
 
 ```console
 pydocstringformatter --style=pep257 --style=numpydoc myfile.py
@@ -84,8 +86,9 @@ Add the following to your `.pre-commit-config.yaml` file:
 
 ## What it does
 
-The following examples show some of the changes pydocstringformatter will apply. For a full
-overview of all potential changes you can check out the [`Usage`](https://pydocstringformatter.readthedocs.io/en/latest/usage.html) page which
+The following examples show some of the changes pydocstringformatter will apply. For a
+full overview of all potential changes you can check out the
+[`Usage`](https://pydocstringformatter.readthedocs.io/en/latest/usage.html) page which
 shows an up to date list of all formatters and their description.
 
 ```python
@@ -128,7 +131,6 @@ multi-line docstring
 multi-line docstring
 """
 ```
-
 
 ## Development
 
