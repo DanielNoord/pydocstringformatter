@@ -10,7 +10,7 @@ repos:
       - id: check-toml
         exclude: &test-data "tests/data"
   - repo: https://github.com/myint/autoflake
-    rev: v1.4
+    rev: v1.5.1
     hooks:
       - id: autoflake
         exclude: *test-data
@@ -42,7 +42,7 @@ repos:
         exclude: *test-data
         additional_dependencies: [flake8-typing-imports==1.10.1]
   - repo: https://github.com/pycqa/pylint
-    rev: v2.14.5
+    rev: v2.15.0
     hooks:
       - id: pylint
         exclude: *test-data
@@ -56,7 +56,7 @@ repos:
         additional_dependencies:
           [pytest-stub==1.1.0, types-docutils~=0.17.5, sphinx~=4.4]
   - repo: https://github.com/DanielNoord/pydocstringformatter
-    rev: v0.7.0
+    rev: v0.7.1
     hooks:
       - id: pydocstringformatter
         exclude: *test-data
