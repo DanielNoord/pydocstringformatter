@@ -152,6 +152,9 @@ class FinalPeriodFormatter(SummaryFormatter):
         description_exists: bool,
     ) -> str:
         """Add a period to the end of single-line docstrings and summaries."""
+        if not summary:
+            return summary
+
         if summary[-1] in self.END_OF_SENTENCE_PUNCTUATION:
             return summary
 

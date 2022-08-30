@@ -38,6 +38,9 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
         """Split a summary and body if there is a period after the summary."""
         new_summary = None
 
+        if not summary:
+            return summary
+
         if _utils.is_rst_title(summary):
             return summary
 
