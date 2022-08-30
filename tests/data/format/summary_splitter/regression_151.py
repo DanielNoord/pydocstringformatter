@@ -1,0 +1,2 @@
+class GithubIssue151:
+    """ """
