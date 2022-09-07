@@ -41,15 +41,20 @@ def parse_toml_option(
         except KeyError:
             raise UnrecognizedOption(f"Don't recognize option {opt}") from exc
 
-    if isinstance(action, argparse._StoreTrueAction):
-        if value is True:
-            return [action.option_strings[0]]
-        return []
-    if isinstance(action, argparse._StoreAction):
-        if isinstance(value, int):
-            value = str(value)
-        return [action.option_strings[0], value]
-    return []  # pragma: no cover
+    if isinstance(action, argparse._StoreTrueAction): 
+        if value is True: 
+            return [action.option_strings[0]] 
+        return [] 
+    elif isinstance(action, argparse._StoreAction): 
+        if isinstance(value, int): 
+            value = str(value) 
+        return [action.option_strings[0], value] 
+    elif isinstance(action, argparse._ExtendAction): 
+        if isinstance(value, str): 
+            value = str(value) 
+        return [action.option_strings[0], value] 
+    else:
+       raise NotImplementedError
 
 
 def parse_toml_file(
