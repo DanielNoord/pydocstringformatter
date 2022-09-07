@@ -62,6 +62,42 @@ def test_valid_toml_two(
     assert not output.err
 
 
+def test_toml_style(
+    capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Test a correct toml with write = False."""
+    monkeypatch.chdir(CONFIG_DATA / "valid_toml_two")
+    pydocstringformatter.run_docstring_formatter(["test_package"])
+    # I am assuming the default style is "pep257"
+    default_output = capsys.readouterr()
+    assert default_output.out.endswith(
+        '''
+@@ -1,3 +1,2 @@
+-"""
+-A docstring"""
++"""A docstring."""
+ 
+'''
+    )
+
+    with open("pyproject.toml", "a", encoding="utf8") as file:
+        file.write("style = 'numpydoc'")
+
+    pydocstringformatter.run_docstring_formatter(["test_package"])
+    numpydoc_output = capsys.readouterr()
+
+    assert numpydoc_output.out.endswith(
+        '''
+@@ -1,3 +1,3 @@
++"""A docstring.
+ """
+-A docstring"""
+ 
+'''
+    )
+    assert not numpydoc_output.err
+
+
 def test_invalid_toml(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test an invalid toml file."""
     monkeypatch.chdir(CONFIG_DATA / "invalid_toml")
