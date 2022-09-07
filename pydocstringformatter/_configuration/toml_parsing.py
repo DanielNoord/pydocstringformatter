@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+from argparse import _ExtendAction, _StoreAction, _StoreTrueAction
 from typing import Any
 
 from pydocstringformatter._utils.exceptions import TomlParsingError, UnrecognizedOption
@@ -41,20 +42,22 @@ def parse_toml_option(
         except KeyError:
             raise UnrecognizedOption(f"Don't recognize option {opt}") from exc
 
-    if isinstance(action, argparse._StoreTrueAction):
+    if isinstance(action, _StoreTrueAction):
         if value is True:
             return [action.option_strings[0]]
         return []
-    elif isinstance(action, argparse._StoreAction):
+
+    if isinstance(action, _StoreAction):
         if isinstance(value, int):
             value = str(value)
         return [action.option_strings[0], value]
-    elif isinstance(action, argparse._ExtendAction):
+
+    if isinstance(action, _ExtendAction):
         if isinstance(value, str):
             value = str(value)
         return [action.option_strings[0], value]
-    else:
-        raise NotImplementedError
+
+    raise NotImplementedError # pragma: no cover
 
 
 def parse_toml_file(
