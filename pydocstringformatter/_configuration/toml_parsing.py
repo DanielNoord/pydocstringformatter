@@ -57,7 +57,7 @@ def parse_toml_option(
             value = str(value)
         return [action.option_strings[0], value]
 
-    raise NotImplementedError # pragma: no cover
+    raise NotImplementedError  # pragma: no cover
 
 
 def parse_toml_file(
