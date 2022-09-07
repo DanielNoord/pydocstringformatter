@@ -3,7 +3,11 @@ from __future__ import annotations
 import argparse
 import os
 import sys
-from argparse import _ExtendAction, _StoreAction, _StoreTrueAction  #  type: ignore[attr-defined]
+from argparse import (  # type: ignore[attr-defined]
+    _ExtendAction,
+    _StoreAction,
+    _StoreTrueAction,
+)
 from typing import Any
 
 from pydocstringformatter._utils.exceptions import TomlParsingError, UnrecognizedOption
