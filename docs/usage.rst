@@ -12,16 +12,16 @@ Current usage of ``pydocstringformatter``:
                                 [--style {pep257,numpydoc} [{pep257,numpydoc} ...]]
                                 [--strip-whitespaces  --no-strip-whitespaces]
                                 [--split-summary-body  --no-split-summary-body]
+                                [--numpydoc-section-order  --no-numpydoc-section-order]
+                                [--numpydoc-name-type-spacing  --no-numpydoc-name-type-spacing]
+                                [--numpydoc-section-spacing  --no-numpydoc-section-spacing]
+                                [--numpydoc-section-hyphen-length  --no-numpydoc-section-hyphen-length]
                                 [--linewrap-full-docstring  --no-linewrap-full-docstring]
                                 [--beginning-quotes  --no-beginning-quotes]
                                 [--closing-quotes  --no-closing-quotes]
                                 [--capitalize-first-letter  --no-capitalize-first-letter]
                                 [--final-period  --no-final-period]
                                 [--quotes-type  --no-quotes-type]
-                                [--numpydoc-section-order  --no-numpydoc-section-order]
-                                [--numpydoc-name-type-spacing  --no-numpydoc-name-type-spacing]
-                                [--numpydoc-section-spacing  --no-numpydoc-section-spacing]
-                                [--numpydoc-section-hyphen-length  --no-numpydoc-section-hyphen-length]
                                 [files ...]
 
     positional arguments:
@@ -66,6 +66,22 @@ Current usage of ``pydocstringformatter``:
                             max length. The maximum length of a summary can be set
                             with the --max-summary-lines option. Styles: pep257.
                             (default: True)
+      --numpydoc-section-order, --no-numpydoc-section-order
+                            Activate or deactivate numpydoc-section-order: Change
+                            section order to match numpydoc guidelines. Styles:
+                            numpydoc. (default: True)
+      --numpydoc-name-type-spacing, --no-numpydoc-name-type-spacing
+                            Activate or deactivate numpydoc-name-type-spacing:
+                            Ensure proper spacing around the colon separating
+                            names from types. Styles: numpydoc. (default: True)
+      --numpydoc-section-spacing, --no-numpydoc-section-spacing
+                            Activate or deactivate numpydoc-section-spacing:
+                            Ensure proper spacing between sections. Styles:
+                            numpydoc. (default: True)
+      --numpydoc-section-hyphen-length, --no-numpydoc-section-hyphen-length
+                            Activate or deactivate numpydoc-section-hyphen-length:
+                            Ensure hyphens after section header lines are proper
+                            length. Styles: numpydoc. (default: True)
       --beginning-quotes, --no-beginning-quotes
                             Activate or deactivate beginning-quotes: Fix the
                             position of the opening quotes. Styles: default.
@@ -86,22 +102,6 @@ Current usage of ``pydocstringformatter``:
                             Activate or deactivate quotes-type: Change all opening
                             and closing quotes to be triple quotes. Styles:
                             default. (default: True)
-      --numpydoc-section-order, --no-numpydoc-section-order
-                            Activate or deactivate numpydoc-section-order: Change
-                            section order to match numpydoc guidelines. Styles:
-                            numpydoc. (default: True)
-      --numpydoc-name-type-spacing, --no-numpydoc-name-type-spacing
-                            Activate or deactivate numpydoc-name-type-spacing:
-                            Ensure proper spacing around the colon separating
-                            names from types. Styles: numpydoc. (default: True)
-      --numpydoc-section-spacing, --no-numpydoc-section-spacing
-                            Activate or deactivate numpydoc-section-spacing:
-                            Ensure proper spacing between sections. Styles:
-                            numpydoc. (default: True)
-      --numpydoc-section-hyphen-length, --no-numpydoc-section-hyphen-length
-                            Activate or deactivate numpydoc-section-hyphen-length:
-                            Ensure hyphens after section header lines are proper
-                            length. Styles: numpydoc. (default: True)
 
     optional formatters:
       these formatters are turned off by default
