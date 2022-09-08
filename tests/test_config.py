@@ -68,7 +68,7 @@ def test_toml_style(
     """Test a correct toml with write = False."""
     monkeypatch.chdir(CONFIG_DATA / "valid_toml_two")
     pydocstringformatter.run_docstring_formatter(["test_package"])
-    # I am assuming the default style is "pep257"
+    # We are assuming the default style is "pep257"
     default_output = capsys.readouterr()
     assert default_output.out.endswith(
         '''
