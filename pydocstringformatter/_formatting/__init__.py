@@ -31,14 +31,14 @@ from pydocstringformatter._formatting.formatters_pep257 import (
 FORMATTERS: list[Formatter] = [
     StripWhitespacesFormatter(),
     SplitSummaryAndDocstringFormatter(),
+    NumpydocSectionOrderingFormatter(),
+    NumpydocNameColonTypeFormatter(),
+    NumpydocSectionSpacingFormatter(),
+    NumpydocSectionHyphenLengthFormatter(),
     LineWrapperFormatter(),
     BeginningQuotesFormatter(),
     ClosingQuotesFormatter(),
     CapitalizeFirstLetterFormatter(),
     FinalPeriodFormatter(),
     QuotesTypeFormatter(),
-    NumpydocSectionOrderingFormatter(),
-    NumpydocNameColonTypeFormatter(),
-    NumpydocSectionSpacingFormatter(),
-    NumpydocSectionHyphenLengthFormatter(),
 ]
