@@ -52,8 +52,6 @@ def parse_toml_option(
         return [action.option_strings[0], value]
 
     if isinstance(action, argparse._ExtendAction):  # type: ignore[attr-defined]
-        if isinstance(value, str):
-            value = str(value)
         return [action.option_strings[0], value]
 
     raise NotImplementedError  # pragma: no cover

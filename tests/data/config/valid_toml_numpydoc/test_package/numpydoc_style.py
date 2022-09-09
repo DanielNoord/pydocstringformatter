@@ -1,0 +1,1 @@
+../../../../data/format/numpydoc/numpydoc_regression.py
