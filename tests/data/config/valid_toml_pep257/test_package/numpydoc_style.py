@@ -1,1 +1,3 @@
-../../../../data/format/numpydoc/numpydoc_regression.py
+def func():
+    """
+    A docstring"""

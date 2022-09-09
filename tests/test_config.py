@@ -265,3 +265,7 @@ class TestStyleOption:
         monkeypatch.chdir(CONFIG_DATA / "valid_toml_pep257")
         run = _Run(["test_package"])
         assert ["pep257"] == run.config.style
+
+        monkeypatch.chdir(CONFIG_DATA / "valid_toml_numpydoc_pep257")
+        run = _Run(["test_package"])
+        assert all(x in run.config.style for x in ("pep257", "numpydoc"))
