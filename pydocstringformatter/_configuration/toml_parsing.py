@@ -52,7 +52,14 @@ def parse_toml_option(
         return [action.option_strings[0], value]
 
     if isinstance(action, argparse._ExtendAction):  # type: ignore[attr-defined]
-        return [action.option_strings[0], value]
+        out_args = []
+        if isinstance(value, list):
+            for item in value:
+                out_args += [action.option_strings[0], item]
+        else:
+            out_args = [action.option_strings[0], value]
+
+        return out_args
 
     raise NotImplementedError  # pragma: no cover
 
