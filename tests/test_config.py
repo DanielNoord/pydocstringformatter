@@ -255,3 +255,17 @@ class TestStyleOption:
         output = capsys.readouterr()
         assert not output.out
         assert "--style: invalid choice: 'invalid'" in output.err
+
+    def test_style_in_toml(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Test that the style argument works in the toml file."""
+        monkeypatch.chdir(CONFIG_DATA / "valid_toml_numpydoc")
+        run = _Run(["test_package"])
+        assert ["numpydoc"] == run.config.style
+
+        monkeypatch.chdir(CONFIG_DATA / "valid_toml_pep257")
+        run = _Run(["test_package"])
+        assert ["pep257"] == run.config.style
+
+        monkeypatch.chdir(CONFIG_DATA / "valid_toml_numpydoc_pep257")
+        run = _Run(["test_package"])
+        assert run.config.style == ["numpydoc", "pep257"]
