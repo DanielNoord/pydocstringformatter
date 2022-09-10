@@ -1,12 +1,12 @@
-"""  A multi-line
-docstring
+"""  A multi-line  
+docstring  
 """
 
-"""  A multi-line
-docstring
+"""  A multi-line  
+docstring  
    """
 
-"""  My docstring.
-
-   My indented section
+"""  My docstring.  
+    
+   My indented section  
   """
