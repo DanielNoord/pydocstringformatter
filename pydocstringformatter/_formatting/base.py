@@ -278,7 +278,7 @@ class NumpydocSectionFormatter(StringAndQuotesFormatter, metaclass=abc.ABCMeta):
             if first_section:
                 section[0] = section[0].lstrip()
                 first_section = False
-            elif not section[0][0].isspace():
+            elif len(section[0]) > 0 and not section[0][0].isspace():
                 section[0] = f"{' ' * indent_length:s}{section[0]:s}"
 
         # Rejoin sections
