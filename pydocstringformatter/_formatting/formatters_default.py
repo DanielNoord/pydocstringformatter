@@ -88,7 +88,8 @@ class LineWrapperFormatter(SummaryFormatter):
                 # ending quotes
                 line_length -= quotes_length + 1
 
-        summary_lines = summary.splitlines()
+        if not (summary_lines := summary.splitlines()):
+            summary_lines = [""]
 
         new_summary = "\n".join(
             textwrap.wrap(
