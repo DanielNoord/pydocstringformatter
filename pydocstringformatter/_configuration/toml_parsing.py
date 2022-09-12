@@ -5,6 +5,9 @@ import os
 import sys
 from typing import Any
 
+from pydocstringformatter._configuration.boolean_option_action import (
+    BooleanOptionalAction,
+)
 from pydocstringformatter._utils.exceptions import TomlParsingError, UnrecognizedOption
 
 if sys.version_info <= (3, 11):
@@ -40,6 +43,11 @@ def parse_toml_option(
             action = parser._option_string_actions[f"-{opt}"]
         except KeyError:
             raise UnrecognizedOption(f"Don't recognize option {opt}") from exc
+
+    if isinstance(action, BooleanOptionalAction):
+        index = action.option_strings.index(f"--{opt}")
+        option = action.option_strings[index]
+        return [option]
 
     if isinstance(action, argparse._StoreTrueAction):
         if value is True:

@@ -269,3 +269,13 @@ class TestStyleOption:
         monkeypatch.chdir(CONFIG_DATA / "valid_toml_numpydoc_pep257")
         run = _Run(["test_package"])
         assert run.config.style == ["numpydoc", "pep257"]
+
+    def test_boolopt_in_toml(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Test that arguments of type BooleanOptionalAction work in toml files."""
+        monkeypatch.chdir(CONFIG_DATA / "valid_toml_boolopt")
+        run = _Run(["test_package"])
+        assert not run.config.summary_quotes_same_line
+
+        # dashes in the name dont allow the dot notation to get this value
+        assert not run.config.__dict__["numpydoc-section-hyphen-length"]
+        assert run.config.__dict__["strip-whitespaces"]
