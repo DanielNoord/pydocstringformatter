@@ -43,7 +43,7 @@ def sincos(theta):
         If `theta` is not a float.
 
 
-
+    ----
     sin: float
         the sine of theta
     cos: float
