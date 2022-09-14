@@ -54,8 +54,8 @@ def parse_toml_option(  # pylint: disable=too-many-branches
 
         if opt.startswith("no") and f"--{opt[3:]}" in option_strings:
             opposite_opt = opt[3:]
-            val = ["false", "true"][bool(value)]
-            opp_val = ["true", "false"][bool(value)]
+            val = ["false", "true"][value]
+            opp_val = ["true", "false"][value]
             error_msg = (
                 "TOML file contains an unsupported option "
                 f"'{opt}: {val}', try using '{opposite_opt}: {opp_val}' instead"
