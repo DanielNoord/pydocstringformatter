@@ -3,4 +3,4 @@ write = false
 style = ["numpydoc"]
 strip-whitespaces = true
 split-summary-body = false
-numpydoc-section-hyphen-length = false
+no-numpydoc-section-hyphen-length = true

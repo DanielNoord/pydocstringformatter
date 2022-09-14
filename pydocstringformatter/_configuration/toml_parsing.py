@@ -45,7 +45,18 @@ def parse_toml_option(
             raise UnrecognizedOption(f"Don't recognize option {opt}") from exc
 
     if isinstance(action, BooleanOptionalAction):
-        index = action.option_strings.index(f"--{opt}")
+        option_strings = action.option_strings
+
+        if opt.startswith("no") and f"--{opt[3:]}" in option_strings:
+            opposite_opt = opt[3:]
+            val, opp_val = ["false", "true"][value], ["true", "false"][value]
+            error_msg = (
+                "TOML file contains an unsupported option "
+                f"'{opt}: {val}', try using '{opposite_opt}: {opp_val}' instead"
+            )
+            raise TomlParsingError(error_msg)
+
+        index = option_strings.index(f"--{'no-' if not value else ''}{opt}")
         option = action.option_strings[index]
         return [option]
 
