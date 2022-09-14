@@ -31,7 +31,7 @@ def get_toml_file() -> dict[str, Any] | None:
     return None
 
 
-def parse_toml_option(
+def parse_toml_option(  # pylint: disable=too-many-branches
     parser: argparse.ArgumentParser, opt: str, value: Any
 ) -> list[str]:
     """Parse an options value in the correct argument type for argparse."""
@@ -46,6 +46,11 @@ def parse_toml_option(
 
     if isinstance(action, BooleanOptionalAction):
         option_strings = action.option_strings
+
+        if not isinstance(value, bool):
+            error_msg = f"{{'{value}'}} {type(value)} is not a supported argument for"
+            error_msg += f"'{opt}', please use either {{true}} or {{false}}."
+            raise ValueError(error_msg)
 
         if opt.startswith("no") and f"--{opt[3:]}" in option_strings:
             opposite_opt = opt[3:]

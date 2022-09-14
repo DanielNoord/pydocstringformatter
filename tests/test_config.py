@@ -293,3 +293,17 @@ class TestStyleOption:
         )
 
         assert error_msg in str(err.value)
+
+    def test_non_bool_boolopt_in_toml(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Test that non-bool values of BooleanOptionalAction in toml do not work."""
+        monkeypatch.chdir(CONFIG_DATA / "non_valid_toml_boolopt_two")
+        with pytest.raises(ValueError) as err:
+            _Run(["test_package"])
+
+        error_msg = (
+            "{'true'} <class 'str'> is not a supported argument"
+            " for'numpydoc-section-hyphen-length',"
+            " please use either {true} or {false}."
+        )
+
+        assert error_msg in str(err.value)
