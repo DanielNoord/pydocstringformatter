@@ -45,14 +45,12 @@ def parse_toml_option(  # pylint: disable=too-many-branches
             raise UnrecognizedOption(f"Don't recognize option {opt}") from exc
 
     if isinstance(action, BooleanOptionalAction):
-        option_strings = action.option_strings
-
         if not isinstance(value, bool):
             error_msg = f"{{'{value}'}} {type(value)} is not a supported argument for"
             error_msg += f" '{opt}', please use either {{true}} or {{false}}."
             raise ValueError(error_msg)
 
-        if opt.startswith("no") and f"--{opt[3:]}" in option_strings:
+        if opt.startswith("no") and f"--{opt[3:]}" in action.option_strings:
             opposite_opt = opt[3:]
             val = ["false", "true"][value]
             opp_val = ["true", "false"][value]
