@@ -281,7 +281,7 @@ class TestStyleOption:
         assert run.config.__dict__["strip-whitespaces"]
 
     def test_non_valid_boolopt_in_toml(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        """Test that '--no' versions arguments in toml do not work."""
+        """Test that '--no' versions of BooleanOptionalAction in toml do not work."""
         monkeypatch.chdir(CONFIG_DATA / "non_valid_toml_boolopt")
         with pytest.raises(exceptions.TomlParsingError) as err:
             _Run(["test_package"])
