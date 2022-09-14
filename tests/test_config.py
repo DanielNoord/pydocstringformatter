@@ -302,7 +302,7 @@ class TestStyleOption:
 
         error_msg = (
             "{'true'} <class 'str'> is not a supported argument"
-            " for'numpydoc-section-hyphen-length',"
+            " for 'numpydoc-section-hyphen-length',"
             " please use either {true} or {false}."
         )
 

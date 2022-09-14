@@ -49,7 +49,7 @@ def parse_toml_option(  # pylint: disable=too-many-branches
 
         if not isinstance(value, bool):
             error_msg = f"{{'{value}'}} {type(value)} is not a supported argument for"
-            error_msg += f"'{opt}', please use either {{true}} or {{false}}."
+            error_msg += f" '{opt}', please use either {{true}} or {{false}}."
             raise ValueError(error_msg)
 
         if opt.startswith("no") and f"--{opt[3:]}" in option_strings:
@@ -62,9 +62,7 @@ def parse_toml_option(  # pylint: disable=too-many-branches
             )
             raise TomlParsingError(error_msg)
 
-        index = option_strings.index(f"--{'no-' if not value else ''}{opt}")
-        option = action.option_strings[index]
-        return [option]
+        return [f"--{'no-' if not value else ''}{opt}"]
 
     if isinstance(action, argparse._StoreTrueAction):
         if value is True:
