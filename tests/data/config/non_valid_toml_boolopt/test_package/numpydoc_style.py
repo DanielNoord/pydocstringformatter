@@ -1,0 +1,3 @@
+def func():
+    """
+    A docstring"""

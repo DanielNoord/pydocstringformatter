@@ -60,6 +60,9 @@ write = true
 exclude = "**/my_dir/**,**/my_other_dir/**"
 # Or:
 exclude = ["**/my_dir/**", "**/my_other_dir/**"]
+strip-whitespaces = true
+split-summary-body = false
+numpydoc-section-hyphen-length = false
 ```
 
 #### Style

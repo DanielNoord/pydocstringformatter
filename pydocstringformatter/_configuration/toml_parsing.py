@@ -5,6 +5,9 @@ import os
 import sys
 from typing import Any
 
+from pydocstringformatter._configuration.boolean_option_action import (
+    BooleanOptionalAction,
+)
 from pydocstringformatter._utils.exceptions import TomlParsingError, UnrecognizedOption
 
 if sys.version_info <= (3, 11):
@@ -28,7 +31,7 @@ def get_toml_file() -> dict[str, Any] | None:
     return None
 
 
-def parse_toml_option(
+def parse_toml_option(  # pylint: disable=too-many-branches
     parser: argparse.ArgumentParser, opt: str, value: Any
 ) -> list[str]:
     """Parse an options value in the correct argument type for argparse."""
@@ -40,6 +43,24 @@ def parse_toml_option(
             action = parser._option_string_actions[f"-{opt}"]
         except KeyError:
             raise UnrecognizedOption(f"Don't recognize option {opt}") from exc
+
+    if isinstance(action, BooleanOptionalAction):
+        if not isinstance(value, bool):
+            error_msg = f"{{'{value}'}} {type(value)} is not a supported argument for"
+            error_msg += f" '{opt}', please use either {{true}} or {{false}}."
+            raise ValueError(error_msg)
+
+        if opt.startswith("no") and f"--{opt[3:]}" in action.option_strings:
+            opposite_opt = opt[3:]
+            val = ["false", "true"][value]
+            opp_val = ["true", "false"][value]
+            error_msg = (
+                "TOML file contains an unsupported option "
+                f"'{opt}: {val}', try using '{opposite_opt}: {opp_val}' instead"
+            )
+            raise TomlParsingError(error_msg)
+
+        return [f"--{'no-' if not value else ''}{opt}"]
 
     if isinstance(action, argparse._StoreTrueAction):
         if value is True:
