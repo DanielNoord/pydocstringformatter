@@ -2,3 +2,6 @@
 pydocstringformatter.egg-info
 dist/
 docs/_build
+
+**.pyc
+**/__pycache__
