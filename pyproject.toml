@@ -65,3 +65,6 @@ source = ["pydocstringformatter"]
 
 [tool.coverage.report]
 include = ["pydocstringformatter/*"]
+
+[tool.black]
+extend-exclude = ".*tests/data/.*"
