@@ -65,3 +65,9 @@ source = ["pydocstringformatter"]
 
 [tool.coverage.report]
 include = ["pydocstringformatter/*"]
+
+[tool.black]
+# Use force-exclude due to the way that pre-commit passes filenames to black
+# See https://github.com/psf/black/issues/1985
+force-exclude = ".*tests/data/.*"
+quiet = true
