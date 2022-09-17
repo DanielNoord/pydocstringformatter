@@ -52,7 +52,7 @@ class _Run:
 
     def format_file(self, filename: Path) -> bool:
         """Format a file."""
-        changed_tokens: list[tokenize.TokenInfo] = []
+        formatted_tokens: list[tokenize.TokenInfo] = []
         is_changed = False
 
         with tokenize.open(filename) as file:
@@ -76,7 +76,7 @@ class _Run:
                         or any(i in formatter.style for i in self.config.style)
                     ) and getattr(self.config, formatter.name):
                         new_tokeninfo = formatter.treat_token(new_tokeninfo)
-            changed_tokens.append(new_tokeninfo)
+            formatted_tokens.append(new_tokeninfo)
 
             if tokeninfo != new_tokeninfo:
                 is_changed = True
@@ -98,7 +98,7 @@ class _Run:
                         file=sys.stderr,
                     )
                 with open(filename, "w", encoding="utf-8", newline=newlines) as file:
-                    file.write(tokenize.untokenize(changed_tokens))
+                    file.write(tokenize.untokenize(formatted_tokens))
                     _utils.print_to_console(
                         f"Formatted {filename_str} 📖\n", self.config.quiet
                     )
@@ -106,7 +106,7 @@ class _Run:
                 sys.stdout.write(
                     _utils.generate_diff(
                         tokenize.untokenize(tokens),
-                        tokenize.untokenize(changed_tokens),
+                        tokenize.untokenize(formatted_tokens),
                         filename_str,
                     )
                 )
