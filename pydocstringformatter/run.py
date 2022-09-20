@@ -29,6 +29,7 @@ class _Run:
         for formatter in _formatting.FORMATTERS:
             formatter.set_config_namespace(self.config)
 
+        self.enabled_formatters = self.get_enabled_formatters()
         self.check_files(self.config.files)
 
     # pylint: disable-next=inconsistent-return-statements
@@ -70,12 +71,8 @@ class _Run:
             new_tokeninfo = tokeninfo
 
             if _utils.is_docstring(new_tokeninfo, tokens[index - 1]):
-                for formatter in _formatting.FORMATTERS:
-                    if (
-                        "default" in formatter.style
-                        or any(i in formatter.style for i in self.config.style)
-                    ) and getattr(self.config, formatter.name):
-                        new_tokeninfo = formatter.treat_token(new_tokeninfo)
+                for _, formatter in self.enabled_formatters.items():
+                    new_tokeninfo = formatter.treat_token(new_tokeninfo)
             formatted_tokens.append(new_tokeninfo)
 
             if tokeninfo != new_tokeninfo:
@@ -112,6 +109,19 @@ class _Run:
                 )
 
         return is_changed
+
+    def get_enabled_formatters(self) -> dict[str, _formatting.Formatter]:
+        """Returns a dict of the enabled formatters."""
+
+        enabled = {}
+        for formatter in _formatting.FORMATTERS:
+            if (
+                "default" in formatter.style
+                or any(i in formatter.style for i in self.config.style)
+            ) and getattr(self.config, formatter.name):
+                enabled[formatter.name] = formatter
+
+        return enabled
 
     def format_files(self, filepaths: list[Path]) -> bool:
         """Format a list of files."""
