@@ -11,7 +11,7 @@ from pydocstringformatter import run_docstring_formatter
 from pydocstringformatter._formatting import Formatter
 from pydocstringformatter._testutils.example_formatters import (
     MakeAFormatter,
-    MakeBFormatter
+    MakeBFormatter,
 )
 
 LOGGER = logging.getLogger(__name__)
