@@ -100,7 +100,7 @@ class NumpydocSectionSpacingFormatter(NumpydocSectionFormatter):
         """Ensure proper spacing between sections."""
         for section_lines in sections.values():
             last_line = section_lines[-1]
-            if not (last_line == "" or last_line.isspace()):
+            if not (last_line == "" or last_line.isspace()) and len(sections) > 1:
                 section_lines.append("")
         return sections
 
