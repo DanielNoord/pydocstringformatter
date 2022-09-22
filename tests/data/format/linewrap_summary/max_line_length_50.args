@@ -1,2 +1,3 @@
 --linewrap-full-docstring
 --max-line-length=50
+--max-summary-lines=2
