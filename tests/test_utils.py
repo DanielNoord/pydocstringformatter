@@ -7,7 +7,12 @@ from pathlib import Path
 import pytest
 
 import pydocstringformatter
-from pydocstringformatter._utils import find_python_files, is_docstring
+from pydocstringformatter._testutils import MakeAFormatter, MakeBFormatter
+from pydocstringformatter._utils import (
+    compare_formatters,
+    find_python_files,
+    is_docstring,
+)
 
 HERE = Path(__file__)
 UTILS_DATA = HERE.parent / "data" / "utils"
@@ -157,3 +162,21 @@ def test_encoding_of_console_messages(
     output = capsys.readouterr()
     assert output.out == "Nothing to do! All docstrings in 1 file are correct 🎉\n"
     assert not output.err
+
+
+def test_formatter_comparer() -> None:
+    """Test the compare_formatters utility function."""
+    tokeninfo = tokenize.TokenInfo(
+        1, '"""AAA AA AAA"""', (1, 0), (1, 0), '"""AAA AA AAA"""'
+    )
+
+    diff = compare_formatters(tokeninfo, MakeAFormatter(), MakeBFormatter(), "test")
+
+    expected_sections = [
+        "--- make-a-formatter vs make-b-formatter test\n",
+        '-"""AAA AA AAA"""\n',
+        '+"""BBB BB BBB"""\n',
+    ]
+
+    for section in expected_sections:
+        assert section in diff
