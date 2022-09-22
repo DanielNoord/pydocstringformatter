@@ -10,9 +10,8 @@ import pytest
 from pydocstringformatter import run_docstring_formatter
 from pydocstringformatter._formatting import Formatter
 from pydocstringformatter._testutils.example_formatters import (
-    AddBFormatter,
     MakeAFormatter,
-    MakeBFormatter,
+    MakeBFormatter
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -84,4 +83,4 @@ Temp file is '{self.file_to_format}'
         return None
 
 
-__all__ = ["FormatterAsserter", "MakeAFormatter", "MakeBFormatter", "AddBFormatter"]
+__all__ = ["FormatterAsserter", "MakeAFormatter", "MakeBFormatter"]
