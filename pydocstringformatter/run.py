@@ -53,9 +53,6 @@ class _Run:
 
     def format_file(self, filename: Path) -> bool:
         """Format a file."""
-        formatted_tokens: list[tokenize.TokenInfo] = []
-        is_changed = False
-
         with tokenize.open(filename) as file:
             try:
                 tokens = list(tokenize.generate_tokens(file.readline))
@@ -67,16 +64,7 @@ class _Run:
             # the same later on.
             newlines = file.newlines
 
-        for index, tokeninfo in enumerate(tokens):
-            new_tokeninfo = tokeninfo
-
-            if _utils.is_docstring(new_tokeninfo, tokens[index - 1]):
-                for _, formatter in self.enabled_formatters.items():
-                    new_tokeninfo = formatter.treat_token(new_tokeninfo)
-            formatted_tokens.append(new_tokeninfo)
-
-            if tokeninfo != new_tokeninfo:
-                is_changed = True
+        formatted_tokens, is_changed = self.format_file_tokens(tokens)
 
         if is_changed:
             try:
@@ -122,6 +110,26 @@ class _Run:
                 enabled[formatter.name] = formatter
 
         return enabled
+
+    def format_file_tokens(
+        self, tokens: list[tokenize.TokenInfo]
+    ) -> tuple[list[tokenize.TokenInfo], bool]:
+        """Format a list of tokens."""
+        formatted_tokens: list[tokenize.TokenInfo] = []
+        is_changed = False
+
+        for index, tokeninfo in enumerate(tokens):
+            new_tokeninfo = tokeninfo
+
+            if _utils.is_docstring(new_tokeninfo, tokens[index - 1]):
+                for _, formatter in self.enabled_formatters.items():
+                    new_tokeninfo = formatter.treat_token(new_tokeninfo)
+            formatted_tokens.append(new_tokeninfo)
+
+            if tokeninfo != new_tokeninfo:
+                is_changed = True
+
+        return formatted_tokens, is_changed
 
     def format_files(self, filepaths: list[Path]) -> bool:
         """Format a list of files."""
