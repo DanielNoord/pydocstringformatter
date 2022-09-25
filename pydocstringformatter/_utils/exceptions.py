@@ -12,3 +12,7 @@ class UnrecognizedOption(PydocstringFormatterError):
 
 class TomlParsingError(PydocstringFormatterError):
     """Raised when there are errors with the parsing of the toml file."""
+
+
+class UnstableResultError(PydocstringFormatterError):
+    """Raised when the result of the formatting is unstable."""
