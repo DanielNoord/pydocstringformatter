@@ -27,3 +27,16 @@ class MakeBFormatter(Formatter):
         token_dict = tokeninfo._asdict()
         token_dict["string"] = token_dict["string"].replace("A", "B")
         return type(tokeninfo)(**token_dict)
+
+
+class AddBFormatter(Formatter):
+    """A formatter that adds Bs."""
+
+    name = "add-b-formatter"
+    style = ["default"]
+
+    def treat_token(self, tokeninfo: tokenize.TokenInfo) -> tokenize.TokenInfo:
+        """Add a B to the end of the string."""
+        token_dict = tokeninfo._asdict()
+        token_dict["string"] += "B"
+        return type(tokeninfo)(**token_dict)
