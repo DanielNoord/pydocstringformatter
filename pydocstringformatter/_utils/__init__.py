@@ -2,6 +2,7 @@ from pydocstringformatter._utils.exceptions import (
     ParsingError,
     PydocstringFormatterError,
     TomlParsingError,
+    UnstableResultError,
 )
 from pydocstringformatter._utils.file_diference import compare_formatters, generate_diff
 from pydocstringformatter._utils.find_docstrings import is_docstring
@@ -16,6 +17,7 @@ __all__ = [
     "ParsingError",
     "PydocstringFormatterError",
     "TomlParsingError",
+    "UnstableResultError",
     "print_to_console",
     "sys_exit",
 ]
