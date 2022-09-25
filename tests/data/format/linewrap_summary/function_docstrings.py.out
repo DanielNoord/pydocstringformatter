@@ -1,5 +1,6 @@
 def func():
-    """A very long summary line that needs to be wrapped, A very long summary line that
+    """A very long summary line that needs to be wrapped, A very long summary line that.
+
     needs to be wrapped.
 
     A description that is not too long.
@@ -7,7 +8,8 @@ def func():
 
 
 def func():
-    """A very long multi-line summary line that needs to be wrapped, A very long multi-
+    """A very long multi-line summary line that needs to be wrapped, A very long multi-.
+
     line summary line that needs to be wrapped.
 
     A very long summary line that needs to be wrapped.
@@ -28,13 +30,15 @@ def func():
 # Since the ending quotes will be appended on the same line this
 # exceeds the max length.
 def func():
-    """A multi-line summary that can be on one line, Something that is just too
+    """A multi-line summary that can be on one line, Something that is just too.
+
     longgg.
     """
 
 
 def func():
-    """A multi-line summary that can be on one line, Something that is just too
+    """A multi-line summary that can be on one line, Something that is just too.
+
     long.
     """
 
@@ -46,6 +50,7 @@ def func():
 # Regression for bug found in pylint
 # We should re-add the quotes to line length if they will never be on the first line.
 class LinesChunk:
-    """The LinesChunk object computes and stores the hash of some consecutive stripped
+    """The LinesChunk object computes and stores the hash of some consecutive stripped.
+
     lines of a lineset.
     """

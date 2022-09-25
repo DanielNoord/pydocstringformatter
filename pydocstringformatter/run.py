@@ -9,6 +9,7 @@ from pathlib import Path
 
 from pydocstringformatter import __version__, _formatting, _utils
 from pydocstringformatter._configuration.arguments_manager import ArgumentsManager
+from pydocstringformatter._utils.exceptions import UnstableResultError
 
 
 class _Run:
@@ -64,7 +65,7 @@ class _Run:
             # the same later on.
             newlines = file.newlines
 
-        formatted_tokens, is_changed = self.format_file_tokens(tokens)
+        formatted_tokens, is_changed = self.format_file_tokens(tokens, filename)
 
         if is_changed:
             try:
@@ -112,9 +113,22 @@ class _Run:
         return enabled
 
     def format_file_tokens(
-        self, tokens: list[tokenize.TokenInfo]
+        self, tokens: list[tokenize.TokenInfo], filename: Path
     ) -> tuple[list[tokenize.TokenInfo], bool]:
-        """Format a list of tokens."""
+        """Format a list of tokens.
+
+        tokens: List of tokens to format.
+        filename: Name of the file the tokens are from.
+
+        Returns:
+            A tuple containing [1] the formatted tokens in a list
+            and [2] a boolean indicating if the tokens were changed.
+
+        Raises:
+            UnstableResultError::
+                If the formatters are not able to get to a stable result.
+                It reports what formatters are still modifying the tokens.
+        """
         formatted_tokens: list[tokenize.TokenInfo] = []
         is_changed = False
 
@@ -122,20 +136,68 @@ class _Run:
             new_tokeninfo = tokeninfo
 
             if _utils.is_docstring(new_tokeninfo, tokens[index - 1]):
-                for _, formatter in self.enabled_formatters.items():
-                    new_tokeninfo = formatter.treat_token(new_tokeninfo)
-            formatted_tokens.append(new_tokeninfo)
+                new_tokeninfo, changers = self.apply_formatters(new_tokeninfo)
+                is_changed = is_changed or bool(changers)
 
-            if tokeninfo != new_tokeninfo:
-                is_changed = True
+                # Run formatters again (3rd time) to check if the result is stable
+                _, changers = self._apply_formatters_once(
+                    new_tokeninfo,
+                )
+
+                if changers:
+                    conflicting_formatters = {
+                        k: v
+                        for k, v in self.enabled_formatters.items()
+                        if k in changers
+                    }
+                    template = _utils.create_gh_issue_template(
+                        new_tokeninfo, conflicting_formatters, str(filename)
+                    )
+
+                    raise UnstableResultError(template)
+
+            formatted_tokens.append(new_tokeninfo)
 
         return formatted_tokens, is_changed
 
+    def apply_formatters(
+        self, token: tokenize.TokenInfo
+    ) -> tuple[tokenize.TokenInfo, set[str]]:
+        """Apply the formatters twice to a token.
+
+        Also tracks which formatters changed the token.
+
+        Returns:
+            A tuple containing:
+            [1] the formatted token and
+            [2] a set of formatters that changed the token.
+        """
+        token, changers = self._apply_formatters_once(token)
+        if changers:
+            token, changers2 = self._apply_formatters_once(token)
+            changers.update(changers2)
+        return token, changers
+
+    def _apply_formatters_once(
+        self, token: tokenize.TokenInfo
+    ) -> tuple[tokenize.TokenInfo, set[str]]:
+        """Applies formatters to a token and keeps track of what changes it.
+
+        token: Token to apply formatters to
+
+        Returns:
+            A tuple containing [1] the formatted token and [2] a set
+            of formatters that changed the token.
+        """
+        changers: set[str] = set()
+        for formatter_name, formatter in self.enabled_formatters.items():
+            if (new_token := formatter.treat_token(token)) != token:
+                changers.add(formatter_name)
+                token = new_token
+
+        return token, changers
+
     def format_files(self, filepaths: list[Path]) -> bool:
         """Format a list of files."""
-        is_changed = False
-
-        for file in filepaths:
-            is_changed = self.format_file(file) or is_changed
-
-        return is_changed
+        is_changed = [self.format_file(file) for file in filepaths]
+        return any(is_changed)
