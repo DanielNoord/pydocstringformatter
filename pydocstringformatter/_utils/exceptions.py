@@ -16,3 +16,7 @@ class TomlParsingError(PydocstringFormatterError):
 
 class UnstableResultError(PydocstringFormatterError):
     """Raised when the result of the formatting is unstable."""
+
+
+class PydocstringFormatterRuntimeError(RuntimeError):
+    """Semantic class for unhandled error leading to crash."""

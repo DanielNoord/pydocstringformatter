@@ -1,6 +1,7 @@
 from pydocstringformatter._utils.exceptions import (
     ParsingError,
     PydocstringFormatterError,
+    PydocstringFormatterRuntimeError,
     TomlParsingError,
     UnstableResultError,
 )
@@ -17,6 +18,7 @@ __all__ = [
     "is_docstring",
     "ParsingError",
     "PydocstringFormatterError",
+    "PydocstringFormatterRuntimeError",
     "TomlParsingError",
     "UnstableResultError",
     "create_gh_issue_template",

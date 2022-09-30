@@ -5,10 +5,12 @@ from __future__ import annotations
 import os
 import sys
 import tokenize
+import traceback
 from pathlib import Path
 
 from pydocstringformatter import __version__, _formatting, _utils
 from pydocstringformatter._configuration.arguments_manager import ArgumentsManager
+from pydocstringformatter._utils import PydocstringFormatterRuntimeError
 from pydocstringformatter._utils.exceptions import UnstableResultError
 
 
@@ -38,7 +40,20 @@ class _Run:
         """Find all files and perform the formatting."""
         filepaths = _utils.find_python_files(files, self.config.exclude)
 
-        is_changed = self.format_files(filepaths)
+        try:
+            is_changed = self.format_files(filepaths)
+        except _utils.PydocstringFormatterRuntimeError as exc:
+            print(
+                f"""\
+pydocstringformatter crashed {exc} with the following stacktrace:
+{traceback.format_exc()}
+
+Please open an issue at https://github.com/DanielNoord/pydocstringformatter/issues/new
+so we can address this.""",
+                file=sys.stderr,
+            )
+            # _utils.sys_exit(-1, True)
+            is_changed = False
 
         if is_changed:  # pylint: disable=consider-using-assignment-expr
             return _utils.sys_exit(32, self.config.exit_code)
@@ -185,19 +200,35 @@ class _Run:
 
         token: Token to apply formatters to
 
+        Raises:
+            PydocstringFormatterRuntimeError:
+                If there was an unexpected crash.
+
         Returns:
             A tuple containing [1] the formatted token and [2] a set
             of formatters that changed the token.
         """
         changers: set[str] = set()
         for formatter_name, formatter in self.enabled_formatters.items():
-            if (new_token := formatter.treat_token(token)) != token:
-                changers.add(formatter_name)
-                token = new_token
+            try:
+                if (new_token := formatter.treat_token(token)) != token:
+                    changers.add(formatter_name)
+                    token = new_token
+            except Exception as exc:
+                raise _utils.PydocstringFormatterRuntimeError(
+                    f"formatting failed for formatter '{formatter_name}' on '{token}'"
+                ) from exc
 
         return token, changers
 
     def format_files(self, filepaths: list[Path]) -> bool:
         """Format a list of files."""
-        is_changed = [self.format_file(file) for file in filepaths]
+        is_changed: list[bool] = []
+        for file in filepaths:
+            try:
+                is_changed.append(self.format_file(file))
+            except _utils.PydocstringFormatterRuntimeError as exc:
+                raise PydocstringFormatterRuntimeError(
+                    f"while formatting {file}, {exc}"
+                ) from exc
         return any(is_changed)
