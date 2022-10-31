@@ -1,5 +1,5 @@
 import pytest
-from py._path.local import LocalPath
+from py._path.local import LocalPath  # type: ingore[import]
 
 
 @pytest.fixture
