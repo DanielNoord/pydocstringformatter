@@ -72,7 +72,7 @@ def parse_toml_option(  # pylint: disable=too-many-branches
             value = str(value)
         return [action.option_strings[0], value]
 
-    if isinstance(action, argparse._ExtendAction):  # type: ignore[attr-defined]
+    if isinstance(action, argparse._ExtendAction):
         out_args = []
         if isinstance(value, list):
             for item in value:
