@@ -12,11 +12,11 @@ jobs:
     permissions: write-all
     steps:
       - name: Check out working version
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3.2.0
         with:
           fetch-depth: 2
       - name: Check out changeable version
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3.2.0
         with:
           path: program_to_test
           fetch-depth: 0
