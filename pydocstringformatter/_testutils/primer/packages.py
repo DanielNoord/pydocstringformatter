@@ -58,6 +58,18 @@ class PackageToPrime:
 
 
 PACKAGES = {
+    "adventofcode": PackageToPrime(
+        "https://github.com/DanielNoord/adventofcode",
+        "main",
+        ["."],
+        [],
+    ),
+    "ProjectInventarisGezantschappen": PackageToPrime(
+        "https://github.com/DanielNoord/ProjectInventarisGezantschappen",
+        "main",
+        ["python"],
+        [],
+    ),
     "pylint": PackageToPrime(
         "https://github.com/PyCQA/pylint",
         "main",
@@ -69,5 +81,11 @@ PACKAGES = {
         "main",
         ["pydocstringformatter"],
         [],
+    ),
+    "pylint-pytest-plugin": PackageToPrime(
+        "https://github.com/DanielNoord/pylint-pytest-plugin",
+        "main",
+        ["pylint_pytest_plugin"],
+        ["--linewrap-full-docstring"],
     ),
 }
