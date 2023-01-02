@@ -38,7 +38,6 @@ repos:
     hooks:
       - id: flake8
         exclude: *test-data
-        additional_dependencies: [flake8-typing-imports==1.14.0]
   - repo: https://github.com/pycqa/pylint
     rev: v2.15.9
     hooks:
