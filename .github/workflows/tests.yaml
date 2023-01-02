@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
-        run: pip install -U -r requirements-test.txt
+        run: pip install -U -r requirements.txt
       - name: Run pytest
         run: pytest -vv --cov --cov-report= tests/
       - name: Upload coverage artifact
@@ -45,7 +45,7 @@ jobs:
         with:
           python-version: "3.10"
       - name: Install dependencies
-        run: pip install -U -r requirements-test.txt
+        run: pip install -U -r requirements-coverage.txt
       - name: Download all coverage artifacts
         uses: actions/download-artifact@v3.0.1
       - name: Combine coverage results
@@ -75,6 +75,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
-        run: pip install -U -r requirements-test.txt
+        run: pip install -U -r requirements.txt
       - name: Run pytest
         run: pytest -vv
