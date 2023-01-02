@@ -97,6 +97,7 @@ known_third_party = ["pytest"]
 skip_glob = "tests/data/**"
 
 [tool.coverage.run]
+branch = true
 relative_files = true
 
 [tool.black]
