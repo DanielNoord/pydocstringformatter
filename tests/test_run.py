@@ -1,7 +1,6 @@
 # pylint: disable = redefined-outer-name
 import os
 import sys
-import tokenize
 from pathlib import Path
 
 import pytest
@@ -35,35 +34,23 @@ def test_no_arguments(capsys: pytest.CaptureFixture[str]) -> None:
 def test_formatter_help_categories(capsys: pytest.CaptureFixture[str]) -> None:
     """Test that formatter messages are in the correct group."""
 
-    class OptionalFormatter(StringFormatter):
+    class OptionalFormatter(StringFormatter):  # pylint: disable=abstract-method
         """An optional formatter."""
 
         name = "optional-formatter"
         optional = True
 
-        def treat_string(
-            self, tokeninfo: tokenize.TokenInfo, indent_length: int
-        ) -> str:
-            """Treat a string."""
-            return tokeninfo.string
-
-    class NonOptionalFormatter(StringFormatter):
+    class NonOptionalFormatter(StringFormatter):  # pylint: disable=abstract-method
         """A non-optional formatter."""
 
         name = "non-optional-formatter"
 
-        def treat_string(
-            self, tokeninfo: tokenize.TokenInfo, indent_length: int
-        ) -> str:
-            """Treat a string."""
-            return tokeninfo.string
-
-    FORMATTERS.append(OptionalFormatter())
-    FORMATTERS.append(NonOptionalFormatter())
+    FORMATTERS.append(OptionalFormatter())  # type: ignore[abstract]
+    FORMATTERS.append(NonOptionalFormatter())  # type: ignore[abstract]
     sys.argv = ["pydocstringformatter"]
     pydocstringformatter.run_docstring_formatter()
     out, _ = capsys.readouterr()
-    categories = out.split(":\n\n")
+    categories = out.replace("\n\n ", "\n").split("\n\n")
     for category in categories:
         if category.startswith("optional formatters"):
             assert "--optional-formatter" in category
