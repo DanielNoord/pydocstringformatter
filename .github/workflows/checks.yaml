@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: pip install -U -r requirements-test.txt
+        run: pip install -U -r requirements.txt
       - name: Make docs
         run: |
           cd docs

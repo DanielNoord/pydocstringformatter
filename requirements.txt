@@ -1,0 +1,10 @@
+# Coverage + local install of package
+-r requirements-coverage.txt
+# Requirements for docs building
+-r docs/requirements-doc.txt
+
+# Requirements for testing and linting
+pytest==7.2.0
+pytest-cov==4.0.0
+gitpython>=3
+pre-commit==2.21.0
