@@ -96,11 +96,8 @@ profile = "black"
 known_third_party = ["pytest"]
 skip_glob = "tests/data/**"
 
-[tool.coverage.paths]
-source = ["pydocstringformatter"]
-
-[tool.coverage.report]
-include = ["pydocstringformatter/*"]
+[tool.coverage.run]
+relative_files = true
 
 [tool.black]
 # Use force-exclude due to the way that pre-commit passes filenames to black

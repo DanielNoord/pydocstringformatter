@@ -70,7 +70,7 @@ class _Run:
         if is_changed:
             try:
                 filename_str = os.path.relpath(filename)
-            except ValueError:  # pragma: no cover # Covered on Windows
+            except ValueError:
                 # On Windows relpath raises ValueError's when the mounts differ
                 filename_str = str(filename)
 

@@ -25,35 +25,12 @@ jobs:
       - name: Install dependencies
         run: pip install -U -r requirements.txt
       - name: Run pytest
-        run: pytest -vv --cov --cov-report= tests/
+        run: pytest -vv --cov
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v3.1.1
         with:
-          name: coverage-${{ matrix.python-version }}
+          name: coverage-linux-${{ matrix.python-version }}
           path: .coverage
-
-  coverage:
-    name: Process / Coverage
-    runs-on: ubuntu-latest
-    needs: ["tests-linux"]
-    steps:
-      - name: Check out code from GitHub
-        uses: actions/checkout@v3.2.0
-      - name: Set up Python 3.10
-        id: python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: Install dependencies
-        run: pip install -U -r requirements-coverage.txt
-      - name: Download all coverage artifacts
-        uses: actions/download-artifact@v3.0.1
-      - name: Combine coverage results
-        run: coverage combine coverage*/.coverage
-      - uses: codecov/codecov-action@v3
-        with:
-          fail_ci_if_error: true
-          verbose: true
 
   tests-windows:
     name: Run / ${{ matrix.python-version }} / Windows
@@ -77,4 +54,46 @@ jobs:
       - name: Install dependencies
         run: pip install -U -r requirements.txt
       - name: Run pytest
-        run: pytest -vv
+        run: pytest -vv --cov
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: coverage-windows-${{ matrix.python-version }}
+          path: .coverage
+
+  coverage:
+    name: Process / Coverage
+    runs-on: ubuntu-latest
+    needs: ["tests-linux", "tests-windows"]
+    steps:
+      - name: Check out code from GitHub
+        uses: actions/checkout@v3.2.0
+      - name: Set up Python 3.11
+        id: python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -U -r requirements-coverage.txt
+      - name: Download all coverage artifacts
+        uses: actions/download-artifact@v3.0.1
+      - name: Combine Linux coverage results
+        run: |
+          coverage combine coverage-linux*/.coverage
+          coverage xml -o coverage-linux.xml
+      - uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+          verbose: true
+          flags: linux
+          files: coverage-linux.xml
+      - name: Combine Windows coverage results
+        run: |
+          coverage combine coverage-windows*/.coverage
+          coverage xml -o coverage-windows.xml
+      - uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+          verbose: true
+          flags: windows
+          files: coverage-windows.xml
