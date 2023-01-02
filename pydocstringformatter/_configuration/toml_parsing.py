@@ -10,7 +10,7 @@ from pydocstringformatter._configuration.boolean_option_action import (
 )
 from pydocstringformatter._utils.exceptions import TomlParsingError, UnrecognizedOption
 
-if sys.version_info <= (3, 11):
+if sys.version_info < (3, 11):
     import tomli as tomllib
 else:
     import tomllib
