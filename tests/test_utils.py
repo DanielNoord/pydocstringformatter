@@ -122,14 +122,10 @@ class TestDocstringFinder:
 
     def test_dictionary_key_value_line(self) -> None:
         """Test that string key-value pairs are not considered a docstring."""
-        docstrings: list[tuple[tuple[int, int], tuple[int, int]]] = []
         with open(self.docstring_data / "dictionary.py", encoding="utf-8") as file:
             tokens = list(tokenize.generate_tokens(file.readline))
             for index, tokeninfo in enumerate(tokens):
-                if is_docstring(tokeninfo, tokens[index - 1]):
-                    docstrings.append((tokeninfo.start, tokeninfo.end))
-
-        assert not docstrings
+                assert not is_docstring(tokeninfo, tokens[index - 1])
 
     def test_module_docstrings(self) -> None:
         """Test that we find the correct module docstring."""
