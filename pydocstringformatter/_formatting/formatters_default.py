@@ -77,7 +77,6 @@ class LineWrapperFormatter(SummaryFormatter):
 
         # Without a description we need to consider the length including closing quotes
         if not description_exists:
-
             # Calculate length without the ending quotes
             length_without_ending = indent_length + quotes_length + len(summary)
 
