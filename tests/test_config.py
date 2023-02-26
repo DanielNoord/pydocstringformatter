@@ -307,3 +307,8 @@ class TestStyleOption:
         )
 
         assert error_msg in str(err.value)
+
+    def test_valid_toml_without_section(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Test that we leave a projecttoml without a section for this tool alone."""
+        monkeypatch.chdir(CONFIG_DATA / "valid_toml_without_section")
+        _Run(["test_package"])
