@@ -54,3 +54,13 @@ class LinesChunk:
 
     lines of a lineset.
     """
+
+
+# Test for multiple periods at the end of the line
+def func():
+    """A very long summary line that needs to be wrapped, A very long summary line that.
+
+    needs to be wrapp...
+
+    A description that is not too long.
+    """

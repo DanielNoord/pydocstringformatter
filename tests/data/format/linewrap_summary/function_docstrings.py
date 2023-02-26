@@ -39,3 +39,11 @@ def func():
 # We should re-add the quotes to line length if they will never be on the first line.
 class LinesChunk:
     """The LinesChunk object computes and stores the hash of some consecutive stripped lines of a lineset."""
+
+
+# Test for multiple periods at the end of the line
+def func():
+    """A very long summary line that needs to be wrapped, A very long summary line that needs to be wrapp...
+
+    A description that is not too long.
+    """
