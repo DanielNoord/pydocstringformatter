@@ -176,3 +176,14 @@ def test_formatter_comparer() -> None:
 
     for section in expected_sections:
         assert section in diff
+
+    diff = compare_formatters(tokeninfo, MakeAFormatter(), MakeBFormatter())
+
+    expected_sections = [
+        "--- make-a-formatter vs make-b-formatter\n",
+        '-"""AAA AA AAA"""\n',
+        '+"""BBB BB BBB"""\n',
+    ]
+
+    for section in expected_sections:
+        assert section in diff
