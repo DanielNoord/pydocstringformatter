@@ -1,0 +1,14 @@
+def sincos(theta):
+    """Parameters
+    -------------
+    theta:
+        the angle at which to calculate the sine and cosine.
+
+    Returns
+    -------
+    sin : float
+        the sine of theta
+    cos : float
+        the cosine of theta
+    """
+    return math.sin(theta), math.cos(theta)
