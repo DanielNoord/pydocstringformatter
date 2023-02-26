@@ -2,3 +2,5 @@
 pydocstringformatter.egg-info
 dist/
 docs/_build
+
+.coverage
