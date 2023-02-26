@@ -27,17 +27,17 @@ class BooleanOptionalAction(argparse.Action):
         # Non-argparse changes
         assert help, "All BooleanOptionalAction's should have a help message."
 
-        # Rest of implementation directly copied from argparse
+        # Rest of implementation directly copied from argparse, expect for the asserts
         _option_strings = []
         for option_string in option_strings:
             _option_strings.append(option_string)
 
-            if option_string.startswith("--"):
-                option_string = "--no-" + option_string[2:]
-                _option_strings.append(option_string)
+            assert option_string.startswith("--")
+            option_string = "--no-" + option_string[2:]
+            _option_strings.append(option_string)
 
-        if help is not None and default is not None:
-            help += " (default: %(default)s)"
+        assert help is not None and default is not None
+        help += " (default: %(default)s)"
 
         super().__init__(
             option_strings=_option_strings,
@@ -63,8 +63,8 @@ class BooleanOptionalAction(argparse.Action):
             "BooleanOptionalAction can't be a positional argument. "
             f"Something is wrong with {self.option_strings[0]}"
         )
-        if option_string in self.option_strings:
-            setattr(namespace, self.dest, not option_string.startswith("--no-"))
+        assert option_string in self.option_strings
+        setattr(namespace, self.dest, not option_string.startswith("--no-"))
 
     def format_usage(self) -> str:
         """Return usage string."""
