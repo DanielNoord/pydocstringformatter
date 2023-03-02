@@ -13,7 +13,7 @@ guides.)
 
 See [What it does](#what-it-does) for currently supported auto-formatting.
 
-### Rationale
+**Rationale**
 
 This project is heavily inspired by
 [`docformatter`](https://github.com/PyCQA/docformatter).
