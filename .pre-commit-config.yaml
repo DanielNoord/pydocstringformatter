@@ -39,7 +39,7 @@ repos:
       - id: flake8
         exclude: *test-data
   - repo: https://github.com/pycqa/pylint
-    rev: v2.16.2
+    rev: v2.16.4
     hooks:
       - id: pylint
         exclude: *test-data
@@ -59,7 +59,7 @@ repos:
         exclude: *test-data
         args: []
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0-alpha.4
+    rev: v3.0.0-alpha.6
     hooks:
       - id: prettier
         exclude: *test-data
