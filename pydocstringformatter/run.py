@@ -128,6 +128,9 @@ class _Run:
             UnstableResultError::
                 If the formatters are not able to get to a stable result.
                 It reports what formatters are still modifying the tokens.
+            RuntimeError::
+                If a formatter fails to apply on a docstring. It reports which
+                file and which line numbers where the formatter failed.
         """
         formatted_tokens: list[tokenize.TokenInfo] = []
         is_changed = False
@@ -136,7 +139,13 @@ class _Run:
             new_tokeninfo = tokeninfo
 
             if _utils.is_docstring(new_tokeninfo, tokens[index - 1]):
-                new_tokeninfo, changers = self.apply_formatters(new_tokeninfo)
+                try:
+                    new_tokeninfo, changers = self.apply_formatters(new_tokeninfo)
+                except Exception as err:
+                    start, end = new_tokeninfo.start[0], new_tokeninfo.end[0]
+                    raise RuntimeError(
+                        f"In {filename} L{start}-L{end}:\n\n{err}"
+                    ) from err
                 is_changed = is_changed or bool(changers)
 
                 # Run formatters again (3rd time) to check if the result is stable

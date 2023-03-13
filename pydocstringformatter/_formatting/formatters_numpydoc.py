@@ -4,29 +4,31 @@ from collections import OrderedDict
 
 from pydocstringformatter._formatting.base import NumpydocSectionFormatter
 
+NUMPYDOC_SECTIONS = (
+    "Summary",
+    "Parameters",
+    "Attributes",
+    "Methods",
+    "Returns",
+    "Yields",
+    "Receives",
+    "Other Parameters",
+    "Raises",
+    "Warns",
+    "Warnings",
+    "See Also",
+    "Notes",
+    "References",
+    "Examples",
+)  # Order must match numpydoc
+
 
 class NumpydocSectionOrderingFormatter(NumpydocSectionFormatter):
     """Change section order to match numpydoc guidelines."""
 
     name = "numpydoc-section-order"
 
-    numpydoc_section_order = (
-        "Summary",
-        "Parameters",
-        "Attributes",
-        "Methods",
-        "Returns",
-        "Yields",
-        "Receives",
-        "Other Parameters",
-        "Raises",
-        "Warns",
-        "Warnings",
-        "See Also",
-        "Notes",
-        "References",
-        "Examples",
-    )
+    numpydoc_section_order = NUMPYDOC_SECTIONS
 
     def treat_sections(
         self, sections: OrderedDict[str, list[str]]
@@ -102,6 +104,22 @@ class NumpydocSectionSpacingFormatter(NumpydocSectionFormatter):
             last_line = section_lines[-1]
             if not (last_line == "" or last_line.isspace()) and len(sections) > 1:
                 section_lines.append("")
+        return sections
+
+
+class NumpydocSectionNameFormatter(NumpydocSectionFormatter):
+    """Check if sections are named correctly."""
+
+    name = "numpydoc-section-name-checker"
+
+    def treat_sections(
+        self, sections: OrderedDict[str, list[str]]
+    ) -> OrderedDict[str, list[str]]:
+        """Ensure proper spacing between sections."""
+        for section_name in sections:
+            if section_name not in NUMPYDOC_SECTIONS:
+                raise ValueError(f"Invalid section_name '{section_name}'")
+
         return sections
 
 
