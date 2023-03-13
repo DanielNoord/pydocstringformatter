@@ -10,7 +10,7 @@ repos:
       - id: check-toml
         exclude: &test-data "tests/data"
   - repo: https://github.com/PyCQA/autoflake
-    rev: v2.0.1
+    rev: v2.0.2
     hooks:
       - id: autoflake
         exclude: *test-data
@@ -39,13 +39,13 @@ repos:
       - id: flake8
         exclude: *test-data
   - repo: https://github.com/pycqa/pylint
-    rev: v2.16.4
+    rev: v2.17.0
     hooks:
       - id: pylint
         exclude: *test-data
         args: ["--disable=import-error, cyclic-import"]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.0.1
+    rev: v1.1.1
     hooks:
       - id: mypy
         args: [--config-file=pyproject.toml]
