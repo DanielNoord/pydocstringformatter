@@ -4,4 +4,3 @@ dist/
 docs/_build
 
 .coverage
-*.pyc

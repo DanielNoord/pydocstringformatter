@@ -1,0 +1,3 @@
+RuntimeError: In tests/data/format/numpydoc/numpydoc_bad_section_name.py L2-L12:
+
+Invalid section_name 'Exaplmes'

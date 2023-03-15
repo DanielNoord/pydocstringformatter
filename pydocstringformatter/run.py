@@ -145,7 +145,7 @@ class _Run:
                     start, end = new_tokeninfo.start[0], new_tokeninfo.end[0]
                     raise RuntimeError(
                         f"In {filename} L{start}-L{end}:\n\n{err}"
-                    ) from err
+                    ) from None
                 is_changed = is_changed or bool(changers)
 
                 # Run formatters again (3rd time) to check if the result is stable
