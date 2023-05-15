@@ -9,7 +9,10 @@ from pathlib import Path
 
 from pydocstringformatter import __version__, _formatting, _utils
 from pydocstringformatter._configuration.arguments_manager import ArgumentsManager
-from pydocstringformatter._utils.exceptions import UnstableResultError
+from pydocstringformatter._utils.exceptions import (
+    ActionRequiredError,
+    UnstableResultError,
+)
 
 
 class _Run:
@@ -31,6 +34,7 @@ class _Run:
             formatter.set_config_namespace(self.config)
 
         self.enabled_formatters = self.get_enabled_formatters()
+        self.is_changed = False
         self.check_files(self.config.files)
 
     # pylint: disable-next=inconsistent-return-statements
@@ -38,9 +42,9 @@ class _Run:
         """Find all files and perform the formatting."""
         filepaths = _utils.find_python_files(files, self.config.exclude)
 
-        is_changed = self.format_files(filepaths)
+        self.format_files(filepaths)
 
-        if is_changed:  # pylint: disable=consider-using-assignment-expr
+        if self.is_changed:
             return _utils.sys_exit(32, self.config.exit_code)
 
         files_string = f"{len(filepaths)} "
@@ -141,11 +145,20 @@ class _Run:
             if _utils.is_docstring(new_tokeninfo, tokens[index - 1]):
                 try:
                     new_tokeninfo, changers = self.apply_formatters(new_tokeninfo)
+                except ActionRequiredError as err:
+                    start, end = new_tokeninfo.start[0], new_tokeninfo.end[0]
+                    _utils.print_to_console(
+                        f"{filename}:{start}:{end}:\n\n{err.message}", False
+                    )
+                    self.is_changed = True
+                    formatted_tokens.append(new_tokeninfo)
+                    continue
                 except Exception as err:
                     start, end = new_tokeninfo.start[0], new_tokeninfo.end[0]
                     raise RuntimeError(
                         f"In {filename} L{start}-L{end}:\n\n{err}"
                     ) from None
+
                 is_changed = is_changed or bool(changers)
 
                 # Run formatters again (3rd time) to check if the result is stable
@@ -206,7 +219,7 @@ class _Run:
 
         return token, changers
 
-    def format_files(self, filepaths: list[Path]) -> bool:
+    def format_files(self, filepaths: list[Path]) -> None:
         """Format a list of files."""
         is_changed = [self.format_file(file) for file in filepaths]
-        return any(is_changed)
+        self.is_changed = any(is_changed) or self.is_changed

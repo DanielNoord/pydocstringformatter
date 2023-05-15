@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections import OrderedDict
 
 from pydocstringformatter._formatting.base import NumpydocSectionFormatter
+from pydocstringformatter._utils.exceptions import ActionRequiredError
 
 NUMPYDOC_SECTIONS = (
     "Summary",
@@ -118,7 +119,7 @@ class NumpydocSectionNameFormatter(NumpydocSectionFormatter):
         """Ensure proper spacing between sections."""
         for section_name in sections:
             if section_name not in NUMPYDOC_SECTIONS:
-                raise ValueError(f"Invalid section_name '{section_name}'")
+                raise ActionRequiredError(f"Invalid section_name '{section_name}'")
 
         return sections
 
