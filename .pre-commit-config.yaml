@@ -10,7 +10,7 @@ repos:
       - id: check-toml
         exclude: &test-data "tests/data"
   - repo: https://github.com/PyCQA/autoflake
-    rev: v2.1.1
+    rev: v2.2.0
     hooks:
       - id: autoflake
         exclude: *test-data
@@ -21,7 +21,7 @@ repos:
           - --remove-duplicate-keys
           - --remove-unused-variables
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.4.0
+    rev: v3.7.0
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
@@ -45,7 +45,7 @@ repos:
         exclude: *test-data
         args: ["--disable=import-error, cyclic-import"]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.3.0
+    rev: v1.4.1
     hooks:
       - id: mypy
         args: [--config-file=pyproject.toml]
