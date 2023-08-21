@@ -39,13 +39,13 @@ repos:
       - id: flake8
         exclude: *test-data
   - repo: https://github.com/pycqa/pylint
-    rev: v3.0.0a6
+    rev: v3.0.0a7
     hooks:
       - id: pylint
         exclude: *test-data
         args: ["--disable=import-error, cyclic-import"]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.5.0
+    rev: v1.5.1
     hooks:
       - id: mypy
         args: [--config-file=pyproject.toml]
@@ -59,7 +59,7 @@ repos:
         exclude: *test-data
         args: []
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.1
+    rev: v3.0.2
     hooks:
       - id: prettier
         exclude: *test-data
