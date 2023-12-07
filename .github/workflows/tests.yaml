@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4.1.1
       - name: Set up Python ${{ matrix.python-version }}
         id: python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -48,7 +48,7 @@ jobs:
         # https://github.com/actions/virtual-environments/issues/712
       - name: Set up Python ${{ matrix.python-version }}
         id: python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -70,7 +70,7 @@ jobs:
         uses: actions/checkout@v4.1.1
       - name: Set up Python 3.11
         id: python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install dependencies
