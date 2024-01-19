@@ -50,7 +50,7 @@ jobs:
           cd ..
           python -m pydocstringformatter._testutils.primer.primer --step-two
       - name: Upload primer diff
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.2.0
         with:
           name: primer_diffs
           path: .pydocstringformatter_primer_tests/fulldiff.txt
@@ -58,7 +58,7 @@ jobs:
         run: |
           echo ${{ github.event.pull_request.number }} | tee pr_number.txt
       - name: Upload PR number
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.2.0
         with:
           name: primer_diffs
           path: pr_number.txt
