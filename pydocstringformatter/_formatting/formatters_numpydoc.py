@@ -83,9 +83,9 @@ class NumpydocNameColonTypeFormatter(NumpydocSectionFormatter):
                             # Avoid adding trailing whitespace
                             # Colon ending first line is suggested for long
                             # "See Also" links
-                            section_lines[
-                                index
-                            ] = f"{line_name.rstrip():s} : {line_type.lstrip():s}"
+                            section_lines[index] = (
+                                f"{line_name.rstrip():s} : {line_type.lstrip():s}"
+                            )
         return sections
 
 
