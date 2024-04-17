@@ -1,7 +1,6 @@
 # Coverage + local install of package
+-e .
 -r requirements-coverage.txt
-# Requirements for docs building
--r docs/requirements-doc.txt
 
 # Requirements for testing and linting
 pytest==8.1.1
