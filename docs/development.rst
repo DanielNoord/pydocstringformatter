@@ -4,7 +4,8 @@ Development
 Linting and checks
 ------------------
 
-Use ``pre-commit install`` to install the pre-commit hook for the repository.
+Use ``pip`` to install ``pre-commit`` and then use ``pre-commit install`` to
+install the pre-commit hook for the repository.
 
 Creating a new formatter
 ------------------------
