@@ -81,19 +81,21 @@ jobs:
         run: |
           coverage combine coverage-linux*/.coverage
           coverage xml -o coverage-linux.xml
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           fail_ci_if_error: true
           verbose: true
           flags: linux
           files: coverage-linux.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Combine Windows coverage results
         run: |
           coverage combine coverage-windows*/.coverage
           coverage xml -o coverage-windows.xml
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           fail_ci_if_error: true
           verbose: true
           flags: windows
           files: coverage-windows.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
