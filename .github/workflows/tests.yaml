@@ -16,7 +16,7 @@ jobs:
         python-version: [3.8, 3.9, "3.10", "3.11", "3.12-dev"]
     steps:
       - name: Check out code from GitHub
-        uses: actions/checkout@v4.1.4
+        uses: actions/checkout@v4.1.5
       - name: Set up Python ${{ matrix.python-version }}
         id: python
         uses: actions/setup-python@v5
@@ -41,7 +41,7 @@ jobs:
         python-version: [3.8, 3.9, "3.10", "3.11", "3.12-dev"]
     steps:
       - name: Check out code from GitHub
-        uses: actions/checkout@v4.1.4
+        uses: actions/checkout@v4.1.5
       - name: Set temp directory
         run: echo "TEMP=$env:USERPROFILE\AppData\Local\Temp" >> $env:GITHUB_ENV
         # Workaround to set correct temp directory on Windows
@@ -67,7 +67,7 @@ jobs:
     needs: ["tests-linux", "tests-windows"]
     steps:
       - name: Check out code from GitHub
-        uses: actions/checkout@v4.1.4
+        uses: actions/checkout@v4.1.5
       - name: Set up Python 3.11
         id: python
         uses: actions/setup-python@v5
