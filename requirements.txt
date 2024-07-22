@@ -3,6 +3,6 @@
 -r requirements-coverage.txt
 
 # Requirements for testing and linting
-pytest==8.2.2
+pytest==8.3.1
 pytest-cov==5.0.0
 gitpython>=3
