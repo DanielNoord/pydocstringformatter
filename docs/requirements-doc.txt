@@ -1,5 +1,5 @@
 -e .
-myst-parser~=3.0
+myst-parser~=4.0
 sphinx~=8.0.2
 furo==2024.8.6
 types-docutils~=0.21
