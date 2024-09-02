@@ -14,7 +14,7 @@ from pydocstringformatter.run import _Run
 
 
 @contextmanager
-def patched_run(formatters: list[Formatter]) -> Generator[type[_Run], None, None]:
+def patched_run(formatters: list[Formatter]) -> Generator[type[_Run]]:
     """Patches formatters so Run only uses the provided formatters."""
     old_formatters = _formatting.FORMATTERS
     _formatting.FORMATTERS = formatters
