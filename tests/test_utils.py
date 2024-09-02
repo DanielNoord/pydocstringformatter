@@ -149,7 +149,7 @@ def test_encoding_of_console_messages(
     Regression test for:
     https://github.com/DanielNoord/pydocstringformatter/issues/13
     """
-    sys.stdout.reconfigure(encoding="cp1252")  # type: ignore[attr-defined]
+    sys.stdout.reconfigure(encoding="cp1252")  # type: ignore[union-attr]
     with open(test_file, "w", encoding="utf-8") as file:
         file.write('"""A multi-line.\n\ndocstring.\n"""')
 
