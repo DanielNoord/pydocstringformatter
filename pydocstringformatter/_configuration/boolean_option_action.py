@@ -12,7 +12,7 @@ class BooleanOptionalAction(argparse.Action):
     This action class is only available in 3.9+. Hence the need to backport it.
     """
 
-    # pylint: disable-next=too-many-arguments
+    # pylint: disable-next=too-many-arguments,too-many-positional-arguments
     def __init__(
         self,
         option_strings: Sequence[str],
