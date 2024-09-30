@@ -70,7 +70,6 @@ ignore_missing_imports = true
 load-plugins=[
     "pylint.extensions.check_elif",
     "pylint.extensions.code_style",
-    "pylint.extensions.comparetozero",
     "pylint.extensions.confusing_elif",
     "pylint.extensions.docparams",
     "pylint.extensions.docstyle",
