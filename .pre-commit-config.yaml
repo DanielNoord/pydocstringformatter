@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
         exclude: "tests/data/format/no_whitespace_stripper|tests/data/format/whitespace_stripper|tests/data/format/quotes_type|tests/data/format/newlines|tests/test_config.py"
