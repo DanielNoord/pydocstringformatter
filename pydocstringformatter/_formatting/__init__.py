@@ -16,6 +16,7 @@ from pydocstringformatter._formatting.formatters_default import (
 from pydocstringformatter._formatting.formatters_numpydoc import (
     NumpydocNameColonTypeFormatter,
     NumpydocSectionHyphenLengthFormatter,
+    NumpydocSectionNameFormatter,
     NumpydocSectionOrderingFormatter,
     NumpydocSectionSpacingFormatter,
 )
@@ -35,6 +36,7 @@ FORMATTERS: list[Formatter] = [
     NumpydocNameColonTypeFormatter(),
     NumpydocSectionSpacingFormatter(),
     NumpydocSectionHyphenLengthFormatter(),
+    NumpydocSectionNameFormatter(),
     LineWrapperFormatter(),
     BeginningQuotesFormatter(),
     ClosingQuotesFormatter(),
