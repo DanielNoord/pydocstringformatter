@@ -33,7 +33,7 @@ class FormatterAsserter(contextlib.AbstractContextManager):  # type: ignore[type
     ) -> None:
         self.formatters = formatters
         file_name = "_".join([f.name for f in self.formatters])
-        self.file_to_format = tmp_path / f"test_{file_name}.py"
+        self.file_to_format = tmp_path / f"test_{hash(file_name)}.py"
         self.file_to_format.write_text(docstring)
         self.capsys = capsys
         names = [f"'{f.name}'" for f in formatters]
