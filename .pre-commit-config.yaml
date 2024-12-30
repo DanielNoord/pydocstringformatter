@@ -39,7 +39,7 @@ repos:
       - id: flake8
         exclude: *test-data
   - repo: https://github.com/pylint-dev/pylint
-    rev: v3.3.2
+    rev: v3.3.3
     hooks:
       - id: pylint
         exclude: *test-data
