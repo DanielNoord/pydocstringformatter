@@ -54,7 +54,7 @@ jobs:
           echo ${{ github.event.pull_request.number }} | tee pr_number.txt
           cp .pydocstringformatter_primer_tests/fulldiff.txt fulldiff.txt
       - name: Upload primer diff and PR number
-        uses: actions/upload-artifact@v4.3.6
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: primer_diffs
           path: |
