@@ -26,11 +26,11 @@ repos:
       - id: pyupgrade
         args: [--py38-plus]
   - repo: https://github.com/PyCQA/isort
-    rev: 5.13.2
+    rev: 6.0.0
     hooks:
       - id: isort
   - repo: https://github.com/psf/black
-    rev: 24.10.0
+    rev: 25.1.0
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
@@ -39,7 +39,7 @@ repos:
       - id: flake8
         exclude: *test-data
   - repo: https://github.com/pylint-dev/pylint
-    rev: v3.3.3
+    rev: v3.3.4
     hooks:
       - id: pylint
         exclude: *test-data
