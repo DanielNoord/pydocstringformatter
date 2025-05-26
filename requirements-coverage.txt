@@ -1,2 +1,2 @@
 -e .
-coverage[toml]==7.8.1
+coverage[toml]==7.8.2
