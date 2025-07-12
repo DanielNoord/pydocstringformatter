@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 import pydocstringformatter
+from pydocstringformatter._testutils import UPDATE_OUTPUT_OPTION
 
 HERE = Path(__file__)
 TEST_DATA = HERE.parent / "data" / "format"
@@ -28,7 +29,10 @@ for dirname, _, files in os.walk(TEST_DATA):
     ids=TEST_NAMES,
 )
 def test_formatting(
-    test_file: str, capsys: pytest.CaptureFixture[str], tmp_path: pathlib.Path
+    test_file: str,
+    capsys: pytest.CaptureFixture[str],
+    tmp_path: pathlib.Path,
+    request: pytest.FixtureRequest,
 ) -> None:
     """Test that we correctly format all files in the format directory.
 
@@ -76,7 +80,23 @@ def test_formatting(
         [temp_file_name, "--write"] + additional_args
     )
 
-    output = capsys.readouterr()
-    assert output.err == error_message.format(testfile=os.path.abspath(temp_file_name))
+    error_output = capsys.readouterr()
+    assert error_output.err == error_message.format(
+        testfile=os.path.abspath(temp_file_name)
+    )
     with open(temp_file_name, "rb") as f:
-        assert f.read() == expected_output
+        output = f.read()
+        try:
+            assert output.decode("utf-8") == expected_output.decode("utf-8")
+        except AssertionError as e:
+            if request.config.getoption(UPDATE_OUTPUT_OPTION):
+                with open(test_name, "wb") as fw:
+                    fw.write(output)
+                pytest.fail(
+                    "Updated expected output. Please check the changes and commit them."
+                )
+
+            raise AssertionError(
+                f"Output of '{Path(test_file).stem}' does not match expected output. "
+                f"Run with '{UPDATE_OUTPUT_OPTION}' to update the expected output."
+            ) from e
