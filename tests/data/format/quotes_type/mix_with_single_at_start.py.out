@@ -1,5 +1,5 @@
 def a(self):
-    """"A.m." or "p.m."."""
+    """"a.m." or "p.m."."""
 
 def b(self):
     """"a.m." or "p.m."."""
