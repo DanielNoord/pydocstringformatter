@@ -73,7 +73,7 @@ class StringFormatter(Formatter):
 class StringAndQuotesFormatter(Formatter):
     """Base class for string formatter that needs access to the quotes."""
 
-    quotes_regex = re.compile(r"""['"]{1,3}""")
+    quotes_regex = re.compile(r"""^('{3}|'|"{3}|")""")
     """Pattern to match against opening quotes."""
 
     @abc.abstractmethod
