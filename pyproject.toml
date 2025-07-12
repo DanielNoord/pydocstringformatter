@@ -55,6 +55,11 @@ include = ["pydocstringformatter*"]
 [tool.pytest]
 testpaths = "tests"
 
+[tool.pytest.ini_options]
+filterwarnings = [
+    "error"
+]
+
 [tool.mypy]
 files = "pydocstringformatter,tests"
 exclude = "tests/data.*"
