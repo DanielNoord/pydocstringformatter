@@ -88,7 +88,7 @@ def test_formatting(
         output = f.read()
         try:
             assert output.decode("utf-8") == expected_output.decode("utf-8")
-        except AssertionError as e:
+        except AssertionError as e:  # pragma: no cover
             if request.config.getoption(UPDATE_OUTPUT_OPTION):
                 with open(test_name, "wb") as fw:
                     fw.write(output)
