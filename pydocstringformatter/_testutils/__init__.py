@@ -17,6 +17,8 @@ from pydocstringformatter._testutils.example_formatters import (
 
 LOGGER = logging.getLogger(__name__)
 
+UPDATE_OUTPUT_OPTION = "--update-expected-output"
+
 
 class FormatterAsserter(contextlib.AbstractContextManager):  # type: ignore[type-arg]
     """ContextManager used to assert that a Formatter does something on a docstring.
@@ -84,4 +86,10 @@ Temp file is '{self.file_to_format}'
         return None
 
 
-__all__ = ["FormatterAsserter", "MakeAFormatter", "MakeBFormatter", "AddBFormatter"]
+__all__ = [
+    "FormatterAsserter",
+    "MakeAFormatter",
+    "MakeBFormatter",
+    "AddBFormatter",
+    "UPDATE_OUTPUT_OPTION",
+]
