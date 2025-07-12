@@ -44,7 +44,9 @@ class CapitalizeFirstLetterFormatter(StringFormatter):
     """Capitalize the first letter of the docstring if appropriate."""
 
     name = "capitalize-first-letter"
-    first_letter_re = re.compile(r"""['"]{1,3}\s*(\w)""", re.DOTALL)
+    first_letter_re = re.compile(
+        StringAndQuotesFormatter.quotes_regex.pattern + r"""\s*(\w)""", re.DOTALL
+    )
 
     def treat_string(self, tokeninfo: tokenize.TokenInfo, _: int) -> str:
         new_string = None
