@@ -36,7 +36,7 @@ class BeginningQuotesFormatter(StringFormatter):
                 or self.config.summary_quotes_same_line  # Config for multi-line
                 or self.potential_single_line.match(new_string)  # Potential single line
             ):
-                new_string = re.sub(r"\n *", "", new_string, 1)
+                new_string = re.sub(r"\n *", "", new_string, count=1)
         return new_string
 
 
