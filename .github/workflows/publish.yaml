@@ -6,23 +6,23 @@ on:
 
 jobs:
   publish-to-pypi:
-    name: Publish to pypi
-    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pydocstringformatter
+    permissions:
+      id-token: write
     steps:
       - name: Check out code from GitHub
         uses: actions/checkout@v4.2.2
-      - name: Set up Python 3.11
+      - name: Set up Python 3.x
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.x"
       - name: Install dependencies
         run: |
-          pip install -U -r requirements.txt
-          pip install -U build
+          pip install -r requirements.txt
+          pip install build
       - name: Build package
         run: python -m build
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
