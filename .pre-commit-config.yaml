@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
         exclude: "tests/data/format/no_whitespace_stripper|tests/data/format/whitespace_stripper|tests/data/format/quotes_type|tests/data/format/newlines|tests/test_config.py"
@@ -39,7 +39,7 @@ repos:
       - id: flake8
         exclude: *test-data
   - repo: https://github.com/pylint-dev/pylint
-    rev: v3.3.7
+    rev: v3.3.8
     hooks:
       - id: pylint
         exclude: *test-data
