@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "monthly"
     labels:
       - "dependency"
     reviewers:
@@ -11,7 +11,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "monthly"
     labels:
       - "dependency"
     reviewers:
