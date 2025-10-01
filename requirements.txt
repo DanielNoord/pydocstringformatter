@@ -4,5 +4,5 @@
 
 # Requirements for testing and linting
 pytest==8.4.2
-pytest-cov==6.2.1
+pytest-cov==7.0.0
 gitpython>=3
