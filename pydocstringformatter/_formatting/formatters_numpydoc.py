@@ -121,7 +121,10 @@ class NumpydocSectionHyphenLengthFormatter(NumpydocSectionFormatter):
                 # summary.  They have neither a section header nor the
                 # line of hyphens after it.
                 indent_length = section_lines[1].index("-")
-                section_lines[1] = " " * indent_length + "-" * len(section_name)
+
+                if section_name:
+                    section_lines[1] = " " * indent_length + "-" * len(section_name)
+
                 if first_section:
                     # If the second line were not hyphens, the section name
                     # would be summary.  This assumes triple quotes, but that
