@@ -27,7 +27,7 @@ jobs:
       - name: Run pytest
         run: pytest -vv --cov
       - name: Upload coverage artifact
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v6.0.0
         with:
           include-hidden-files: true
           name: coverage-linux-${{ matrix.python-version }}
@@ -57,7 +57,7 @@ jobs:
       - name: Run pytest
         run: pytest -vv --cov
       - name: Upload coverage artifact
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v6.0.0
         with:
           include-hidden-files: true
           name: coverage-windows-${{ matrix.python-version }}
