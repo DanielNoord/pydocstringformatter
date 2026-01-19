@@ -73,8 +73,7 @@ def test_sys_agv_as_arguments(
         assert "".join(file.readlines()) == '"""A multi-line\ndocstring."""'
 
     output = capsys.readouterr()
-    assert output.out.endswith(
-        '''
+    assert output.out.endswith('''
 @@ -1,2 +1,4 @@
 -"""A multi-line
 -docstring."""
@@ -82,8 +81,7 @@ def test_sys_agv_as_arguments(
 +
 +docstring.
 +"""
-'''
-    )
+''')
     assert not output.err
 
 
@@ -147,12 +145,9 @@ def test_output_message_two_files(
     )
 
     output = capsys.readouterr()
-    assert (
-        output.out
-        == f"""Formatted {expected_path} 📖
+    assert output.out == f"""Formatted {expected_path} 📖
 Formatted {expected_second_path} 📖
 """
-    )
     assert not output.err
 
 

@@ -19,16 +19,14 @@ def write_usage_page() -> None:
     help_message = help_message.replace("    \n", "\n")
 
     with open("usage.rst", mode="w", encoding="utf-8") as file:
-        file.write(
-            f"""Usage
+        file.write(f"""Usage
 =====
 
 Current usage of ``pydocstringformatter``:
 
 .. code-block:: shell
 
-    {help_message}"""
-        )
+    {help_message}""")
 
 
 def setup(_: application.Sphinx) -> None:
