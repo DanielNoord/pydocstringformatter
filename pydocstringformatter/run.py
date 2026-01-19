@@ -1,5 +1,6 @@
 # pylint: disable=too-few-public-methods, protected-access
 """Run class."""
+
 from __future__ import annotations
 
 import os
