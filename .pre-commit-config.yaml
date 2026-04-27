@@ -26,7 +26,7 @@ repos:
       - id: pyupgrade
         args: [--py38-plus]
   - repo: https://github.com/PyCQA/isort
-    rev: 8.0.1
+    rev: 9.0.0a3
     hooks:
       - id: isort
   - repo: https://github.com/psf/black-pre-commit-mirror
@@ -45,7 +45,7 @@ repos:
         exclude: *test-data
         args: ["--disable=import-error, cyclic-import"]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.20.1
+    rev: v1.20.2
     hooks:
       - id: mypy
         args: [--config-file=pyproject.toml]
