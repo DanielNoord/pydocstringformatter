@@ -55,10 +55,8 @@ version = {attr = "pydocstringformatter.__version__"}
 [tool.setuptools.packages.find]
 include = ["pydocstringformatter*"]
 
-[tool.pytest]
-testpaths = "tests"
-
 [tool.pytest.ini_options]
+testpaths = ["tests"]
 filterwarnings = [
     "error"
 ]
