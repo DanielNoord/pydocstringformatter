@@ -2,18 +2,10 @@ from __future__ import annotations
 
 import argparse
 import os
-import sys
+import tomllib
 from typing import Any
 
-from pydocstringformatter._configuration.boolean_option_action import (
-    BooleanOptionalAction,
-)
 from pydocstringformatter._utils.exceptions import TomlParsingError, UnrecognizedOption
-
-if sys.version_info < (3, 11):
-    import tomli as tomllib
-else:
-    import tomllib
 
 
 def get_toml_file() -> dict[str, Any] | None:
@@ -44,7 +36,7 @@ def parse_toml_option(  # pylint: disable=too-many-branches
         except KeyError:
             raise UnrecognizedOption(f"Don't recognize option {opt}") from exc
 
-    if isinstance(action, BooleanOptionalAction):
+    if isinstance(action, argparse.BooleanOptionalAction):
         if not isinstance(value, bool):
             error_msg = f"{{'{value}'}} {type(value)} is not a supported argument for"
             error_msg += f" '{opt}', please use either {{true}} or {{false}}."

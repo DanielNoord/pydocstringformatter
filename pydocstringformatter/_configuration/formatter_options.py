@@ -2,9 +2,6 @@ from __future__ import annotations
 
 import argparse
 
-from pydocstringformatter._configuration.boolean_option_action import (
-    BooleanOptionalAction,
-)
 from pydocstringformatter._formatting.base import Formatter
 
 
@@ -22,9 +19,9 @@ def register_arguments_formatters(
         name = formatter.name
         arg_group.add_argument(
             formatter.activate_option,
-            action=BooleanOptionalAction,
+            action=argparse.BooleanOptionalAction,
             dest=name,
             help=f"Activate or deactivate {name}: {formatter.__doc__}"
-            f" Styles: {','.join(formatter.style)}.",
+            f" Styles: {','.join(formatter.style)}. (default: %(default)s)",
             default=not formatter.optional,
         )

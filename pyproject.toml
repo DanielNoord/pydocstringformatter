@@ -23,9 +23,6 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -35,8 +32,7 @@ classifiers = [
     "Topic :: Software Development :: Quality Assurance",
 ]
 keywords = ["python", "docstring", "format"]
-requires-python = ">=3.8"
-dependencies = ["tomli>=1.1.0;python_version<'3.11'"]
+requires-python = ">=3.11"
 
 [project.urls]
 "Repository" = "https://github.com/DanielNoord/pydocstringformatter"
@@ -84,7 +80,7 @@ load-plugins=[
     "pylint.extensions.set_membership",
     "pylint.extensions.typing"
 ]
-py-version="3.8"
+py-version="3.11"
 disable = [
     "missing-module-docstring",
     "too-few-public-methods",
