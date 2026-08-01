@@ -10,8 +10,10 @@ multi-ecosystem-groups:
 updates:
   - package-ecosystem: "pip"
     directory: "/" # Location of package manifests
+    patterns: ["*"]
     multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "github-actions"
     directory: "/"
+    patterns: ["*"]
     multi-ecosystem-group: "dependencies"
