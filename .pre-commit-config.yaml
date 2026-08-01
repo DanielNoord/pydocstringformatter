@@ -51,7 +51,7 @@ repos:
         args: [--config-file=pyproject.toml]
         exclude: *test-data
         additional_dependencies:
-          [pytest-stub==1.1.0, types-docutils~=0.17.5, sphinx~=4.4]
+          [pytest-stub==1.1.0, types-docutils~=0.22.3, sphinx~=9.0.4]
   - repo: https://github.com/DanielNoord/pydocstringformatter
     rev: v1.0.0
     hooks:
