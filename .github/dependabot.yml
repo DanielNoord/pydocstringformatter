@@ -1,18 +1,19 @@
 version: 2
+
+multi-ecosystem-groups:
+  dependencies:
+    schedule:
+      interval: "monthly"
+    labels:
+      - "dependency"
+
 updates:
   - package-ecosystem: "pip"
     directory: "/" # Location of package manifests
-    schedule:
-      interval: "monthly"
-    labels:
-      - "dependency"
-    reviewers:
-      - "danielnoord"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"
+
   - package-ecosystem: "github-actions"
     directory: "/"
-    schedule:
-      interval: "monthly"
-    labels:
-      - "dependency"
-    reviewers:
-      - "danielnoord"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"
