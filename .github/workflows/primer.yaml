@@ -12,16 +12,16 @@ jobs:
     permissions: write-all
     steps:
       - name: Check out working version
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 2
       - name: Check out changeable version
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v7.0.1
         with:
           path: program_to_test
           fetch-depth: 0
       - name: Set up Python 3.14
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.14"
       - name: Install dependencies
