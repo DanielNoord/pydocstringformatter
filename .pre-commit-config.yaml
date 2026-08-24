@@ -10,7 +10,7 @@ repos:
       - id: check-toml
         exclude: &test-data "tests/data"
   - repo: https://github.com/PyCQA/autoflake
-    rev: v2.3.3
+    rev: v2.4.0
     hooks:
       - id: autoflake
         exclude: *test-data
