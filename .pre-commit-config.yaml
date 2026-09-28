@@ -34,12 +34,12 @@ repos:
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.3.0
+    rev: 7.4.1
     hooks:
       - id: flake8
         exclude: *test-data
   - repo: https://github.com/pylint-dev/pylint
-    rev: v4.0.8
+    rev: v4.0.9
     hooks:
       - id: pylint
         exclude: *test-data
