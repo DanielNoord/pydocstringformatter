@@ -55,7 +55,7 @@ class SplitSummaryAndDocstringFormatter(SummaryFormatter):
                 # Handle summaries with more text on same line after the period
                 elif summary[index + 1] == " ":
                     new_summary = (
-                        summary[:index]
+                        summary[: index + 1]
                         + f"\n\n{' ' * indent_length}"
                         + summary[index + 2 :]
                     )
